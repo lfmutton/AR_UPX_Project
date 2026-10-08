@@ -1,4 +1,4 @@
-# B'Energy AR Accademy
+# AR Maintenance Guide
 
 > **Projeto AR Accademy — UPX: Realidade Aumentada**  
 > Repositório sobre o modelo AR accademy para B'Energy desenvolvido pelo Grupo Overlay para capacitação e aprendizado na manutenção da placa PCB usando Realidade Aumentada
@@ -112,15 +112,14 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 
 ## 8. Tecnologias Utilizadas
 
-> As versões abaixo são **exemplos**. A equipe deve registrar as versões efetivamente utilizadas.
-
-| Tecnologia | Versão de exemplo | Utilização |
+| Tecnologia | Versão | Utilização |
 |---|---|---|
-| Unity | 6000.x | Desenvolvimento principal |
-| C# | compatível com Unity | Scripts da aplicação |
-| AR Foundation | 6.x | Camada de abstração de RA |
-| ARCore XR Plugin | 6.x | Recursos RA em Android |
-| XR Plugin Management | 4.x | Gerenciamento de plugins XR |
+| Unity | 6000.3.25f1 | Desenvolvimento principal |
+| C# | Compatível com Unity 6000.3.25f1 | Scripts da aplicação |
+| AR Foundation | 6.3.5 | Camada de abstração de Realidade Aumentada |
+| ARCore XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em Android |
+| ARKit XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em iOS |
+| XR Plugin Management | 4.6.1 | Gerenciamento de plugins XR |
 | Blender | 4.x | Modelagem/edição 3D |
 | Git | 2.x | Controle de versão |
 | GitHub | — | Hospedagem do projeto e documentação |
@@ -131,10 +130,8 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 
 | Equipamento | Modelo | Característica relevante | Utilização |
 |---|---|---|---|
-| Smartphone | Preencher | Android / suporte ARCore | Execução e testes |
+| Smartphone | Preencher | Suporte ao ARCore | Execução e testes |
 | Computador | Preencher | CPU, RAM, GPU | Desenvolvimento |
-
-> Não declare compatibilidade com equipamentos que não tenham sido utilizados ou testados.
 
 ---
 
