@@ -130,33 +130,55 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 
 | Equipamento | Modelo | Característica relevante | Utilização |
 |---|---|---|---|
-| Smartphone | Preencher | Suporte ao ARCore | Execução e testes |
-| Computador | Preencher | CPU, RAM, GPU | Desenvolvimento |
+| Smartphone | Samsung Galaxy S23 (SM-S911B) | Suporte ao ARCore, Android 10+ (API ≥ 29) | Execução e testes |
+| Computador | Notebook Windows 11 Home | Intel Core i5-10300H, 24 GB RAM, NVIDIA GeForce GTX 1650 | Desenvolvimento e build |
 
 ---
 
 ## 10. Arquitetura do Sistema
 
-A arquitetura de exemplo está organizada em camadas simples: interface, aplicação, módulo de RA, framework XR e hardware do dispositivo.
+A arquitetura do B'Energy AR Academy parte do repositório de referência **WL01 (Recognition AR / Image Tracking)** e está organizada em camadas: interface, controle da experiência, módulo de RA, framework XR e hardware do dispositivo.
 
-![Arquitetura do sistema](docs/diagrams/arquitetura.svg)
+```mermaid
+flowchart TD
+    A[Trainee] --> B[Interface da Aplicação<br/>Unity UI]
+    B --> C[Controle da Experiência<br/>ImageRecognitionController]
+    C --> D[ARTrackedImageManager<br/>+ XR Reference Image Library]
+    D --> E[AR Foundation 6.3.5]
+    E --> F[ARCore XR Plugin 6.3.5]
+    F --> G[Câmera e sensores do smartphone]
+    G --> H[Placa PCB com marcador]
+```
+
+### Componentes da cena `WL01RecognitionAR`
+
+```text
+WL01RecognitionAR
+├── Directional Light
+├── AR Session                       → ciclo de vida da sessão de RA
+└── XR Origin (Mobile AR)            → origem da experiência
+    ├── AR Tracked Image Manager     → detecta e acompanha os marcadores
+    ├── Image Recognition Controller → cria e atualiza o conteúdo virtual
+    └── Camera Offset
+        └── Main Camera              → câmera de RA
+```
 
 ### Fluxo resumido
 
 ```text
-Usuário
+Trainee
    ↓
 Interface da Aplicação
    ↓
-Controle da Experiência
+Controle da Experiência (ImageRecognitionController)
    ↓
-AR Foundation
+AR Foundation (ARTrackedImageManager)
    ↓
 ARCore
    ↓
 Câmera / Sensores
    ↓
-Ambiente Físico
+Ambiente Físico (placa PCB + marcador)
 ```
 
 ---
@@ -165,67 +187,69 @@ Ambiente Físico
 
 ### 11.1 Técnica utilizada
 
-Neste exemplo é utilizado **Image Tracking**, no qual uma imagem previamente cadastrada funciona como referência para ativar o conteúdo virtual.
+Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Library** (`Assets/Markers/WL01ReferenceImageLibrary.asset`) funciona como referência para ativar o conteúdo virtual. Na versão final, o marcador será a imagem da própria placa ou um QR Code fixado nela.
+
+O marcador atual é o `wl01-marker.png`, cadastrado com tamanho físico de **0,12 m × 0,12 m**. Informar o tamanho físico permite que o ARCore estime corretamente a escala e a posição do conteúdo.
 
 ### 11.2 Fluxo técnico
 
-![Fluxo de RA](docs/diagrams/fluxo-ra.svg)
-
-1. A aplicação inicia a câmera do dispositivo.
-2. O módulo de RA analisa continuamente as imagens capturadas.
-3. O sistema compara a imagem observada com a biblioteca de referências.
-4. Quando há correspondência, a posição da referência é obtida.
-5. O conteúdo virtual é instanciado e associado à posição reconhecida.
-6. O usuário visualiza e interage com a informação virtual.
+1. A aplicação inicia a sessão de RA (`AR Session`) e a câmera do dispositivo.
+2. O ARCore analisa continuamente as imagens capturadas.
+3. O `ARTrackedImageManager` compara a imagem observada com a Reference Image Library.
+4. Quando há correspondência, é criado um `ARTrackedImage` com a posição e a orientação do marcador.
+5. O `ImageRecognitionController` cria o conteúdo virtual como filho do `ARTrackedImage`, mantendo-o registrado ao marcador.
+6. Enquanto o estado for `Tracking`, o conteúdo fica visível; se o marcador for perdido, o conteúdo é ocultado.
+7. O trainee interage com o conteúdo tocando na tela.
 
 ### 11.3 Elementos virtuais
 
-- modelo 3D;
-- texto de orientação;
-- destaque visual;
-- botão de ação;
-- indicação de status.
+| Elemento | Situação atual | Planejado para o MVP |
+|---|---|---|
+| Objeto 3D | Cubo de demonstração | Destaques leves sobre os pontos da placa |
+| Texto de orientação | — | Instruções de cada etapa do roteiro |
+| Destaque visual | — | Marcação de soldas e test points |
+| Botão de ação | — | Avançar e voltar etapas (RF05) |
+| Indicação de status | — | Etapa atual e checklist (RF06) |
 
 ---
 
 ## 12. Estrutura do Projeto
 
 ```text
-upx-ra-repositorio-modelo/
+AR_UPX_Project/
 │
 ├── Assets/
-│   ├── Materials/
-│   ├── Models/
-│   ├── Prefabs/
+│   ├── Markers/
+│   │   ├── wl01-marker.png
+│   │   └── WL01ReferenceImageLibrary.asset
 │   ├── Scenes/
+│   │   └── WL01RecognitionAR.unity
 │   ├── Scripts/
-│   └── Textures/
+│   │   ├── ImageRecognitionController.cs
+│   │   └── TapToToggleScale.cs
+│   └── XR/                (configurações do XR Plug-in Management)
 │
 ├── Packages/
 ├── ProjectSettings/
 │
 ├── docs/
-│   ├── diagrams/
-│   ├── documents/
-│   └── images/
+│   ├── ARQUITETURA.md
+│   ├── ATIVIDADE.md
+│   └── CUSTOMIZACAO.md
 │
 ├── .gitignore
-├── CHANGELOG.md
-├── README.md
-└── README-PREENCHIMENTO.md
+└── README.md
 ```
 
 ### Pastas principais
 
 | Pasta | Finalidade |
 |---|---|
-| `Assets/Scripts` | Scripts produzidos pela equipe |
+| `Assets/Markers` | Imagens de referência e a Reference Image Library |
 | `Assets/Scenes` | Cenas da aplicação |
-| `Assets/Models` | Modelos 3D |
-| `Assets/Prefabs` | Objetos reutilizáveis |
-| `docs/diagrams` | Diagramas técnicos |
-| `docs/images` | Screenshots e figuras |
-| `docs/documents` | Documentos complementares |
+| `Assets/Scripts` | Scripts C# da aplicação |
+| `Assets/XR` | Configurações do XR Plug-in Management (ARCore) |
+| `docs` | Documentação complementar |
 
 ---
 
@@ -233,73 +257,69 @@ upx-ra-repositorio-modelo/
 
 | Script | Responsabilidade |
 |---|---|
-| `ImageTrackingController.cs` | Controla eventos de reconhecimento de imagens |
-| `ARContentManager.cs` | Ativa ou instancia conteúdo virtual |
-| `InteractionController.cs` | Exemplo de ponto de extensão para interação |
+| `ImageRecognitionController.cs` | Escuta os eventos do `ARTrackedImageManager` (imagens adicionadas, atualizadas e removidas), cria o conteúdo virtual sobre cada marcador reconhecido e o oculta quando o tracking é perdido. |
+| `TapToToggleScale.cs` | Interação por toque: detecta o toque na tela via raycast e alterna a escala do objeto tocado (×1,5). |
 
-Os arquivos demonstrativos estão em `Assets/Scripts/`.
+Os dois scripts ficam em `Assets/Scripts/`, no namespace `Facens.WL01`.
 
 ---
 
 ## 14. Dependências
 
-Exemplo de dependências esperadas:
+Dependências declaradas em `Packages/manifest.json`:
 
 ```text
-AR Foundation 6.x
-ARCore XR Plugin 6.x
-XR Plugin Management 4.x
-TextMeshPro 3.x
+com.unity.xr.arfoundation   6.3.5
+com.unity.xr.arcore         6.3.5
+com.unity.xr.arkit          6.3.5
+com.unity.xr.management     4.6.1
 ```
-
-A equipe deverá atualizar esta seção com as versões reais presentes em seu projeto.
 
 ---
 
 ## 15. Configuração do Ambiente
 
-### Pré-requisitos de exemplo
+### Pré-requisitos
 
 - Windows 10 ou 11;
 - Unity Hub;
-- versão do Unity utilizada pela equipe;
-- Android Build Support;
-- Android SDK/NDK quando necessário;
+- Unity **6000.3.25f1** (Unity 6.3 LTS);
+- módulo **Android Build Support** (com OpenJDK e Android SDK & NDK Tools);
 - Git;
-- dispositivo compatível com a tecnologia escolhida.
+- smartphone Android compatível com ARCore e com **Android 10 ou superior**.
+
+> O módulo Visual Studio do Unity Hub é opcional. Se o Visual Studio já estiver instalado, basta selecioná-lo em **Edit → Preferences → External Tools**.
 
 ### Procedimento
 
 1. Instale o Unity Hub.
-2. Instale a versão do Unity indicada no README.
-3. Inclua os módulos necessários para a plataforma de destino.
-4. Instale o Git.
-5. Clone o repositório.
-6. Abra o projeto pelo Unity Hub.
-7. Aguarde a importação das dependências.
-8. Verifique as configurações de XR antes da primeira execução.
+2. Instale o Unity 6000.3.25f1 com o módulo Android Build Support.
+3. Instale o Git.
+4. Clone o repositório em um caminho curto e sem acentos (ex.: `C:\AR\`).
+5. Abra o projeto pelo Unity Hub e aguarde a importação dos pacotes.
+6. Em **Edit → Project Settings → XR Plug-in Management**, aba Android, confirme que **ARCore** está marcado.
+7. Em **Project Settings → Player → Android → Other Settings**, confirme:
+   - **Minimum API Level:** Android 10.0 (API 29);
+   - **Active Input Handling:** Both.
 
 ---
 
 ## 16. Como Executar
 
 ```bash
-git clone https://github.com/USUARIO/REPOSITORIO.git
-cd REPOSITORIO
+git clone https://github.com/lfmutton/AR_UPX_Project.git
 ```
 
 Depois:
 
-1. Abra o Unity Hub.
-2. Clique em **Add / Open Project**.
-3. Selecione a pasta clonada.
-4. Confirme a versão correta do Unity.
-5. Abra a cena principal do projeto.
-6. Verifique a plataforma em **Build Settings / Build Profiles**.
-7. Conecte um dispositivo compatível.
-8. Execute **Build and Run**.
-
-> A equipe deve adaptar esse passo a passo à tecnologia realmente utilizada.
+1. Abra o Unity Hub e clique em **Add / Open Project**.
+2. Selecione a pasta clonada.
+3. Abra a cena `Assets/Scenes/WL01RecognitionAR.unity`.
+4. Abra **File → Build Profiles** (Ctrl+Shift+B), selecione **Android** e clique em **Switch Platform** se necessário.
+5. Confirme que a cena `WL01RecognitionAR` está na **Scene List**.
+6. No celular, ative as **Opções do desenvolvedor** e a **Depuração USB**.
+7. Conecte o celular via USB e autorize a depuração.
+8. Clique em **Build and Run**.
 
 ---
 
@@ -307,13 +327,10 @@ Depois:
 
 1. Abra a aplicação no dispositivo.
 2. Autorize o acesso à câmera.
-3. Selecione **Iniciar RA**.
-4. Aponte a câmera para a imagem de referência.
-5. Aguarde o reconhecimento.
-6. Observe o conteúdo virtual exibido.
-7. Utilize os controles disponíveis.
-
-![Exemplo de interface](docs/images/interface-exemplo.svg)
+3. Aponte a câmera para o marcador impresso (aprox. 12 cm de largura).
+4. Aguarde o reconhecimento.
+5. Observe o conteúdo virtual sobre o marcador.
+6. Toque no objeto para alternar sua escala.
 
 ---
 
@@ -322,59 +339,60 @@ Depois:
 ```mermaid
 flowchart TD
     A[Início] --> B[Abrir aplicação]
-    B --> C[Iniciar módulo RA]
+    B --> C[Iniciar sessão de RA]
     C --> D[Ativar câmera]
-    D --> E{Imagem reconhecida?}
+    D --> E{Marcador reconhecido?}
     E -- Não --> D
-    E -- Sim --> F[Exibir conteúdo virtual]
-    F --> G[Usuário interage]
-    G --> H[Fim]
+    E -- Sim --> F[Exibir conteúdo virtual sobre o marcador]
+    F --> G{Tracking mantido?}
+    G -- Não --> H[Ocultar conteúdo] --> D
+    G -- Sim --> I[Trainee interage por toque]
+    I --> F
 ```
 
 ---
 
 ## 19. Caso de Uso
 
-O diagrama abaixo representa apenas um exemplo simplificado de interação.
-
-![Caso de uso](docs/diagrams/caso-de-uso.svg)
+```mermaid
+flowchart LR
+    T((Trainee)) --> U1[Escanear marcador da placa]
+    T --> U2[Visualizar orientações em RA]
+    T --> U3[Interagir com o conteúdo]
+    T --> U4[Seguir roteiro de inspeção]
+    U4 --> U5[Registrar medições]
+```
 
 ---
 
 ## 20. Fluxo de Navegação
 
 ```text
-Tela Inicial
+Abertura do app
     ↓
-Iniciar RA
+Câmera (RA ativa)
     ↓
-Câmera
-    ↓
-Reconhecimento
+Reconhecimento do marcador
     ↓
 Conteúdo Virtual
     ↓
-Interação
+Interação (toque)
 ```
+
+No MVP, vamos adicionar uma tela inicial e a navegação entre as quatro etapas do roteiro de inspeção (RF05).
 
 ---
 
 ## 21. Interface
 
-Armazene screenshots reais do projeto em `docs/images/`.
-
-Exemplo de organização:
+Os screenshots do projeto ficam em `docs/images/`:
 
 ```text
 docs/images/
-├── tela-inicial.png
+├── cena-unity.png
 ├── experiencia-ra.png
 └── resultado-teste.png
 ```
-
-Neste modelo, foi incluída uma figura ilustrativa:
-
-![Interface exemplo](docs/images/interface-exemplo.svg)
 
 ---
 
@@ -382,12 +400,13 @@ Neste modelo, foi incluída uma figura ilustrativa:
 
 | Teste | Procedimento | Resultado esperado | Resultado obtido | Status |
 |---|---|---|---|---|
-| Inicialização | Abrir aplicativo | Aplicação inicia | Exemplo | ✅ |
-| Câmera | Iniciar módulo RA | Câmera é ativada | Exemplo | ✅ |
-| Image Tracking | Apontar referência | Imagem é detectada | Exemplo | ✅ |
-| Conteúdo 3D | Reconhecer referência | Objeto é exibido | Exemplo | 🚧 |
-
-> Substitua os resultados de exemplo por evidências reais.
+| Build Android | Build and Run no Unity | APK gerado e instalado no celular | APK gerado e instalado no Galaxy S23 | ✅ |
+| Inicialização | Abrir aplicativo | Aplicação inicia | Preencher | ⬜ |
+| Câmera | Abrir aplicativo e permitir câmera | Câmera de RA é ativada | Preencher | ⬜ |
+| Image Tracking | Apontar para o marcador | Marcador é detectado | Preencher | ⬜ |
+| Conteúdo 3D | Reconhecer o marcador | Cubo aparece sobre o marcador | Preencher | ⬜ |
+| Estabilidade | Mover o celular lentamente | Cubo permanece registrado ao marcador | Preencher | ⬜ |
+| Interação | Tocar no cubo | Escala alterna | Preencher | ⬜ |
 
 ---
 
@@ -395,35 +414,26 @@ Neste modelo, foi incluída uma figura ilustrativa:
 
 | Dispositivo | Sistema | Versão | Resultado |
 |---|---|---|---|
-| Preencher | Android | Preencher | Preencher |
+| Samsung Galaxy S23 (SM-S911B) | Android | Preencher | Preencher |
 
 ---
 
 ## 24. Limitações Conhecidas
 
-Exemplos de limitações que devem ser registradas quando aplicáveis:
-
-- reconhecimento afetado por iluminação inadequada;
-- necessidade de manter a referência visível;
-- suporte limitado a determinados dispositivos;
-- modelos 3D ainda não otimizados;
-- funcionalidades planejadas ainda não implementadas.
+- o reconhecimento depende de boa iluminação e do marcador inteiro visível;
+- é necessário um smartphone compatível com ARCore e com Android 10 ou superior;
+- o conteúdo atual ainda é o cubo de demonstração do template WL01;
+- os guias RF01 a RF07 ainda não foram implementados;
+- o toque usa o Input Manager antigo, o que exige **Active Input Handling = Both** e gera um aviso no build Android.
 
 ---
 
 ## 25. Evidências de Funcionamento
 
-A equipe deverá incluir:
+- [ ] Captura de tela da cena no Unity
+- [ ] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
 
-- pelo menos uma captura de tela do projeto em execução;
-- uma imagem ou vídeo da experiência RA;
-- quando possível, um vídeo demonstrativo publicado.
-
-Exemplo:
-
-```markdown
 [Assistir demonstração](COLE_AQUI_O_LINK_DO_VIDEO)
-```
 
 ---
 
@@ -431,11 +441,11 @@ Exemplo:
 
 | Recurso | Link |
 |---|---|
-| Código-fonte | Inserir URL |
+| Código-fonte | https://github.com/lfmutton/AR_UPX_Project |
 | Figma | Inserir URL |
 | Trello/Jira | Inserir URL |
 | Vídeo | Inserir URL |
-| Documentação complementar | Inserir URL |
+| Documentação complementar | [`docs/`](docs/) |
 
 ---
 
@@ -443,18 +453,20 @@ Exemplo:
 
 | Atividade | Responsável | Status |
 |---|---|---|
-| Configuração do projeto | Aluno 1 | ✅ |
-| Implementação RA | Aluno 1 | 🚧 |
-| Interface | Aluno 2 | 🚧 |
-| Modelos 3D | Aluno 3 | 🚧 |
-| Testes | Equipe | ⬜ |
-| Documentação | Equipe | 🚧 |
+| Configuração do projeto Unity + AR Foundation | Desenvolvimento | ✅ |
+| Montagem da cena AR e Reference Image Library | Desenvolvimento | ✅ |
+| Primeiro build em dispositivo físico | Desenvolvimento | ✅ |
+| Troca do marcador pela imagem da PCB | Desenvolvimento | ⬜ |
+| Guias RF01–RF04 | Desenvolvimento | ⬜ |
+| Navegação, checklist e registro (RF05–RF07) | Desenvolvimento | ⬜ |
+| Testes em dispositivo | Testes | 🚧 |
+| Documentação | Documentação | 🚧 |
 
 ---
 
 ## 28. Controle de Versão
 
-Exemplos de mensagens de commit:
+Seguimos o padrão de mensagens abaixo nos commits:
 
 ```text
 feat: adiciona reconhecimento de imagem
@@ -463,34 +475,52 @@ docs: atualiza instruções de execução
 test: registra teste em dispositivo Android
 ```
 
-A equipe deverá evitar concentrar todo o desenvolvimento em um único commit.
+Cada funcionalidade é registrada em commits separados, para que o histórico mostre a evolução do projeto.
 
 ---
 
 ## 29. Problemas Encontrados e Soluções
 
-### Problema 1 — Conteúdo virtual não aparece
+### Problema 1 — Build falha por API mínima do Android
 
-**Problema:** o objeto virtual não é exibido após o reconhecimento.  
-**Causa:** referência ou prefab não associado corretamente.  
-**Solução:** revisar a biblioteca de imagens e a associação do conteúdo virtual.
+**Problema:** `BuildFailedException: ARCore Required apps using Vulkan require a minimum SDK version of AndroidApiLevel29. Currently set to AndroidApiLevel25`.  
+**Causa:** o ARCore com Vulkan exige Android 10 (API 29), e o projeto estava configurado com API 25.  
+**Solução:** em **Player Settings → Android → Other Settings → Minimum API Level**, selecionamos **Android 10.0 (API level 29)**.
 
-### Problema 2 — Perda de tracking
+### Problema 2 — Aviso "Unsupported Input Handling on Android"
 
-**Problema:** o conteúdo fica instável em determinadas condições.  
-**Causa:** baixa iluminação ou referência pouco distinta.  
-**Solução:** melhorar as condições de captura e revisar a imagem de referência.
+**Problema:** o Unity avisa que `Active Input Handling = Both` não é suportado no Android.  
+**Causa:** o `TapToToggleScale` usa o Input Manager antigo, enquanto a câmera do XR Origin usa o Input System novo.  
+**Solução:** mantivemos **Both** e escolhemos **Ignore** no aviso. Para removê-lo, será preciso migrar o `TapToToggleScale` para o Input System.
+
+### Problema 3 — "No Android devices connected"
+
+**Problema:** o Unity não encontrava o celular, mesmo conectado via USB.  
+**Causa:** a Depuração USB não estava ativada no aparelho.  
+**Solução:** ativamos as Opções do desenvolvedor (tocando 7 vezes em **Número de compilação**), ativamos a **Depuração USB** e autorizamos o computador.
+
+### Problema 4 — Reference Image Library criada incorretamente
+
+**Problema:** inicialmente foi criada uma pasta com o nome da library, em vez do asset.  
+**Causa:** a Reference Image Library é um asset do Unity, não uma pasta.  
+**Solução:** criamos a library via **Create → XR → Reference Image Library**, adicionamos a imagem e definimos o tamanho físico.
+
+### Problema 5 — Falha ao instalar o módulo Visual Studio pelo Unity Hub
+
+**Problema:** o Unity Hub retornava `INSTALL_ERROR` ao instalar o Visual Studio Community.  
+**Causa:** o Visual Studio já estava instalado na máquina.  
+**Solução:** ignoramos o módulo e selecionamos o Visual Studio existente em **Edit → Preferences → External Tools**.
 
 ---
 
 ## 30. Melhorias Futuras
 
-- adicionar novos objetos de referência;
-- melhorar a interação com conteúdo 3D;
-- registrar métricas de utilização;
-- ampliar compatibilidade;
-- adicionar persistência de dados;
-- melhorar a interface.
+- substituir o marcador de exemplo pela imagem da PCB ou por um QR Code;
+- substituir o cubo por destaques leves e textos de orientação;
+- implementar os guias RF01 a RF04 e a navegação sequencial (RF05);
+- adicionar checklists (RF06) e registro de medições (RF07);
+- registrar métricas de uso (tempo, erros e pontuação) — RNF09;
+- migrar a interação por toque para o Input System.
 
 ---
 
@@ -498,7 +528,7 @@ A equipe deverá evitar concentrar todo o desenvolvimento em um único commit.
 
 | Recurso | Tipo | Custo/Condição |
 |---|---|---|
-| Unity | Software | Conforme licença utilizada |
+| Unity | Software | Licença Personal (gratuita) |
 | Blender | Software | Gratuito |
 | Smartphone | Hardware | Equipamento da equipe |
 | Computador | Hardware | Equipamento da equipe |
@@ -509,17 +539,20 @@ A equipe deverá evitar concentrar todo o desenvolvimento em um único commit.
 
 Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — Realidade Aumentada.
 
-Caso a equipe utilize uma licença formal de software, substitua este texto e inclua o arquivo `LICENSE` correspondente.
-
 ---
 
 ## 33. Autores
 
-- **Aluno 1** — desenvolvimento RA
-- **Aluno 2** — interface e documentação
-- **Aluno 3** — modelos 3D
+- **Felipe Roberto** — desenvolvimento e planejamento
+- **Gabriel Verlangieri** — desenvolvimento
+- **Luis Felipe** — desenvolvimento
+- **Felipe Veronezzi** — documentação e planejamento
+- **Pedro Henrique** — documentação e planejamento
+- **Matheus Rodrigues** — documentação
+- **André Vinicius** — testes
+- **Gabriel Queiroz** — testes
 
-**Instituição:** UniFacens  
+**Instituição:** Centro Universitário FACENS  
 **Disciplina:** UPX — Realidade Aumentada  
 **Semestre:** 2026.2
 
@@ -528,21 +561,17 @@ Caso a equipe utilize uma licença formal de software, substitua este texto e in
 ## Checklist de Entrega
 
 - [ ] Código-fonte atualizado
-- [ ] README completamente preenchido
-- [ ] Versões das tecnologias registradas
-- [ ] Arquitetura apresentada
-- [ ] Funcionamento da RA explicado
-- [ ] Estrutura de pastas documentada
-- [ ] Scripts principais descritos
-- [ ] Procedimento de instalação testado
-- [ ] Procedimento de execução testado
+- [x] README preenchido
+- [x] Versões das tecnologias registradas
+- [x] Arquitetura apresentada
+- [x] Funcionamento da RA explicado
+- [x] Estrutura de pastas documentada
+- [x] Scripts principais descritos
+- [x] Procedimento de instalação testado
+- [x] Procedimento de execução testado
 - [ ] Screenshots reais adicionados
 - [ ] Testes registrados
-- [ ] Dispositivos testados informados
-- [ ] Limitações conhecidas documentadas
+- [x] Dispositivos testados informados
+- [x] Limitações conhecidas documentadas
 - [ ] Evidência de funcionamento adicionada
 - [ ] Commits representam a evolução do projeto
-
----
-
-> **Orientação final:** este repositório é um modelo. O trabalho da equipe deve substituir exemplos genéricos por conteúdo real, técnico, verificável e atualizado.
