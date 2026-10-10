@@ -1,6 +1,6 @@
 # AR Maintenance Guide
 
-> **Projeto AR Accademy — UPX: Realidade Aumentada**  
+> **Projeto AR Academy — UPX: Realidade Aumentada**  
 > Repositório sobre o modelo AR accademy para B'Energy desenvolvido pelo Grupo Overlay para capacitação e aprendizado na manutenção da placa PCB usando Realidade Aumentada
 
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
@@ -38,7 +38,7 @@
 
 ## 2. Visão Geral
 
-O **B’Energy AR Academy** é um projeto acadêmico de aplicação móvel desenvolvido em React Native que utiliza Realidade Aumentada (RA) e QR Codes para dar suporte ao treinamento de trainees da equipe B’Energy Racing (FACENS) no desenvolvimento de veículos elétricos para a competição Fórmula SAE.
+O **B’Energy AR Academy** é um projeto acadêmico de aplicação móvel desenvolvido em Unity que utiliza Realidade Aumentada (RA) e QR Codes para dar suporte ao treinamento de trainees da equipe B’Energy Racing (FACENS) no desenvolvimento de veículos elétricos para a competição Fórmula SAE.
 
 A proposta consiste em utilizar a câmera de um dispositivo móvel para reconhecer marcadores (QR Codes) posicionados junto aos componentes físicos do veículo e das placas eletrônicas (PCB/PCA). 
 
@@ -455,7 +455,7 @@ docs/images/
 
 - [✅] Captura de tela da cena no Unity
 
-![PrintScreenUnityScene](image.png)
+![PrintScreenUnityScene](./docs/images/image.png)
 
 - [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
 
@@ -470,7 +470,7 @@ docs/images/
 | Código-fonte | https://github.com/lfmutton/AR_UPX_Project |
 | Figma | Inserir URL |
 | Trello/Jira | Inserir URL |
-| Vídeo | Inserir URL |
+| Vídeo | [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D) |
 | Documentação complementar | [`docs/`](docs/) |
 
 ---
