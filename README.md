@@ -217,7 +217,17 @@ Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Lib
 O marcador atual é o `wl01-marker.png`, cadastrado com tamanho físico de **0,12 m × 0,12 m**. Informar o tamanho físico permite que o ARCore estime corretamente a escala e a posição do conteúdo.
 
 ### 11.2 Fluxo técnico
-
+```mermaid
+flowchart LR
+    A["Inicializar sessão de RA<br/>AR Session + câmera"] --> B["Análise das imagens<br/>ARCore"]
+    B --> C["Reconhecer marcador<br/>ARTrackedImageManager + Reference Image Library"]
+    C --> D["Registrar marcador<br/>ARTrackedImage com posição e orientação"]
+    D --> E["Criar conteúdo virtual<br/>ImageRecognitionController"]
+    E --> F["Verificar rastreamento<br/>Tracking ativo?"]
+    F -->|Sim| G["Exibir conteúdo<br/>Registrado ao marcador"]
+    F -->|Não| H["Ocultar conteúdo"]
+    G --> I["Interação do trainee<br/>Toque na tela"]
+```
 1. A aplicação inicia a sessão de RA (`AR Session`) e a câmera do dispositivo.
 2. O ARCore analisa continuamente as imagens capturadas.
 3. O `ARTrackedImageManager` compara a imagem observada com a Reference Image Library.
