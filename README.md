@@ -47,7 +47,7 @@ Após o reconhecimento, a aplicação apresenta informações técnicas sobre as
 Este repositório reúne a estrutura do Produto Mínimo Viável (MVP) do aplicativo, focado inicialmente no setor de Low Voltage & Data Acquisition. 
 O projeto visa aproximar a teoria da prática no ambiente de oficina, proporcionando maior autonomia de aprendizado aos novos estudantes e reduzindo a dependência constante de membros veteranos.
 
-![Visão geral do projeto](docs/images/visao-geral.svg)
+![Visão geral do projeto](docs/images/visao_geral.svg)
 
 ---
 
@@ -140,14 +140,39 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 A arquitetura do B'Energy AR Academy parte do repositório de referência **WL01 (Recognition AR / Image Tracking)** e está organizada em camadas: interface, controle da experiência, módulo de RA, framework XR e hardware do dispositivo.
 
 ```mermaid
-flowchart TD
-    A[Trainee] --> B[Interface da Aplicação<br/>Unity UI]
-    B --> C[Controle da Experiência<br/>ImageRecognitionController]
-    C --> D[ARTrackedImageManager<br/>+ XR Reference Image Library]
-    D --> E[AR Foundation 6.3.5]
-    E --> F[ARCore XR Plugin 6.3.5]
-    F --> G[Câmera e sensores do smartphone]
-    G --> H[Placa PCB com marcador]
+flowchart TB
+    USER["Trainee"]
+    subgraph MOBILE["Aplicativo mobile — Unity 6000.x"]
+        UI["Interface e navegação"]
+        CAMERA["Câmera do smartphone"]
+        TRACK["AR Foundation<br/>ARTrackedImageManager"]
+        LIB["XR Reference Image Library"]
+        RENDER["Renderização de referências 2D/3D"]
+        GUIDE["Motor do roteiro de testes"]
+        INPUT["Formulários e checklists"]
+        VALIDATOR["Validação de medições"]
+        METRICS["Métricas de execução e aprendizado"]
+    end
+
+    subgraph TOOLS["Ferramentas e ambiente"]
+        ANDROID["Smartphone Android com ARCore"]
+        BLENDER["Blender<br/>Edição de elementos gráficos"]
+        GIT["Git e GitHub<br/>Versionamento do projeto"]
+    end
+
+    USER --> UI
+    UI --> CAMERA
+    CAMERA --> TRACK
+    LIB --> TRACK
+    TRACK --> RENDER
+    RENDER --> GUIDE
+    GUIDE --> INPUT
+    INPUT --> VALIDATOR
+    VALIDATOR --> GUIDE
+    GUIDE --> METRICS
+    ANDROID -. "Dispositivo de execução" .-> CAMERA
+    BLENDER -. "Produção de recursos visuais" .-> RENDER
+    GIT -. "Controle de versões" .-> UI
 ```
 
 ### Componentes da cena `WL01RecognitionAR`
@@ -192,7 +217,17 @@ Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Lib
 O marcador atual é o `wl01-marker.png`, cadastrado com tamanho físico de **0,12 m × 0,12 m**. Informar o tamanho físico permite que o ARCore estime corretamente a escala e a posição do conteúdo.
 
 ### 11.2 Fluxo técnico
-
+```mermaid
+flowchart LR
+    A["Inicializar sessão de RA<br/>AR Session + câmera"] --> B["Análise das imagens<br/>ARCore"]
+    B --> C["Reconhecer marcador<br/>ARTrackedImageManager + Reference Image Library"]
+    C --> D["Registrar marcador<br/>ARTrackedImage com posição e orientação"]
+    D --> E["Criar conteúdo virtual<br/>ImageRecognitionController"]
+    E --> F["Verificar rastreamento<br/>Tracking ativo?"]
+    F -->|Sim| G["Exibir conteúdo<br/>Registrado ao marcador"]
+    F -->|Não| H["Ocultar conteúdo"]
+    G --> I["Interação do trainee<br/>Toque na tela"]
+```
 1. A aplicação inicia a sessão de RA (`AR Session`) e a câmera do dispositivo.
 2. O ARCore analisa continuamente as imagens capturadas.
 3. O `ARTrackedImageManager` compara a imagem observada com a Reference Image Library.
@@ -327,7 +362,7 @@ Depois:
 
 1. Abra a aplicação no dispositivo.
 2. Autorize o acesso à câmera.
-3. Aponte a câmera para o marcador impresso (aprox. 12 cm de largura).
+3. Aponte a câmera para o marcador impresso ou para a placa.
 4. Aguarde o reconhecimento.
 5. Observe o conteúdo virtual sobre o marcador.
 6. Toque no objeto para alternar sua escala.
@@ -336,19 +371,7 @@ Depois:
 
 ## 18. Fluxo de Funcionamento
 
-```mermaid
-flowchart TD
-    A[Início] --> B[Abrir aplicação]
-    B --> C[Iniciar sessão de RA]
-    C --> D[Ativar câmera]
-    D --> E{Marcador reconhecido?}
-    E -- Não --> D
-    E -- Sim --> F[Exibir conteúdo virtual sobre o marcador]
-    F --> G{Tracking mantido?}
-    G -- Não --> H[Ocultar conteúdo] --> D
-    G -- Sim --> I[Trainee interage por toque]
-    I --> F
-```
+![Fluxo Funcionamento](docs/images/fluxo_funcionamento.png)
 
 ---
 
