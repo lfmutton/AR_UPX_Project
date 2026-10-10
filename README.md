@@ -140,14 +140,39 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 A arquitetura do B'Energy AR Academy parte do repositório de referência **WL01 (Recognition AR / Image Tracking)** e está organizada em camadas: interface, controle da experiência, módulo de RA, framework XR e hardware do dispositivo.
 
 ```mermaid
-flowchart TD
-    A[Trainee] --> B[Interface da Aplicação<br/>Unity UI]
-    B --> C[Controle da Experiência<br/>ImageRecognitionController]
-    C --> D[ARTrackedImageManager<br/>+ XR Reference Image Library]
-    D --> E[AR Foundation 6.3.5]
-    E --> F[ARCore XR Plugin 6.3.5]
-    F --> G[Câmera e sensores do smartphone]
-    G --> H[Placa PCB com marcador]
+flowchart TB
+    USER["Trainee"]
+    subgraph MOBILE["Aplicativo mobile — Unity 6000.x"]
+        UI["Interface e navegação"]
+        CAMERA["Câmera do smartphone"]
+        TRACK["AR Foundation<br/>ARTrackedImageManager"]
+        LIB["XR Reference Image Library"]
+        RENDER["Renderização de referências 2D/3D"]
+        GUIDE["Motor do roteiro de testes"]
+        INPUT["Formulários e checklists"]
+        VALIDATOR["Validação de medições"]
+        METRICS["Métricas de execução e aprendizado"]
+    end
+
+    subgraph TOOLS["Ferramentas e ambiente"]
+        ANDROID["Smartphone Android com ARCore"]
+        BLENDER["Blender<br/>Edição de elementos gráficos"]
+        GIT["Git e GitHub<br/>Versionamento do projeto"]
+    end
+
+    USER --> UI
+    UI --> CAMERA
+    CAMERA --> TRACK
+    LIB --> TRACK
+    TRACK --> RENDER
+    RENDER --> GUIDE
+    GUIDE --> INPUT
+    INPUT --> VALIDATOR
+    VALIDATOR --> GUIDE
+    GUIDE --> METRICS
+    ANDROID -. "Dispositivo de execução" .-> CAMERA
+    BLENDER -. "Produção de recursos visuais" .-> RENDER
+    GIT -. "Controle de versões" .-> UI
 ```
 
 ### Componentes da cena `WL01RecognitionAR`
