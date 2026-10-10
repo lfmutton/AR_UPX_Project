@@ -47,7 +47,7 @@ Após o reconhecimento, a aplicação apresenta informações técnicas sobre as
 Este repositório reúne a estrutura do Produto Mínimo Viável (MVP) do aplicativo, focado inicialmente no setor de Low Voltage & Data Acquisition. 
 O projeto visa aproximar a teoria da prática no ambiente de oficina, proporcionando maior autonomia de aprendizado aos novos estudantes e reduzindo a dependência constante de membros veteranos.
 
-![Visão geral do projeto](docs/images/visao-geral.svg)
+![Visão geral do projeto](docs/images/visao_geral.svg)
 
 ---
 
