@@ -362,7 +362,7 @@ Depois:
 
 1. Abra a aplicação no dispositivo.
 2. Autorize o acesso à câmera.
-3. Aponte a câmera para o marcador impresso (aprox. 12 cm de largura).
+3. Aponte a câmera para o marcador impresso ou para a placa.
 4. Aguarde o reconhecimento.
 5. Observe o conteúdo virtual sobre o marcador.
 6. Toque no objeto para alternar sua escala.
@@ -371,19 +371,7 @@ Depois:
 
 ## 18. Fluxo de Funcionamento
 
-```mermaid
-flowchart TD
-    A[Início] --> B[Abrir aplicação]
-    B --> C[Iniciar sessão de RA]
-    C --> D[Ativar câmera]
-    D --> E{Marcador reconhecido?}
-    E -- Não --> D
-    E -- Sim --> F[Exibir conteúdo virtual sobre o marcador]
-    F --> G{Tracking mantido?}
-    G -- Não --> H[Ocultar conteúdo] --> D
-    G -- Sim --> I[Trainee interage por toque]
-    I --> F
-```
+![Fluxo Funcionamento](docs/images/fluxo_funcionamento.png)
 
 ---
 
