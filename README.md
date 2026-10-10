@@ -408,14 +408,25 @@ No MVP, vamos adicionar uma tela inicial e a navegação entre as quatro etapas 
 
 ## 21. Interface
 
-Os screenshots do projeto ficam em `docs/images/`:
+As imagens do projeto ficam em `docs/images/`:
 
 ```text
 docs/images/
 ├── cena-unity.png
-├── experiencia-ra.png
-└── resultado-teste.png
+├── fluxo_funcionamento.png
+├── imagem_teste.jpg
+└── visao_geral.svg
 ```
+
+| Arquivo | Conteúdo | Onde aparece |
+|---|---|---|
+| `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seções 21 e 25 |
+| `fluxo_funcionamento.png` | Fluxo de funcionamento da aplicação | Seção 18 |
+| `visao_geral.svg` | Visão geral do projeto | Seção 2 |
+
+### Cena no Unity
+
+![Cena no Unity](./docs/images/cena-unity.png)
 
 ---
 
@@ -455,7 +466,7 @@ docs/images/
 
 - [✅] Captura de tela da cena no Unity
 
-![PrintScreenUnityScene](./docs/images/image.png)
+![PrintScreenUnityScene](./docs/images/cena-unity.png)
 
 - [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
 
@@ -586,7 +597,7 @@ Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — 
 
 ## Checklist de Entrega
 
-- [ ] Código-fonte atualizado
+- [x] Código-fonte atualizado
 - [x] README preenchido
 - [x] Versões das tecnologias registradas
 - [x] Arquitetura apresentada
@@ -595,9 +606,9 @@ Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — 
 - [x] Scripts principais descritos
 - [x] Procedimento de instalação testado
 - [x] Procedimento de execução testado
-- [ ] Screenshots reais adicionados
+- [x] Screenshots reais adicionados
 - [x] Testes registrados
 - [x] Dispositivos testados informados
 - [x] Limitações conhecidas documentadas
-- [ ] Evidência de funcionamento adicionada
-- [ ] Commits representam a evolução do projeto
+- [x] Evidência de funcionamento adicionada
+- [x] Commits representam a evolução do projeto
