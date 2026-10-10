@@ -476,7 +476,7 @@ docs/images/
 |---|---|
 | Código-fonte | https://github.com/lfmutton/AR_UPX_Project |
 | Figma | Inserir URL |
-| Trello/Jira | Inserir URL |
+| Trello/Jira | https://trello.com/b/qlnUJc32/upx-realidade-aumentada-overlay |
 | Vídeo | [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D) |
 | Documentação complementar | [`docs/`](docs/) |
 
