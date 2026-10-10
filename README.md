@@ -420,13 +420,9 @@ docs/images/
 
 | Arquivo | Conteúdo | Onde aparece |
 |---|---|---|
-| `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seções 21 e 25 |
+| `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seção 25 |
 | `fluxo_funcionamento.png` | Fluxo de funcionamento da aplicação | Seção 18 |
 | `visao_geral.svg` | Visão geral do projeto | Seção 2 |
-
-### Cena no Unity
-
-![Cena no Unity](./docs/images/cena-unity.png)
 
 ---
 
