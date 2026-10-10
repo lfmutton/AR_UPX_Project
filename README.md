@@ -401,12 +401,12 @@ docs/images/
 | Teste | Procedimento | Resultado esperado | Resultado obtido | Status |
 |---|---|---|---|---|
 | Build Android | Build and Run no Unity | APK gerado e instalado no celular | APK gerado e instalado no Galaxy S23 | ✅ |
-| Inicialização | Abrir aplicativo | Aplicação inicia | Preencher | ⬜ |
-| Câmera | Abrir aplicativo e permitir câmera | Câmera de RA é ativada | Preencher | ⬜ |
-| Image Tracking | Apontar para o marcador | Marcador é detectado | Preencher | ⬜ |
-| Conteúdo 3D | Reconhecer o marcador | Cubo aparece sobre o marcador | Preencher | ⬜ |
-| Estabilidade | Mover o celular lentamente | Cubo permanece registrado ao marcador | Preencher | ⬜ |
-| Interação | Tocar no cubo | Escala alterna | Preencher | ⬜ |
+| Inicialização | Abrir aplicativo | Aplicação inicia | Aplicação iniciou normalmente | ✅ |
+| Câmera | Abrir aplicativo e permitir câmera | Câmera de RA é ativada | Câmera ativada após a permissão | ✅ |
+| Image Tracking | Apontar para o marcador | Marcador é detectado | Marcador detectado | ✅ |
+| Conteúdo 3D | Reconhecer o marcador | Cubo aparece sobre o marcador | Cubo exibido sobre o marcador | ✅ |
+| Estabilidade | Mover o celular lentamente | Cubo permanece registrado ao marcador | Cubo manteve-se alinhado ao marcador | ✅ |
+| Interação | Tocar no cubo | Escala alterna | Escala alternou ao toque | ✅ |
 
 ---
 
@@ -414,7 +414,7 @@ docs/images/
 
 | Dispositivo | Sistema | Versão | Resultado |
 |---|---|---|---|
-| Samsung Galaxy S23 (SM-S911B) | Android | Preencher | Preencher |
+| Samsung Galaxy S23 (SM-S911B) | Android | Preencher | ✅ Todos os testes aprovados |
 
 ---
 
@@ -430,10 +430,13 @@ docs/images/
 
 ## 25. Evidências de Funcionamento
 
-- [ ] Captura de tela da cena no Unity
-- [ ] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
+- [✅] Captura de tela da cena no Unity
 
-[Assistir demonstração](COLE_AQUI_O_LINK_DO_VIDEO)
+![PrintScreenUnityScene](image.png)
+
+- [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
+
+[Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
 
 ---
 
@@ -570,7 +573,7 @@ Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — 
 - [x] Procedimento de instalação testado
 - [x] Procedimento de execução testado
 - [ ] Screenshots reais adicionados
-- [ ] Testes registrados
+- [x] Testes registrados
 - [x] Dispositivos testados informados
 - [x] Limitações conhecidas documentadas
 - [ ] Evidência de funcionamento adicionada
