@@ -28,3 +28,8 @@ MonoBehaviour:
   - label: 'Verificar: solda fria?'
     positionCm: {x: 3, y: -9}
     kind: 2
+  checklist:
+  - Inspecionei todas as soldas destacadas
+  - Nenhuma solda fria ou ponte de solda
+  - "[preencher: crit\xE9rio da equipe]"
+  measurements: []

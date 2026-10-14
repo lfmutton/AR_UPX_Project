@@ -31,3 +31,12 @@ MonoBehaviour:
   - label: "TP3 \xB7 [preencher]"
     positionCm: {x: 6, y: -9}
     kind: 0
+  checklist:
+  - "Mult\xEDmetro em modo continuidade"
+  - "Sem curto entre alimenta\xE7\xE3o e GND"
+  measurements:
+  - label: "Resist\xEAncia TP2\u2013GND [preencher]"
+    unit: "\u03A9"
+    hasRange: 0
+    min: 0
+    max: 0

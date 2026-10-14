@@ -22,6 +22,7 @@ namespace Facens.WL01
         public bool IsRunning => CurrentIndex >= 0;
         public bool IsFinished { get; private set; }
         public InspectionStep CurrentStep => IsRunning ? steps[CurrentIndex] : null;
+        public InspectionSession Session { get; private set; } = new();
 
         private void OnEnable()
         {
@@ -50,6 +51,7 @@ namespace Facens.WL01
             }
 
             IsFinished = false;
+            Session = new InspectionSession();
             GoTo(0);
         }
 

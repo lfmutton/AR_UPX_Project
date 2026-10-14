@@ -49,11 +49,18 @@ namespace Facens.WL01
         [SerializeField] private List<InfoCard> cards = new();
         [Tooltip("Marcações exibidas sobre a placa nesta etapa")]
         [SerializeField] private List<Highlight> highlights = new();
+        [Tooltip("Critérios de aprovação da etapa (RF06)")]
+        [SerializeField] private List<string> checklist = new();
+        [Tooltip("Medições que o trainee registra nesta etapa (RF07)")]
+        [SerializeField] private List<MeasurementSpec> measurements = new();
 
         public string Title => title;
         public string RequirementId => requirementId;
         public string Instruction => instruction;
         public IReadOnlyList<InfoCard> Cards => cards;
         public IReadOnlyList<Highlight> Highlights => highlights;
+        public IReadOnlyList<string> Checklist => checklist;
+        public IReadOnlyList<MeasurementSpec> Measurements => measurements;
+        public bool HasRecord => checklist.Count > 0 || measurements.Count > 0;
     }
 }

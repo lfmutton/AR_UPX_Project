@@ -28,3 +28,8 @@ MonoBehaviour:
   - label: "SW1 \xB7 chave [preencher]"
     positionCm: {x: 9, y: -6}
     kind: 2
+  checklist:
+  - Conectores encaixados
+  - Chave SW1 acionada
+  - 'LED STATUS conforme esperado [preencher]'
+  measurements: []

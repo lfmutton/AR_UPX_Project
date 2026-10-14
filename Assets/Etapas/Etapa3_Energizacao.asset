@@ -31,3 +31,17 @@ MonoBehaviour:
   - label: "Entrada de alimenta\xE7\xE3o"
     positionCm: {x: -9, y: -5}
     kind: 2
+  checklist:
+  - Fonte com limite de corrente configurado
+  - LED PWR aceso
+  measurements:
+  - label: "Tens\xE3o no trilho de 5 V (exemplo)"
+    unit: V
+    hasRange: 1
+    min: 4.75
+    max: 5.25
+  - label: 'Corrente consumida [preencher]'
+    unit: mA
+    hasRange: 0
+    min: 0
+    max: 0

@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Facens.WL01
 {
     /// <summary>
     /// Interacao minima do white label: toque no objeto para alternar a escala.
+    /// Usa o Input System novo (toque no celular, clique do mouse no Editor).
     /// </summary>
     public class TapToToggleScale : MonoBehaviour
     {
@@ -19,23 +21,39 @@ namespace Facens.WL01
 
         private void Update()
         {
-            if (Input.touchCount != 1)
-                return;
-
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase != TouchPhase.Began)
+            if (!TryGetTapPosition(out Vector2 screenPosition))
                 return;
 
             Camera cameraToUse = Camera.main;
             if (cameraToUse == null)
                 return;
 
-            Ray ray = cameraToUse.ScreenPointToRay(touch.position);
+            Ray ray = cameraToUse.ScreenPointToRay(screenPosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
             {
                 expanded = !expanded;
                 transform.localScale = expanded ? initialScale * scaleMultiplier : initialScale;
             }
+        }
+
+        private static bool TryGetTapPosition(out Vector2 position)
+        {
+            Touchscreen touchscreen = Touchscreen.current;
+            if (touchscreen != null && touchscreen.primaryTouch.press.wasPressedThisFrame)
+            {
+                position = touchscreen.primaryTouch.position.ReadValue();
+                return true;
+            }
+
+            Mouse mouse = Mouse.current;
+            if (mouse != null && mouse.leftButton.wasPressedThisFrame)
+            {
+                position = mouse.position.ReadValue();
+                return true;
+            }
+
+            position = default;
+            return false;
         }
     }
 }
