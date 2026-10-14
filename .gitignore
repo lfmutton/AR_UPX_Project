@@ -11,3 +11,7 @@ MemoryCaptures/
 .DS_Store
 [Aa]ssets/_Recovery*
 desktop.ini
+.utmp/
+*.apk
+*.aab
+UIElementsSchema/
