@@ -43,7 +43,6 @@ namespace Facens.WL01
         [SerializeField] private MeasurementFieldView measurementTemplate;
 
         private const string ScanningMessage = "Aponte a câmera para o marcador da placa";
-        private const string FinishedMessage = "Roteiro concluído";
 
         private static readonly Color ActiveTab = new Color32(0x25, 0x63, 0xEB, 0xFF);
         private static readonly Color InactiveTab = new Color32(0x1B, 0x2A, 0x4A, 0xFF);
@@ -176,7 +175,9 @@ namespace Facens.WL01
 
         private void HandleFinished()
         {
-            ShowHint(FinishedMessage);
+            // Depois das etapas vêm o quiz e o resultado (telas próprias).
+            panelRoot.SetActive(false);
+            scanHint.SetActive(false);
         }
 
         private void ShowHint(string message)

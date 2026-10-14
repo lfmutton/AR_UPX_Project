@@ -45,3 +45,10 @@ MonoBehaviour:
     hasRange: 0
     min: 0
     max: 0
+  quiz:
+  - question: Por que energizar a placa com uma fonte com limite de corrente?
+    options:
+    - "Para a placa ligar mais r\xE1pido"
+    - Para limitar danos caso exista um curto
+    - "Para aumentar a tens\xE3o de sa\xEDda"
+    correctIndex: 1

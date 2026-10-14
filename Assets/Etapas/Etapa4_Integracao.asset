@@ -33,3 +33,10 @@ MonoBehaviour:
   - Chave SW1 acionada
   - 'LED STATUS conforme esperado [preencher]'
   measurements: []
+  quiz:
+  - question: "O que conferir antes de acionar a chave de teste no ve\xEDculo?"
+    options:
+    - "Se os conectores est\xE3o bem encaixados"
+    - A cor da placa
+    - O tamanho do marcador
+    correctIndex: 0

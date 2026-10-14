@@ -6,8 +6,8 @@ using UnityEngine.XR.ARFoundation;
 namespace Facens.WL01
 {
     /// <summary>
-    /// Controla a sequência de etapas do roteiro (RF05): começa quando a placa é
-    /// reconhecida e avança/volta entre as etapas. A UI só escuta os eventos.
+    /// Controla o roteiro: etapas (RF05) → quiz de fixação → resultado com métricas (RNF09).
+    /// Começa quando a placa é reconhecida. A UI só escuta os eventos e chama os métodos públicos.
     /// </summary>
     public class InspectionFlow : MonoBehaviour
     {
@@ -15,7 +15,11 @@ namespace Facens.WL01
         [SerializeField] private List<InspectionStep> steps = new();
 
         public event Action<InspectionStep, int, int> StepChanged;
+        /// <summary>Disparado ao concluir a última etapa (antes do quiz).</summary>
         public event Action Finished;
+        public event Action<QuizRun> QuizStarted;
+        /// <summary>Disparado ao fim de tudo, com o relatório já salvo.</summary>
+        public event Action<SessionReport> Completed;
 
         public int CurrentIndex { get; private set; } = -1;
         public int StepCount => steps.Count;
@@ -23,6 +27,10 @@ namespace Facens.WL01
         public bool IsFinished { get; private set; }
         public InspectionStep CurrentStep => IsRunning ? steps[CurrentIndex] : null;
         public InspectionSession Session { get; private set; } = new();
+        public QuizRun Quiz { get; private set; }
+        public string LastReportPath { get; private set; }
+
+        private static float Now => Time.realtimeSinceStartup;
 
         private void OnEnable()
         {
@@ -51,9 +59,13 @@ namespace Facens.WL01
             }
 
             IsFinished = false;
-            Session = new InspectionSession();
+            Quiz = null;
+            Session = new InspectionSession(Now);
             GoTo(0);
         }
+
+        /// <summary>Recomeça o roteiro do zero (botão "Refazer roteiro").</summary>
+        public void Restart() => Begin();
 
         public void Next()
         {
@@ -68,7 +80,9 @@ namespace Facens.WL01
 
             CurrentIndex = -1;
             IsFinished = true;
+            Session.EndSteps(Now);
             Finished?.Invoke();
+            StartQuiz();
         }
 
         public void Previous()
@@ -77,9 +91,39 @@ namespace Facens.WL01
                 GoTo(CurrentIndex - 1);
         }
 
+        /// <summary>Vai para a próxima pergunta; ao fim do quiz, gera o resultado. Retorna true se ainda há perguntas.</summary>
+        public bool AdvanceQuiz()
+        {
+            if (Quiz != null && Quiz.MoveNext())
+                return true;
+
+            Complete();
+            return false;
+        }
+
+        private void StartQuiz()
+        {
+            Quiz = QuizRun.FromSteps(steps);
+            if (Quiz.Count == 0)
+            {
+                Complete();
+                return;
+            }
+            QuizStarted?.Invoke(Quiz);
+        }
+
+        private void Complete()
+        {
+            Session.Finish(Now);
+            SessionReport report = MetricsRecorder.Build(steps, Session, Quiz);
+            LastReportPath = MetricsRecorder.Save(report);
+            Completed?.Invoke(report);
+        }
+
         private void GoTo(int index)
         {
             CurrentIndex = index;
+            Session.EnterStep(steps[index], Now);
             StepChanged?.Invoke(steps[index], index, steps.Count);
         }
     }

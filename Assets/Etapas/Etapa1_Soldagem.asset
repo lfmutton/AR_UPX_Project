@@ -33,3 +33,10 @@ MonoBehaviour:
   - Nenhuma solda fria ou ponte de solda
   - "[preencher: crit\xE9rio da equipe]"
   measurements: []
+  quiz:
+  - question: "Qual caracter\xEDstica indica uma solda fria?"
+    options:
+    - "Superf\xEDcie brilhante e lisa"
+    - Aspecto opaco e granulado
+    - "Formato de cone c\xF4ncavo"
+    correctIndex: 1

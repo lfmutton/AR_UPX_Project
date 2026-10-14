@@ -53,6 +53,8 @@ namespace Facens.WL01
         [SerializeField] private List<string> checklist = new();
         [Tooltip("Medições que o trainee registra nesta etapa (RF07)")]
         [SerializeField] private List<MeasurementSpec> measurements = new();
+        [Tooltip("Perguntas de fixação desta etapa, aplicadas no quiz ao final do roteiro")]
+        [SerializeField] private List<QuizQuestion> quiz = new();
 
         public string Title => title;
         public string RequirementId => requirementId;
@@ -61,6 +63,7 @@ namespace Facens.WL01
         public IReadOnlyList<Highlight> Highlights => highlights;
         public IReadOnlyList<string> Checklist => checklist;
         public IReadOnlyList<MeasurementSpec> Measurements => measurements;
+        public IReadOnlyList<QuizQuestion> Quiz => quiz;
         public bool HasRecord => checklist.Count > 0 || measurements.Count > 0;
     }
 }
