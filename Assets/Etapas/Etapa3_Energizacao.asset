@@ -18,18 +18,21 @@ MonoBehaviour:
     os LEDs de diagn\xF3stico."
   cards:
   - title: LEDs
-    text: '[preencher: LEDs e comportamento esperado]'
+    text: "D1, D9, D10 e D4\u2013D8 [preencher: comportamento esperado]"
   - title: "Tens\xF5es"
     text: '[preencher: trilhos e faixas esperadas]'
   highlights:
-  - label: 'LED PWR [preencher]'
-    positionCm: {x: 9, y: 3}
+  - label: "D10 \xB7 LED"
+    positionCm: {x: -3.5, y: 3.97}
     kind: 0
-  - label: 'LED STATUS [preencher]'
-    positionCm: {x: 9, y: -1}
+  - label: "D9 \xB7 LED"
+    positionCm: {x: -1.32, y: 3.97}
     kind: 0
-  - label: "Entrada de alimenta\xE7\xE3o"
-    positionCm: {x: -9, y: -5}
+  - label: "D1 \xB7 LED"
+    positionCm: {x: 2.53, y: 3.8}
+    kind: 0
+  - label: "D4\u2013D8 \xB7 LEDs"
+    positionCm: {x: 0.28, y: -0.69}
     kind: 2
   checklist:
   - Fonte com limite de corrente configurado

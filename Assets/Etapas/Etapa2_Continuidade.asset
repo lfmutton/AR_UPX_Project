@@ -18,18 +18,24 @@ MonoBehaviour:
     points indicados na placa."
   cards:
   - title: Pontos
-    text: '[preencher: test points a medir]'
+    text: "J3 (3V3 e GND), APPS1, APPS2 e BPPS1"
   - title: Esperado
     text: "Sem bipe entre alimenta\xE7\xE3o e GND (sem curto). [preencher]"
   highlights:
-  - label: "TP1 \xB7 GND"
-    positionCm: {x: -6, y: -9}
+  - label: "J3 \xB7 3V3"
+    positionCm: {x: 3.25, y: 4.35}
+    kind: 2
+  - label: "J3 \xB7 GND"
+    positionCm: {x: 3.25, y: 3.6}
     kind: 0
-  - label: "TP2 \xB7 [preencher]"
-    positionCm: {x: 0, y: -9}
+  - label: "APPS1"
+    positionCm: {x: 0.44, y: 1.7}
     kind: 0
-  - label: "TP3 \xB7 [preencher]"
-    positionCm: {x: 6, y: -9}
+  - label: "APPS2"
+    positionCm: {x: 0.44, y: 0.94}
+    kind: 0
+  - label: "BPPS1"
+    positionCm: {x: 0.44, y: 0.04}
     kind: 0
   checklist:
   - "Mult\xEDmetro em modo continuidade"

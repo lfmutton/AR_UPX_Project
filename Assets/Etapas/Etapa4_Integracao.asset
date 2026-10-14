@@ -18,16 +18,25 @@ MonoBehaviour:
     indicada."
   cards:
   - title: Conectores
-    text: '[preencher: conectores e chicotes]'
+    text: "J2 (chicote do ve\xEDculo); sinais BMS, BSPD, IMD e IR+"
   - title: "Sequ\xEAncia"
     text: '[preencher: ordem de acionamento]'
   highlights:
-  - label: "J1 \xB7 conector [preencher]"
-    positionCm: {x: -9, y: 1}
-    kind: 0
-  - label: "SW1 \xB7 chave [preencher]"
-    positionCm: {x: 9, y: -6}
+  - label: "J2 \xB7 conector do chicote"
+    positionCm: {x: 0.0, y: -3.6}
     kind: 2
+  - label: "BMS"
+    positionCm: {x: 2.48, y: 1.71}
+    kind: 0
+  - label: "BSPD"
+    positionCm: {x: 2.48, y: 0.75}
+    kind: 0
+  - label: "IR+"
+    positionCm: {x: 3.66, y: 1.71}
+    kind: 0
+  - label: "IMD"
+    positionCm: {x: 3.69, y: 0.75}
+    kind: 0
   checklist:
   - Conectores encaixados
   - Chave SW1 acionada

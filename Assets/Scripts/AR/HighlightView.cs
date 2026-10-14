@@ -11,9 +11,12 @@ namespace Facens.WL01
         [SerializeField] private Image dot;
         [SerializeField] private Image labelBackground;
         [SerializeField] private Text label;
+        [Tooltip("Escala da marcação (ponto + etiqueta). 0,5 = ponto de ~9 mm e texto de ~4,5 mm, para componentes próximos na VCU")]
+        [SerializeField] private float size = 0.5f;
 
         public void Show(Highlight highlight)
         {
+            transform.localScale = Vector3.one * size;
             ((RectTransform)transform).anchoredPosition = highlight.positionCm * UnitsPerCm;
             label.text = highlight.label;
 

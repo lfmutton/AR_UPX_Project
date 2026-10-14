@@ -98,8 +98,8 @@ namespace Facens.WL01
             {
                 checklistTemplate.gameObject.SetActive(false);
                 measurementTemplate.gameObject.SetActive(false);
-                guideTab.onClick.AddListener(() => ShowTab(false));
-                recordTab.onClick.AddListener(() => ShowTab(true));
+                guideTab.onClick.AddListener(() => ToggleTab(PanelMode.Guia));
+                recordTab.onClick.AddListener(() => ToggleTab(PanelMode.Registro));
             }
         }
 
@@ -134,9 +134,11 @@ namespace Facens.WL01
 
             if (HasRecordUi)
             {
-                tabsRoot.SetActive(step.HasRecord);
+                // As abas ficam sempre visíveis: a Guia é o único jeito de abrir a instrução.
+                tabsRoot.SetActive(true);
+                recordTab.gameObject.SetActive(step.HasRecord);
                 RenderRecord(step);
-                ShowTab(false);
+                ShowMode(PanelMode.Minimizado);
             }
         }
 
@@ -206,13 +208,33 @@ namespace Facens.WL01
                 : "Registro";
         }
 
-        private void ShowTab(bool record)
+        private enum PanelMode
         {
-            guideGroup.SetActive(!record);
-            (recordRoot != null ? recordRoot : recordGroup).SetActive(record);
-            ((Image)guideTab.targetGraphic).color = record ? InactiveTab : ActiveTab;
-            ((Image)recordTab.targetGraphic).color = record ? ActiveTab : InactiveTab;
-            SetExpanded(record && recordRoot != null);
+            Minimizado,
+            Guia,
+            Registro
+        }
+
+        private PanelMode mode = PanelMode.Minimizado;
+
+        /// <summary>Tocar na aba aberta recolhe o painel; tocar na outra abre ela.</summary>
+        private void ToggleTab(PanelMode tab)
+        {
+            ShowMode(mode == tab ? PanelMode.Minimizado : tab);
+        }
+
+        /// <summary>
+        /// Minimizado: só etapa, título, abas e botões (a placa fica à vista).
+        /// Guia: instrução e cards. Registro: checklist e medições em tela cheia.
+        /// </summary>
+        private void ShowMode(PanelMode newMode)
+        {
+            mode = newMode;
+            guideGroup.SetActive(mode == PanelMode.Guia);
+            (recordRoot != null ? recordRoot : recordGroup).SetActive(mode == PanelMode.Registro);
+            ((Image)guideTab.targetGraphic).color = mode == PanelMode.Guia ? ActiveTab : InactiveTab;
+            ((Image)recordTab.targetGraphic).color = mode == PanelMode.Registro ? ActiveTab : InactiveTab;
+            SetExpanded(mode == PanelMode.Registro && recordRoot != null);
         }
 
         /// <summary>
