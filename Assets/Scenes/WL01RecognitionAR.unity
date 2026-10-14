@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Facens.WL01.ImageRecognitionController
   trackedImageManager: {fileID: 808956123}
+  contentPrefab: {fileID: 7487998392846784808, guid: 8f3150b10ad96864b9e0f5a6a59ef2ee, type: 3}
+  contentOffset: {x: 0, y: 0.04, z: 0}
   demoScale: {x: 0.05, y: 0.05, z: 0.05}
 --- !u!114 &808956123
 MonoBehaviour:

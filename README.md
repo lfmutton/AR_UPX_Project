@@ -259,9 +259,14 @@ AR_UPX_Project/
 │   │   └── WL01ReferenceImageLibrary.asset
 │   ├── Scenes/
 │   │   └── WL01RecognitionAR.unity
+│   ├── Materials/
+│   ├── Prefabs/
+│   │   └── Overlays/
 │   ├── Scripts/
-│   │   ├── ImageRecognitionController.cs
-│   │   └── TapToToggleScale.cs
+│   │   ├── AR/
+│   │   │   └── ImageRecognitionController.cs
+│   │   └── Interacao/
+│   │       └── TapToToggleScale.cs
 │   └── XR/                (configurações do XR Plug-in Management)
 │
 ├── Packages/
@@ -282,7 +287,9 @@ AR_UPX_Project/
 |---|---|
 | `Assets/Markers` | Imagens de referência e a Reference Image Library |
 | `Assets/Scenes` | Cenas da aplicação |
-| `Assets/Scripts` | Scripts C# da aplicação |
+| `Assets/Materials` | Materiais do conteúdo virtual |
+| `Assets/Prefabs` | Conteúdo exibido sobre a placa (overlays) |
+| `Assets/Scripts` | Scripts C# separados por camada (`AR`, `Interacao`) |
 | `Assets/XR` | Configurações do XR Plug-in Management (ARCore) |
 | `docs` | Documentação complementar |
 
@@ -295,7 +302,7 @@ AR_UPX_Project/
 | `ImageRecognitionController.cs` | Escuta os eventos do `ARTrackedImageManager` (imagens adicionadas, atualizadas e removidas), cria o conteúdo virtual sobre cada marcador reconhecido e o oculta quando o tracking é perdido. |
 | `TapToToggleScale.cs` | Interação por toque: detecta o toque na tela via raycast e alterna a escala do objeto tocado (×1,5). |
 
-Os dois scripts ficam em `Assets/Scripts/`, no namespace `Facens.WL01`.
+Os scripts ficam em `Assets/Scripts/AR/` e `Assets/Scripts/Interacao/`, no namespace `Facens.WL01`. O conteúdo exibido sobre o marcador é definido pelo campo **Content Prefab** do `ImageRecognitionController`.
 
 ---
 
