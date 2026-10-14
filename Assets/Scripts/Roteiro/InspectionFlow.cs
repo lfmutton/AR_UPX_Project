@@ -13,6 +13,10 @@ namespace Facens.WL01
     {
         [SerializeField] private ImageRecognitionController recognition;
         [SerializeField] private List<InspectionStep> steps = new();
+        [Tooltip("Se marcado, o roteiro só começa depois de RequestStart() (botão Iniciar RA da tela inicial)")]
+        [SerializeField] private bool waitForStart;
+
+        private bool startRequested;
 
         public event Action<InspectionStep, int, int> StepChanged;
         /// <summary>Disparado ao concluir a última etapa (antes do quiz).</summary>
@@ -46,7 +50,17 @@ namespace Facens.WL01
 
         private void HandleMarkerDetected(ARTrackedImage trackedImage)
         {
+            if (waitForStart && !startRequested)
+                return;
             if (!IsRunning && !IsFinished)
+                Begin();
+        }
+
+        /// <summary>Chamado pelo botão "Iniciar RA": começa já se a placa estiver na tela, senão espera reconhecê-la.</summary>
+        public void RequestStart()
+        {
+            startRequested = true;
+            if (recognition != null && recognition.HasVisibleMarker && !IsRunning)
                 Begin();
         }
 

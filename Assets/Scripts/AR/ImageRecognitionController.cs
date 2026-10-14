@@ -29,6 +29,18 @@ namespace Facens.WL01
         /// <summary>Disparado quando o conteúdo é instanciado sobre um marcador.</summary>
         public event Action<GameObject> ContentCreated;
 
+        /// <summary>Há algum marcador sendo rastreado agora?</summary>
+        public bool HasVisibleMarker
+        {
+            get
+            {
+                foreach (GameObject content in contentByTrackable.Values)
+                    if (content != null && content.activeSelf)
+                        return true;
+                return false;
+            }
+        }
+
         private void Reset()
         {
             trackedImageManager = GetComponent<ARTrackedImageManager>();
