@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d355e64e1e77d47a7c95b0833b60a0, type: 3}
+  m_Name: Etapa1_Soldagem
+  m_EditorClassIdentifier: Assembly-CSharp::Facens.WL01.InspectionStep
+  title: Guia de soldagem
+  requirementId: RF01
+  instruction: "Compare as soldas destacadas na placa com as refer\xEAncias abaixo.
+    [preencher: componentes a inspecionar]"
+  cards:
+  - title: Boa solda
+    text: "Brilhante, lisa, em forma de cone c\xF4ncavo."
+  - title: Solda fria
+    text: Opaca, granulada, em forma de bolinha.
+  highlights:
+  - label: Solda OK
+    positionCm: {x: -3, y: -9}
+    kind: 1
+  - label: 'Verificar: solda fria?'
+    positionCm: {x: 3, y: -9}
+    kind: 2

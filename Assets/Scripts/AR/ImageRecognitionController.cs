@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -21,6 +22,12 @@ namespace Facens.WL01
         [SerializeField] private Vector3 demoScale = new Vector3(0.05f, 0.05f, 0.05f);
 
         private readonly Dictionary<TrackableId, GameObject> contentByTrackable = new();
+
+        /// <summary>Disparado quando um marcador passa a ser rastreado (inclusive ao ser reencontrado).</summary>
+        public event Action<ARTrackedImage> MarkerDetected;
+
+        /// <summary>Disparado quando o conteúdo é instanciado sobre um marcador.</summary>
+        public event Action<GameObject> ContentCreated;
 
         private void Reset()
         {
@@ -69,14 +76,21 @@ namespace Facens.WL01
 
         private void CreateOrUpdateContent(ARTrackedImage trackedImage)
         {
+            bool created = false;
             if (!contentByTrackable.TryGetValue(trackedImage.trackableId, out GameObject content))
             {
                 content = CreateContent(trackedImage.transform);
                 contentByTrackable.Add(trackedImage.trackableId, content);
+                created = true;
+                ContentCreated?.Invoke(content);
             }
 
             bool isTracking = trackedImage.trackingState == TrackingState.Tracking;
+            bool becameVisible = isTracking && (created || !content.activeSelf);
             content.SetActive(isTracking);
+
+            if (becameVisible)
+                MarkerDetected?.Invoke(trackedImage);
         }
 
         private GameObject CreateContent(Transform parent)

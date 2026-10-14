@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d355e64e1e77d47a7c95b0833b60a0, type: 3}
+  m_Name: Etapa3_Energizacao
+  m_EditorClassIdentifier: Assembly-CSharp::Facens.WL01.InspectionStep
+  title: "Energiza\xE7\xE3o / Bring UP"
+  requirementId: RF03
+  instruction: "Energize a placa com fonte de bancada com limite de corrente e observe
+    os LEDs de diagn\xF3stico."
+  cards:
+  - title: LEDs
+    text: '[preencher: LEDs e comportamento esperado]'
+  - title: "Tens\xF5es"
+    text: '[preencher: trilhos e faixas esperadas]'
+  highlights:
+  - label: 'LED PWR [preencher]'
+    positionCm: {x: 9, y: 3}
+    kind: 0
+  - label: 'LED STATUS [preencher]'
+    positionCm: {x: 9, y: -1}
+    kind: 0
+  - label: "Entrada de alimenta\xE7\xE3o"
+    positionCm: {x: -9, y: -5}
+    kind: 2
