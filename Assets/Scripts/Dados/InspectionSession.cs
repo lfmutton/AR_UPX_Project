@@ -102,6 +102,33 @@ namespace Facens.WL01
             return true;
         }
 
+        /// <summary>
+        /// Registro completo = todo o checklist marcado e toda medição com número válido.
+        /// Medição fora da faixa conta como completa (vira erro no relatório, mas não trava a etapa).
+        /// </summary>
+        public bool IsRecordComplete(InspectionStep step)
+        {
+            return PendingCount(step) == 0;
+        }
+
+        /// <summary>Quantos itens faltam: checklist não marcado + medições vazias ou inválidas.</summary>
+        public int PendingCount(InspectionStep step)
+        {
+            StepRecord record = GetRecord(step);
+            int pending = 0;
+            foreach (bool check in record.checks)
+                if (!check)
+                    pending++;
+
+            for (int i = 0; i < step.Measurements.Count; i++)
+            {
+                MeasurementResult result = step.Measurements[i].Evaluate(record.values[i]);
+                if (result == MeasurementResult.Vazio || result == MeasurementResult.Invalido)
+                    pending++;
+            }
+            return pending;
+        }
+
         private void CloseActiveStep(float now)
         {
             if (activeStep != null)

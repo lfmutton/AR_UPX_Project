@@ -6,8 +6,9 @@ namespace Facens.WL01
 {
     /// <summary>
     /// Painel inferior da etapa atual. Só mostra o estado do InspectionFlow e
-    /// repassa os cliques — não decide nada. Duas abas: Guia (instrução e cards)
-    /// e Registro (checklist RF06 e medições RF07).
+    /// repassa os cliques — não decide nada. Abre minimizado; o botão Guia mostra
+    /// ou esconde a instrução e os cards, e o botão Registrar abre a RecordScreen
+    /// (checklist RF06 e medições RF07) numa tela à parte.
     /// </summary>
     public class StepPanel : MonoBehaviour
     {
@@ -28,19 +29,18 @@ namespace Facens.WL01
         [SerializeField] private Button nextButton;
         [SerializeField] private Text nextLabel;
 
-        [Header("Abas (fase 4)")]
+        [Header("Abas")]
+        [Tooltip("Linha das abas: Guia e Registrar")]
         [SerializeField] private GameObject tabsRoot;
         [SerializeField] private Button guideTab;
-        [SerializeField] private Button recordTab;
-        [SerializeField] private Text recordTabLabel;
+        [Tooltip("Instrução e cards; o botão Guia mostra e esconde")]
         [SerializeField] private GameObject guideGroup;
-        [SerializeField] private GameObject recordGroup;
 
-        [Header("Registro (fase 4)")]
-        [SerializeField] private Transform checklistContainer;
-        [SerializeField] private ChecklistItemView checklistTemplate;
-        [SerializeField] private Transform measurementsContainer;
-        [SerializeField] private MeasurementFieldView measurementTemplate;
+        [Header("Registro")]
+        [Tooltip("Tela à parte com checklist e medições, obrigatória para avançar")]
+        [SerializeField] private RecordScreen recordScreen;
+        [SerializeField] private Button recordButton;
+        [SerializeField] private Text recordButtonLabel;
 
         [Header("Visual (fase 8)")]
         [Tooltip("Segmentos da barra de progresso: um por etapa, criados a partir do modelo")]
@@ -48,13 +48,6 @@ namespace Facens.WL01
         [SerializeField] private Image progressTemplate;
         [Tooltip("Bolinha do selo de status no topo")]
         [SerializeField] private Image scanHintDot;
-
-        [Header("Registro em tela cheia (fase 8)")]
-        [Tooltip("Área com rolagem que contém o Grupo Registro. Se definida, é ela que aparece/some na aba Registro")]
-        [SerializeField] private GameObject recordRoot;
-        [Tooltip("Até que altura da tela (0–1) o painel sobe na aba Registro; acima disso fica a faixa da câmera")]
-        [Range(0.5f, 1f)]
-        [SerializeField] private float recordPanelTop = 0.8f;
 
         private const string ScanningMessage = "Aponte a câmera para o marcador da placa";
 
@@ -67,46 +60,31 @@ namespace Facens.WL01
         private readonly List<GameObject> spawned = new();
         private readonly List<Image> progressSegments = new();
         private InspectionStep currentStep;
-
-        private bool HasRecordUi => recordGroup != null;
-
-        private RectTransform panelRect;
-        private ContentSizeFitter panelFitter;
-        private Vector2 compactAnchorMin, compactAnchorMax, compactPivot, compactPosition, compactSize;
+        private bool guideOpen;
 
         private void Awake()
         {
-            panelRect = (RectTransform)panelRoot.transform;
-            panelFitter = panelRoot.GetComponent<ContentSizeFitter>();
-            compactAnchorMin = panelRect.anchorMin;
-            compactAnchorMax = panelRect.anchorMax;
-            compactPivot = panelRect.pivot;
-            compactPosition = panelRect.anchoredPosition;
-            compactSize = panelRect.sizeDelta;
-
-            if (recordRoot != null)
-                recordGroup.SetActive(true);
-
             cardTemplate.gameObject.SetActive(false);
             backButton.onClick.AddListener(flow.Previous);
+            // O fluxo bloqueia se o registro estiver incompleto e a RecordScreen abre sozinha.
             nextButton.onClick.AddListener(flow.Next);
 
             if (progressTemplate != null)
                 progressTemplate.gameObject.SetActive(false);
 
-            if (HasRecordUi)
-            {
-                checklistTemplate.gameObject.SetActive(false);
-                measurementTemplate.gameObject.SetActive(false);
-                guideTab.onClick.AddListener(() => ToggleTab(PanelMode.Guia));
-                recordTab.onClick.AddListener(() => ToggleTab(PanelMode.Registro));
-            }
+            if (guideTab != null)
+                guideTab.onClick.AddListener(ToggleGuide);
+
+            if (recordButton != null)
+                recordButton.onClick.AddListener(OpenRecord);
         }
 
         private void OnEnable()
         {
             flow.StepChanged += Render;
             flow.Finished += HandleFinished;
+            if (recordScreen != null)
+                recordScreen.Closed += UpdateRecordButton;
             ShowHint(ScanningMessage);
         }
 
@@ -114,6 +92,8 @@ namespace Facens.WL01
         {
             flow.StepChanged -= Render;
             flow.Finished -= HandleFinished;
+            if (recordScreen != null)
+                recordScreen.Closed -= UpdateRecordButton;
         }
 
         private void Render(InspectionStep step, int index, int count)
@@ -132,14 +112,12 @@ namespace Facens.WL01
             ClearSpawned();
             RenderCards(step.Cards);
 
-            if (HasRecordUi)
-            {
-                // As abas ficam sempre visíveis: a Guia é o único jeito de abrir a instrução.
+            // As abas ficam sempre visíveis: a Guia é o único jeito de abrir a instrução.
+            if (tabsRoot != null)
                 tabsRoot.SetActive(true);
-                recordTab.gameObject.SetActive(step.HasRecord);
-                RenderRecord(step);
-                ShowMode(PanelMode.Minimizado);
-            }
+
+            UpdateRecordButton();
+            SetGuideOpen(false);
         }
 
         private void RenderProgress(int index, int count)
@@ -171,97 +149,52 @@ namespace Facens.WL01
             cardsContainer.gameObject.SetActive(cards.Count > 0);
         }
 
-        private void RenderRecord(InspectionStep step)
+        /// <summary>Tocar em Guia abre a instrução e os cards; tocar de novo recolhe.</summary>
+        private void ToggleGuide()
         {
-            InspectionSession session = flow.Session;
-            InspectionSession.StepRecord record = session.GetRecord(step);
-
-            for (int i = 0; i < step.Checklist.Count; i++)
-            {
-                int itemIndex = i;
-                ChecklistItemView view = Spawn(checklistTemplate, checklistContainer);
-                view.Bind(step.Checklist[i], record.checks[i], isChecked =>
-                {
-                    session.SetChecked(step, itemIndex, isChecked);
-                    UpdateRecordTabLabel();
-                });
-            }
-            checklistContainer.gameObject.SetActive(step.Checklist.Count > 0);
-
-            for (int i = 0; i < step.Measurements.Count; i++)
-            {
-                int fieldIndex = i;
-                MeasurementFieldView view = Spawn(measurementTemplate, measurementsContainer);
-                view.Bind(step.Measurements[i], record.values[i],
-                    value => session.SetValue(step, fieldIndex, value));
-            }
-            measurementsContainer.gameObject.SetActive(step.Measurements.Count > 0);
-
-            UpdateRecordTabLabel();
-        }
-
-        private void UpdateRecordTabLabel()
-        {
-            int total = currentStep.Checklist.Count;
-            recordTabLabel.text = total > 0
-                ? $"Registro ({flow.Session.CheckedCount(currentStep)}/{total})"
-                : "Registro";
-        }
-
-        private enum PanelMode
-        {
-            Minimizado,
-            Guia,
-            Registro
-        }
-
-        private PanelMode mode = PanelMode.Minimizado;
-
-        /// <summary>Tocar na aba aberta recolhe o painel; tocar na outra abre ela.</summary>
-        private void ToggleTab(PanelMode tab)
-        {
-            ShowMode(mode == tab ? PanelMode.Minimizado : tab);
+            SetGuideOpen(!guideOpen);
         }
 
         /// <summary>
         /// Minimizado: só etapa, título, abas e botões (a placa fica à vista).
-        /// Guia: instrução e cards. Registro: checklist e medições em tela cheia.
+        /// Guia aberta: instrução e cards.
         /// </summary>
-        private void ShowMode(PanelMode newMode)
+        private void SetGuideOpen(bool open)
         {
-            mode = newMode;
-            guideGroup.SetActive(mode == PanelMode.Guia);
-            (recordRoot != null ? recordRoot : recordGroup).SetActive(mode == PanelMode.Registro);
-            ((Image)guideTab.targetGraphic).color = mode == PanelMode.Guia ? ActiveTab : InactiveTab;
-            ((Image)recordTab.targetGraphic).color = mode == PanelMode.Registro ? ActiveTab : InactiveTab;
-            SetExpanded(mode == PanelMode.Registro && recordRoot != null);
+            guideOpen = open;
+
+            // Cena antiga sem Grupo Guia: a instrução fica sempre visível.
+            if (guideGroup != null)
+                guideGroup.SetActive(open);
+
+            if (guideTab != null && guideTab.targetGraphic is Image tabImage)
+                tabImage.color = open ? ActiveTab : InactiveTab;
+        }
+
+        private void OpenRecord()
+        {
+            if (recordScreen != null && currentStep != null)
+                recordScreen.Open(currentStep);
         }
 
         /// <summary>
-        /// Aba Registro: o painel sobe até recordPanelTop e a câmera fica numa faixa no topo.
-        /// Aba Guia: volta ao painel compacto no rodapé, do tamanho do conteúdo.
+        /// Registrar só aparece em etapas com checklist ou medições; o texto mostra
+        /// quantos itens faltam. Atualiza ao renderizar e quando a RecordScreen fecha.
         /// </summary>
-        private void SetExpanded(bool expanded)
+        private void UpdateRecordButton()
         {
-            if (panelFitter != null)
-                panelFitter.enabled = !expanded;
+            if (recordButton == null || currentStep == null)
+                return;
 
-            if (expanded)
-            {
-                panelRect.anchorMin = new Vector2(0f, 0f);
-                panelRect.anchorMax = new Vector2(1f, recordPanelTop);
-                panelRect.pivot = new Vector2(0.5f, 0f);
-                panelRect.offsetMin = new Vector2(-compactSize.x / 2f, compactPosition.y);
-                panelRect.offsetMax = new Vector2(compactSize.x / 2f, 0f);
-            }
-            else
-            {
-                panelRect.anchorMin = compactAnchorMin;
-                panelRect.anchorMax = compactAnchorMax;
-                panelRect.pivot = compactPivot;
-                panelRect.anchoredPosition = compactPosition;
-                panelRect.sizeDelta = compactSize;
-            }
+            bool hasRecord = currentStep.HasRecord && recordScreen != null;
+            recordButton.gameObject.SetActive(hasRecord);
+            if (!hasRecord || recordButtonLabel == null)
+                return;
+
+            int pending = flow.Session.PendingCount(currentStep);
+            recordButtonLabel.text = pending > 0
+                ? $"Registrar ({pending} pendentes)"
+                : "Registro completo";
         }
 
         private T Spawn<T>(T template, Transform parent) where T : Component
@@ -281,7 +214,7 @@ namespace Facens.WL01
 
         private void HandleFinished()
         {
-            // Depois das etapas vêm o quiz e o resultado (telas próprias).
+            // Depois das etapas vem o resultado (tela própria).
             panelRoot.SetActive(false);
             scanHint.SetActive(false);
         }

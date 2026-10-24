@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Facens.WL01
 {
     /// <summary>
-    /// Tela de resultado: tempo, erros, acertos do quiz e situação de cada etapa (RNF09).
+    /// Tela de resultado: tempo, erros e situação de cada etapa (RNF09).
     /// </summary>
     public class ResultPanel : MonoBehaviour
     {
@@ -13,7 +13,6 @@ namespace Facens.WL01
         [SerializeField] private GameObject root;
         [SerializeField] private Text timeText;
         [SerializeField] private Text errorsText;
-        [SerializeField] private Text quizText;
         [SerializeField] private Transform stepsContainer;
         [SerializeField] private StepResultRowView rowTemplate;
         [SerializeField] private Text savedText;
@@ -45,7 +44,6 @@ namespace Facens.WL01
             int seconds = Mathf.RoundToInt(report.duracaoSegundos);
             timeText.text = $"{seconds / 60:00}:{seconds % 60:00}";
             errorsText.text = report.erros.ToString();
-            quizText.text = report.quizTotal > 0 ? $"{report.quizAcertos}/{report.quizTotal}" : "—";
 
             foreach (GameObject row in rows)
                 Destroy(row);

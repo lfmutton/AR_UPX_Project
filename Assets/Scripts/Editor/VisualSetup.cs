@@ -98,70 +98,9 @@ namespace Facens.WL01.EditorTools
         [MenuItem("B'Energy/Fase 8 - Registro em tela cheia")]
         private static void RecordFullScreen()
         {
-            var stepPanel = Object.FindFirstObjectByType<StepPanel>(FindObjectsInactive.Include);
-            if (stepPanel == null)
-            {
-                EditorUtility.DisplayDialog("B'Energy", "Abra a cena WL01RecognitionAR antes.", "OK");
-                return;
-            }
-
-            var panelSo = new SerializedObject(stepPanel);
-            var recordGroup = (GameObject)panelSo.FindProperty("recordGroup").objectReferenceValue;
-            if (recordGroup == null)
-            {
-                EditorUtility.DisplayDialog("B'Energy", "Rode a Fase 4 antes.", "OK");
-                return;
-            }
-            if (panelSo.FindProperty("recordRoot").objectReferenceValue != null)
-            {
-                EditorUtility.DisplayDialog("B'Energy", "O registro em tela cheia já está configurado. Nada foi alterado.", "OK");
-                return;
-            }
-
-            Transform panel = recordGroup.transform.parent;
-            Undo.RegisterFullObjectHierarchyUndo(panel.gameObject, "Registro em tela cheia");
-
-            // Área com rolagem que ocupa o espaço livre do painel expandido
-            RectTransform scroll = NewRect("Rolagem Registro", panel);
-            scroll.SetSiblingIndex(recordGroup.transform.GetSiblingIndex());
-            var scrollElement = scroll.gameObject.AddComponent<LayoutElement>();
-            scrollElement.flexibleHeight = 1f;
-            scrollElement.minHeight = 200f;
-
-            RectTransform viewport = NewRect("Viewport", scroll);
-            Stretch(viewport, 0f, 0f, 0f, 0f);
-            viewport.gameObject.AddComponent<RectMask2D>();
-            Image hitArea = viewport.gameObject.AddComponent<Image>();
-            hitArea.color = new Color(0f, 0f, 0f, 0f);
-            hitArea.GetComponent<CanvasRenderer>().cullTransparentMesh = false; // arrastar em qualquer ponto
-
-            // O Grupo Registro vira o conteúdo rolável
-            Undo.SetTransformParent(recordGroup.transform, viewport, "Mover registro");
-            var content = (RectTransform)recordGroup.transform;
-            content.anchorMin = new Vector2(0f, 1f);
-            content.anchorMax = new Vector2(1f, 1f);
-            content.pivot = new Vector2(0.5f, 1f);
-            content.anchoredPosition = Vector2.zero;
-            content.sizeDelta = Vector2.zero;
-            if (!recordGroup.TryGetComponent(out ContentSizeFitter fitter))
-                fitter = recordGroup.AddComponent<ContentSizeFitter>();
-            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            recordGroup.SetActive(true);
-
-            var scrollRect = scroll.gameObject.AddComponent<ScrollRect>();
-            scrollRect.viewport = viewport;
-            scrollRect.content = content;
-            scrollRect.horizontal = false;
-            scrollRect.movementType = ScrollRect.MovementType.Clamped;
-            scrollRect.scrollSensitivity = 30f;
-            scroll.gameObject.SetActive(false);
-
-            panelSo.FindProperty("recordRoot").objectReferenceValue = scroll.gameObject;
-            panelSo.ApplyModifiedProperties();
-
-            EditorSceneManager.MarkSceneDirty(stepPanel.gameObject.scene);
+            // O registro deixou de ser uma aba do painel: agora é a tela RecordScreen.
             EditorUtility.DisplayDialog("B'Energy",
-                "Na aba Registro o painel agora ocupa a tela, a câmera fica numa faixa no topo e o conteúdo rola.\n\nSalve a cena com Ctrl+S.",
+                "Este menu foi substituído pela \"Fase 9 - Tela de registro e remover quiz\". Nada foi alterado.",
                 "OK");
         }
 

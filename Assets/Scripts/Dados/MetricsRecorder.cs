@@ -29,36 +29,23 @@ namespace Facens.WL01
     }
 
     [Serializable]
-    public class QuizAnswerReport
-    {
-        public string etapa;
-        public string pergunta;
-        public int resposta;
-        public int correta;
-        public bool acertou;
-    }
-
-    [Serializable]
     public class SessionReport
     {
         public string inicio;
         public string fim;
         public float duracaoSegundos;
         public int erros;
-        public int quizAcertos;
-        public int quizTotal;
         public List<StepReport> etapas = new();
-        public List<QuizAnswerReport> quiz = new();
     }
 
     /// <summary>
     /// Monta o relatório da sessão e salva em JSON em
     /// Application.persistentDataPath/sessoes (no Android: Android/data/&lt;pacote&gt;/files/sessoes).
-    /// Erros = itens do checklist não marcados + medições fora da faixa/inválidas + respostas erradas.
+    /// Erros = itens do checklist não marcados + medições fora da faixa/inválidas.
     /// </summary>
     public static class MetricsRecorder
     {
-        public static SessionReport Build(IReadOnlyList<InspectionStep> steps, InspectionSession session, QuizRun quiz)
+        public static SessionReport Build(IReadOnlyList<InspectionStep> steps, InspectionSession session)
         {
             var report = new SessionReport
             {
@@ -98,29 +85,6 @@ namespace Facens.WL01
                 }
 
                 report.etapas.Add(stepReport);
-            }
-
-            if (quiz != null)
-            {
-                for (int i = 0; i < quiz.Count; i++)
-                {
-                    QuizRun.Item item = quiz.Items[i];
-                    int answer = quiz.AnswerAt(i);
-                    bool correct = answer == item.question.correctIndex;
-                    report.quiz.Add(new QuizAnswerReport
-                    {
-                        etapa = item.step.Title,
-                        pergunta = item.question.question,
-                        resposta = answer,
-                        correta = item.question.correctIndex,
-                        acertou = correct
-                    });
-                    if (correct)
-                        report.quizAcertos++;
-                    else
-                        report.erros++;
-                }
-                report.quizTotal = quiz.Count;
             }
 
             return report;

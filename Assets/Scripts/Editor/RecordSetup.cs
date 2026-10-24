@@ -27,7 +27,15 @@ namespace Facens.WL01.EditorTools
             }
 
             var panelSo = new SerializedObject(stepPanel);
-            if (panelSo.FindProperty("recordGroup").objectReferenceValue != null)
+            SerializedProperty recordGroupProp = panelSo.FindProperty("recordGroup");
+            if (recordGroupProp == null)
+            {
+                EditorUtility.DisplayDialog("B'Energy",
+                    "Este menu foi substituído pela \"Fase 9 - Tela de registro e remover quiz\": o registro agora é uma tela à parte. Nada foi alterado.",
+                    "OK");
+                return;
+            }
+            if (recordGroupProp.objectReferenceValue != null)
             {
                 EditorUtility.DisplayDialog("B'Energy", "O checklist e as medições já existem nesta cena. Nada foi alterado.", "OK");
                 return;
