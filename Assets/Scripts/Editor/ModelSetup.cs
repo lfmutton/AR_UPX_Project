@@ -110,6 +110,79 @@ namespace Facens.WL01.EditorTools
                 "OK");
         }
 
+        private const string SilkscreenTexturePath = "Assets/Markers/vcu-marker.png";
+        private const string SilkscreenMaterialPath = "Assets/Materials/VCU-Serigrafia.mat";
+        private const string FrontMaterialPath = "Assets/Materials/MarcacoesNaFrente.mat";
+        private const float SilkscreenLength = 0.0822f; // a imagem cobre do topo da placa até o conector (~82 mm)
+
+        [MenuItem("B'Energy/Fase 7 - Textura da placa e marcações na frente")]
+        private static void ApplySilkscreenAndFrontLabels()
+        {
+            GameObject overlay = PrefabUtility.LoadPrefabContents(OverlayPath);
+            Transform board = overlay != null ? overlay.transform.Find("Placa VCU") : null;
+            if (board == null)
+            {
+                if (overlay != null)
+                    PrefabUtility.UnloadPrefabContents(overlay);
+                EditorUtility.DisplayDialog("B'Energy", "Rode antes o menu \"Fase 7 - Colocar placa 3D sobre o marcador\".", "OK");
+                return;
+            }
+
+            // 1) Serigrafia: a imagem do Altium deitada sobre a face de cima da PCB
+            var importer = (TextureImporter)AssetImporter.GetAtPath(SilkscreenTexturePath);
+            importer.wrapMode = TextureWrapMode.Clamp;
+            importer.maxTextureSize = 2048;
+            importer.SaveAndReimport();
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(SilkscreenTexturePath);
+
+            var silkMaterial = AssetDatabase.LoadAssetAtPath<Material>(SilkscreenMaterialPath);
+            if (silkMaterial == null)
+            {
+                silkMaterial = new Material(Shader.Find("Unlit/Texture"));
+                AssetDatabase.CreateAsset(silkMaterial, SilkscreenMaterialPath);
+            }
+            silkMaterial.mainTexture = texture;
+            EditorUtility.SetDirty(silkMaterial);
+
+            Transform silk = board.Find("Serigrafia");
+            if (silk == null)
+            {
+                silk = GameObject.CreatePrimitive(PrimitiveType.Quad).transform;
+                silk.name = "Serigrafia";
+                Object.DestroyImmediate(silk.GetComponent<Collider>());
+                silk.SetParent(board, false);
+            }
+            // Quad olha para -Z; girando 90° no X ele fica deitado, com o topo da imagem para +Z
+            silk.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            silk.localScale = new Vector3(BoardWidth, SilkscreenLength, 1f);
+            silk.localPosition = new Vector3(0f, 0.0006f, BoardLength / 2f - SilkscreenLength / 2f);
+            silk.GetComponent<MeshRenderer>().sharedMaterial = silkMaterial;
+
+            // 2) Marcações sempre na frente dos componentes 3D
+            var frontMaterial = AssetDatabase.LoadAssetAtPath<Material>(FrontMaterialPath);
+            if (frontMaterial == null)
+            {
+                frontMaterial = new Material(Shader.Find("BEnergy/UI Sempre na Frente"));
+                AssetDatabase.CreateAsset(frontMaterial, FrontMaterialPath);
+            }
+            int count = 0;
+            foreach (UnityEngine.UI.Graphic graphic in overlay.GetComponentsInChildren<UnityEngine.UI.Graphic>(true))
+            {
+                graphic.material = frontMaterial;
+                count++;
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(overlay, OverlayPath);
+            PrefabUtility.UnloadPrefabContents(overlay);
+            AssetDatabase.SaveAssets();
+
+            // (A altura da caixa de Registro deixou de existir: o registro agora é uma tela à parte, Fase 9.)
+
+            EditorUtility.DisplayDialog("B'Energy",
+                $"Serigrafia aplicada sobre a placa e {count} elementos das marcações agora aparecem sempre na frente.\n\nFaça o Build and Run.",
+                "OK");
+        }
+
         private static Bounds WorldBounds(GameObject go)
         {
             Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
