@@ -558,13 +558,13 @@ O build documentado é para **Android**. Os menus dos scripts de `Assets/Scripts
 
 ## 17. Como Utilizar a Aplicação
 
-Esta seção descreve o fluxo implementado em [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs), [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). A situação de validação em aparelho e do conteúdo técnico está na [seção 6](#6-funcionalidades).
+Esta seção descreve o fluxo implementado em [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs), [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). As funcionalidades estão na [seção 6](#6-funcionalidades); a documentação das evidências acompanha as seções 22–25.
 
 ### 17.1 Início
 
 1. Abra a aplicação e, se o Android solicitar, autorize o acesso à câmera.
 2. Na **Tela Inicial**, confira as quatro etapas do roteiro e toque em **Iniciar RA**.
-3. Aponte a câmera para o marcador, seguindo o selo "Aponte a câmera para o marcador da placa". O marcador cadastrado atualmente é o `wl01-marker.png` (ver [seção 24](#24-limitações-conhecidas)).
+3. Aponte a câmera para o marcador, seguindo o selo "Aponte a câmera para o marcador da placa". O marcador cadastrado atualmente é o `wl01-marker.png`, da [Reference Image Library](Assets/Markers/WL01ReferenceImageLibrary.asset).
 4. Ao reconhecer o marcador, o roteiro começa na etapa 1, com o modelo da placa VCU e os destaques da etapa. Se o marcador já estiver visível ao tocar em **Iniciar RA**, o roteiro começa imediatamente.
 
 Se o marcador sair do enquadramento, o modelo e os destaques ficam ocultos até ele ser reconhecido novamente. O painel e os dados da etapa continuam disponíveis.
@@ -576,8 +576,8 @@ O marcador deve estar impresso ou exibido com **12 cm × 12 cm**, em superfície
 | Etapa | Requisito | Itens de checklist | Medições |
 |---|---|---|---|
 | 1. Soldagem | RF01 | 3 | Nenhuma |
-| 2. Continuidade e curto-circuito | RF02 | 2 | Resistência 3V3–GND (kΩ), sem faixa definida |
-| 3. Energização / Bring UP | RF03 | 2 | Tensão 3V3 no J3 (V), com faixa de 3,13 a 3,47 V; corrente consumida (mA), sem faixa definida |
+| 2. Continuidade e curto-circuito | RF02 | 2 | Resistência entre TP2 e GND (Ω), sem faixa definida |
+| 3. Energização / Bring UP | RF03 | 2 | Tensão no trilho de 5 V (V), com faixa de exemplo de 4,75 a 5,25 V; corrente consumida (mA), sem faixa definida |
 | 4. Integração | RF04 | 3 | Nenhuma |
 
 Os itens e as medições são definidos nos assets de [Assets/Etapas](Assets/Etapas). Em cada etapa, o painel inferior abre minimizado para não cobrir o modelo e mostra a etapa atual, a barra de progresso, o título e os botões:
@@ -602,7 +602,7 @@ Para avançar, todo o checklist da etapa precisa estar marcado e toda medição 
 | Medição inválida (não numérica) | "Valor inválido" e contagem de pendências | **Sim** | Não chega ao resultado |
 | Valor dentro da faixa | "Dentro do esperado" | Não | Etapa sem erro por essa medição |
 | Valor **fora da faixa** | "Fora da faixa esperada" | **Não** | Conta 1 erro e a etapa aparece como **Revisar** |
-| Valor numérico em medição sem faixa | "Valor registrado" | Não | Registrado no relatório, sem avaliação |
+| Valor numérico em medição sem faixa | Aviso de faixa esperada a definir | Não | Registrado no relatório, sem avaliação |
 
 Os botões da Tela de Registro são:
 
@@ -787,7 +787,7 @@ As imagens do projeto ficam em `docs/images/`:
 
 - [✅] Captura de tela da cena no Unity
 
-![PrintScreenUnityScene](./docs/images/cena-unity.png)
+![PrintScreenUnityScene](./docs/images/cena-unity-v2.png)
 
 - [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
 
