@@ -144,74 +144,98 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 ## 10. Arquitetura do Sistema
 
-A arquitetura do B'Energy AR Academy parte do repositório de referência **WL01 (Recognition AR / Image Tracking)** e está organizada em camadas: interface, controle da experiência, módulo de RA, framework XR e hardware do dispositivo.
+O B'Energy AR Academy evoluiu da base WL01 de Image Tracking para um roteiro de inspeção com modelo da placa VCU, destaques por etapa, orientações e exemplos, checklist, entrada de medições e resultado da sessão. A arquitetura conecta reconhecimento de imagem, controle do roteiro, apresentação e registro de dados.
 
 ```mermaid
 flowchart TB
-    USER["Trainee"]
-    subgraph MOBILE["Aplicativo mobile — Unity 6000.x"]
-        UI["Interface e navegação"]
-        CAMERA["Câmera do smartphone"]
-        TRACK["AR Foundation<br/>ARTrackedImageManager"]
-        LIB["XR Reference Image Library"]
-        RENDER["Renderização de referências 2D/3D"]
-        GUIDE["Motor do roteiro de testes"]
-        INPUT["Formulários e checklists"]
-        VALIDATOR["Validação de medições"]
-        METRICS["Métricas de execução e aprendizado"]
-    end
-
-    subgraph TOOLS["Ferramentas e ambiente"]
-        ANDROID["Smartphone Android com ARCore"]
-        BLENDER["Blender<br/>Edição de elementos gráficos"]
-        GIT["Git e GitHub<br/>Versionamento do projeto"]
-    end
-
-    USER --> UI
-    UI --> CAMERA
-    CAMERA --> TRACK
-    LIB --> TRACK
-    TRACK --> RENDER
-    RENDER --> GUIDE
-    GUIDE --> INPUT
-    INPUT --> VALIDATOR
-    VALIDATOR --> GUIDE
-    GUIDE --> METRICS
-    ANDROID -. "Dispositivo de execução" .-> CAMERA
-    BLENDER -. "Produção de recursos visuais" .-> RENDER
-    GIT -. "Controle de versões" .-> UI
+    CAMERA["Câmera / ARCore"] --> TRACK["AR Foundation<br/>ARTrackedImageManager"]
+    LIB["XR Reference Image Library"] --> TRACK
+    TRACK --> REC["ImageRecognitionController"]
+    REC -->|ContentCreated| MODEL["StepOverlay.prefab<br/>Modelo VCU + marcações"]
+    REC -->|MarkerDetected| FLOW["InspectionFlow"]
+    HOME["HomeScreen<br/>Iniciar RA"] -->|RequestStart| FLOW
+    STEPS["InspectionStep<br/>Assets/Etapas: RF01–RF04"] --> FLOW
+    FLOW -->|StepChanged| PANEL["StepPanel<br/>Guia, exemplos e navegação"]
+    FLOW -->|StepChanged| OVERLAY["StepOverlayController"]
+    OVERLAY -->|StepOverlay / HighlightView| MODEL
+    PANEL -->|Registrar| RECORD["RecordScreen<br/>Checklist e medições"]
+    FLOW -->|RecordIncomplete| RECORD
+    RECORD --> SESSION["InspectionSession<br/>Dados e tempos por etapa"]
+    SESSION --> SPEC["MeasurementSpec<br/>Avaliação dos valores"]
+    FLOW -->|Verifica registro completo| SESSION
+    FLOW -->|Conclusão| METRICS["MetricsRecorder<br/>SessionReport / StepReport"]
+    SESSION --> METRICS
+    METRICS --> JSON["Arquivo JSON local<br/>persistentDataPath/sessoes"]
+    FLOW -->|Completed com relatório| RESULT["ResultPanel<br/>Resumo e opção de reinício"]
+    RESULT -->|Restart| FLOW
 ```
+
+As setas representam eventos, chamadas e uso de dados. As telas exibem o estado e encaminham ações; `InspectionFlow` controla a etapa atual, verifica a completude do registro e coordena a conclusão. `InspectionSession` mantém checklist, valores e tempos em memória; `MeasurementSpec` interpreta e avalia os valores. `MetricsRecorder` monta o relatório e tenta salvá-lo; a tela de resultado informa também se a gravação foi possível.
 
 ### Componentes da cena `WL01RecognitionAR`
 
+A cena habilitada em [EditorBuildSettings.asset](ProjectSettings/EditorBuildSettings.asset) é [Assets/Scenes/WL01RecognitionAR.unity](Assets/Scenes/WL01RecognitionAR.unity). A árvore abaixo mostra os principais objetos e componentes; os itens entre colchetes são componentes anexados ao objeto, e os demais representam objetos da hierarquia:
+
 ```text
 WL01RecognitionAR
-├── Directional Light
+├── Directional Light                → iluminação da cena
 ├── AR Session                       → ciclo de vida da sessão de RA
-└── XR Origin (Mobile AR)            → origem da experiência
-    ├── AR Tracked Image Manager     → detecta e acompanha os marcadores
-    ├── Image Recognition Controller → cria e atualiza o conteúdo virtual
-    └── Camera Offset
-        └── Main Camera              → câmera de RA
+├── XR Origin                        → origem da experiência
+│   ├── [ARTrackedImageManager]       → detecta e acompanha os marcadores
+│   ├── [ImageRecognitionController]  → cria e atualiza o conteúdo virtual
+│   └── Camera Offset
+│       └── Main Camera              → câmera de RA
+├── Roteiro
+│   ├── [InspectionFlow]              → controla as quatro etapas e a sessão
+│   └── [StepOverlayController]       → atualiza os destaques por etapa
+├── Canvas Roteiro
+│   ├── [HomeScreen]                  → controla o início do roteiro
+│   ├── [StepPanel]                   → guia, exemplos, progresso e navegação
+│   ├── [RecordScreen]                → checklist e entrada de medições
+│   ├── [ResultPanel]                 → resumo e opção de reinício
+│   ├── Tela Inicial                 → apresentação e botão Iniciar RA
+│   ├── Tela Registro                → formulário de registro da etapa
+│   └── Tela Resultado               → apresentação do resultado da sessão
+└── EventSystem                      → interações da interface
 ```
+
+O campo `contentPrefab` de `ImageRecognitionController` referencia `StepOverlay.prefab`; o cubo permanece como fallback quando não há prefab configurado. `InspectionFlow` referencia os quatro assets de `Assets/Etapas` e mantém `waitForStart` ativo, coordenando o botão inicial com o reconhecimento do marcador.
+
+O prefab de conteúdo é instanciado como filho do marcador rastreado. `StepOverlay` cria as marcações a partir dos dados da etapa, e `HighlightView` apresenta seus pontos e rótulos. A visibilidade do conteúdo acompanha o estado de tracking em `ImageRecognitionController`.
 
 ### Fluxo resumido
 
 ```text
 Trainee
    ↓
-Interface da Aplicação
+Interface da Aplicação (tela inicial / Iniciar RA)
    ↓
-Controle da Experiência (ImageRecognitionController)
+Câmera / ARCore / AR Foundation (ARTrackedImageManager)
    ↓
-AR Foundation (ARTrackedImageManager)
+Reconhecimento do marcador (ImageRecognitionController)
    ↓
-ARCore
+Modelo VCU e destaques dos pontos da etapa
    ↓
-Câmera / Sensores
+Controle do roteiro (InspectionFlow)
    ↓
-Ambiente Físico (placa PCB + marcador)
+Guia, orientações e exemplos (StepPanel)
+   ↓
+Checklist e entrada de medições (RecordScreen)
+   ↓
+Verificação do registro (InspectionSession / MeasurementSpec)
+   ↓
+Navegação entre as quatro etapas
+   ↓
+Conclusão e relatório JSON (MetricsRecorder)
+   ↓
+Resultado da sessão (ResultPanel)
+   ↓
+Opção de refazer o roteiro (nova sessão)
 ```
+
+Ao tentar avançar com o registro incompleto, o fluxo abre a tela de registro. Retornar à etapa anterior preserva os dados da sessão; refazer o roteiro cria uma nova sessão. O resultado utiliza os dados registrados e as regras de avaliação do aplicativo.
+
+Os scripts de `Assets/Scripts/Editor` preparam a cena, os assets e o visual durante o desenvolvimento. Eles utilizam `UnityEditor` e não executam no aplicativo instalado; o aplicativo usa os componentes e assets já configurados.
 
 ---
 
@@ -257,59 +281,136 @@ flowchart LR
 
 ## 12. Estrutura do Projeto
 
+Estrutura dos principais arquivos e diretórios do repositório. Arquivos `.meta` e diretórios gerados pelo Unity foram omitidos para facilitar a leitura.
+
 ```text
 AR_UPX_Project/
-│
 ├── Assets/
+│   ├── Etapas/
+│   │   ├── Etapa1_Soldagem.asset
+│   │   ├── Etapa2_Continuidade.asset
+│   │   ├── Etapa3_Energizacao.asset
+│   │   └── Etapa4_Integracao.asset
+│   ├── Fonts/
 │   ├── Markers/
 │   │   ├── wl01-marker.png
+│   │   ├── vcu-marker.png
 │   │   └── WL01ReferenceImageLibrary.asset
-│   ├── Scenes/
-│   │   └── WL01RecognitionAR.unity
 │   ├── Materials/
-│   ├── Prefabs/
-│   │   └── Overlays/
+│   ├── Models/VCU/VCU.fbx
+│   ├── Prefabs/Overlays/
+│   │   ├── StepOverlay.prefab
+│   │   └── DemoContent.prefab
+│   ├── Scenes/WL01RecognitionAR.unity
 │   ├── Scripts/
 │   │   ├── AR/
-│   │   │   └── ImageRecognitionController.cs
-│   │   └── Interacao/
-│   │       └── TapToToggleScale.cs
-│   └── XR/                (configurações do XR Plug-in Management)
-│
+│   │   │   ├── ImageRecognitionController.cs
+│   │   │   ├── StepOverlayController.cs
+│   │   │   ├── StepOverlay.cs
+│   │   │   └── HighlightView.cs
+│   │   ├── Roteiro/
+│   │   │   ├── InspectionFlow.cs
+│   │   │   └── InspectionStep.cs
+│   │   ├── Dados/
+│   │   │   ├── InspectionSession.cs
+│   │   │   ├── MeasurementSpec.cs
+│   │   │   └── MetricsRecorder.cs
+│   │   ├── UI/
+│   │   │   ├── HomeScreen.cs
+│   │   │   ├── StepPanel.cs
+│   │   │   ├── RecordScreen.cs
+│   │   │   ├── ResultPanel.cs
+│   │   │   ├── InfoCardView.cs
+│   │   │   ├── ChecklistItemView.cs
+│   │   │   ├── MeasurementFieldView.cs
+│   │   │   └── StepResultRowView.cs
+│   │   ├── Interacao/TapToToggleScale.cs
+│   │   └── Editor/
+│   │       ├── RoteiroSetup.cs
+│   │       ├── OverlaySetup.cs
+│   │       ├── RecordSetup.cs
+│   │       ├── ModelSetup.cs
+│   │       ├── VisualSetup.cs
+│   │       └── RecordScreenSetup.cs
+│   ├── Shaders/UISempreNaFrente.shader
+│   ├── UI/Sprites/
+│   └── XR/
 ├── Packages/
 ├── ProjectSettings/
-│
 ├── docs/
+│   ├── images/
 │   ├── ARQUITETURA.md
 │   ├── ATIVIDADE.md
 │   └── CUSTOMIZACAO.md
-│
 ├── .gitignore
 └── README.md
 ```
 
 ### Pastas principais
 
-| Pasta              | Finalidade                                          |
-| ------------------ | --------------------------------------------------- |
-| `Assets/Markers`   | Imagens de referência e a Reference Image Library   |
-| `Assets/Scenes`    | Cenas da aplicação                                  |
-| `Assets/Materials` | Materiais do conteúdo virtual                       |
-| `Assets/Prefabs`   | Conteúdo exibido sobre a placa (overlays)           |
-| `Assets/Scripts`   | Scripts C# separados por camada (`AR`, `Interacao`) |
-| `Assets/XR`        | Configurações do XR Plug-in Management (ARCore)     |
-| `docs`             | Documentação complementar                           |
+| Pasta | Finalidade |
+|---|---|
+| `Assets/Etapas` | Assets `InspectionStep` com instruções, exemplos, destaques, checklist e especificações de medição das quatro etapas. |
+| `Assets/Markers` | Imagens de referência e biblioteca usada no reconhecimento; a presença de uma imagem na pasta não significa que ela esteja cadastrada como target ativo. |
+| `Assets/Models/VCU` | Modelo 3D da placa utilizado pelo prefab de conteúdo. |
+| `Assets/Materials` | Materiais do modelo, serigrafia e marcações. |
+| `Assets/Prefabs/Overlays` | Prefab `StepOverlay` com modelo e estrutura de destaques; `DemoContent` preservado no repositório. |
+| `Assets/Scenes` | Cena de RA e vínculos entre reconhecimento, roteiro e interface. |
+| `Assets/Scripts/AR` | Reconhecimento, controle do conteúdo rastreado e apresentação dos destaques. |
+| `Assets/Scripts/Roteiro` | Controle da sequência e definição dos dados de cada etapa. |
+| `Assets/Scripts/Dados` | Estado da sessão, avaliação de valores, relatórios e persistência local. |
+| `Assets/Scripts/UI` | Telas, painéis e componentes visuais de orientação, registro e resultado. |
+| `Assets/Scripts/Interacao` | Interação por toque/clique do conteúdo de demonstração. |
+| `Assets/Scripts/Editor` | Ferramentas de preparação no Editor; não integram a execução do aplicativo. |
+| `Assets/Fonts`, `Assets/UI/Sprites` e `Assets/Shaders` | Fontes, elementos gráficos e shader das marcações. |
+| `Assets/XR` | Configurações, loaders e recursos XR. |
+| `Packages` e `ProjectSettings` | Dependências e configurações do projeto, incluindo cena de build e plataforma. |
+| `docs` | Documentação complementar e imagens do projeto. |
+
+Os documentos [ARQUITETURA.md](docs/ARQUITETURA.md), [ATIVIDADE.md](docs/ATIVIDADE.md) e [CUSTOMIZACAO.md](docs/CUSTOMIZACAO.md) preservam a arquitetura e as orientações da base didática WL01. Referências nesses arquivos à substituição do cubo ou à evolução inicial devem ser lidas nesse contexto histórico. As seções 10–13 deste README descrevem a arquitetura atual do roteiro com a placa VCU.
 
 ---
 
 ## 13. Principais Scripts
 
+Os componentes do aplicativo usam o namespace `Facens.WL01`. As ferramentas de preparação usam `Facens.WL01.EditorTools` e ficam na pasta `Editor`, com acesso às APIs `UnityEditor`.
+
 | Script | Responsabilidade |
 |---|---|
-| `ImageRecognitionController.cs` | Escuta os eventos do `ARTrackedImageManager` (imagens adicionadas, atualizadas e removidas), cria o conteúdo virtual sobre cada marcador reconhecido e o oculta quando o tracking é perdido. |
-| `TapToToggleScale.cs` | Interação por toque: detecta o toque na tela via raycast e alterna a escala do objeto tocado (×1,5). |
+| [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs) | Recebe mudanças das imagens rastreadas, instancia o prefab sobre o marcador, controla sua visibilidade e emite MarkerDetected e ContentCreated. Sem prefab, cria o cubo de fallback. |
+| [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs) | Escuta ContentCreated, StepChanged e Finished; aplica os destaques da etapa ao conteúdo criado e os limpa ao concluir o roteiro. |
+| [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs) | Cria e remove as marcações visuais a partir da lista de Highlight da etapa. |
+| [HighlightView.cs](Assets/Scripts/AR/HighlightView.cs) | Posiciona cada ponto e rótulo segundo as coordenadas da etapa e aplica seu estilo visual. |
+| [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) | Coordena início, etapas, avanço condicionado ao registro completo, retorno e reinício; monta/salva o relatório via MetricsRecorder e publica o resultado. |
+| [InspectionStep.cs](Assets/Scripts/Roteiro/InspectionStep.cs) | Define o ScriptableObject da etapa: requisito, instrução, cartões InfoCard, destaques Highlight, checklist e medições. Os quatro assets ficam em Assets/Etapas. |
+| [InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs) | Mantém checklist, valores e tempos por etapa em memória; verifica registro completo e aprovação. Uma nova execução cria uma nova sessão. |
+| [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs) | Define rótulo, unidade e faixa opcional; interpreta números e classifica valores como vazio, inválido, sem faixa, dentro ou fora. |
+| [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) | Define os relatórios SessionReport, StepReport e MeasurementReport; consolida os registros e salva JSON em Application.persistentDataPath/sessoes, retornando caminho ou null em falha. |
+| [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs) | Apresenta a tela inicial e solicita o início do roteiro ao pressionar Iniciar RA. |
+| [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) | Mostra a etapa, progresso, instruções e cartões; alterna o Guia, abre Registrar e encaminha avanço/retorno ao fluxo. |
+| [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) | Apresenta checklist e campos da etapa, atualiza a contagem de pendências e encaminha as entradas à sessão; ao concluir o registro, solicita o avanço. |
+| [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs) | Apresenta duração, erros, situação das etapas e resultado do salvamento; permite refazer o roteiro. |
+| [InfoCardView.cs](Assets/Scripts/UI/InfoCardView.cs) | Apresenta título e texto de um cartão de orientação ou exemplo. |
+| [ChecklistItemView.cs](Assets/Scripts/UI/ChecklistItemView.cs) | Associa o texto e a marcação de um item à ação de atualização do checklist. |
+| [MeasurementFieldView.cs](Assets/Scripts/UI/MeasurementFieldView.cs) | Apresenta rótulo, unidade, entrada e avaliação da medição; comunica alterações do valor ao registro. |
+| [StepResultRowView.cs](Assets/Scripts/UI/StepResultRowView.cs) | Apresenta a identificação e o estado de aprovação de uma etapa no resultado. |
+| [TapToToggleScale.cs](Assets/Scripts/Interacao/TapToToggleScale.cs) | Detecta toque ou clique via Input System e raycast para alternar a escala do objeto de demonstração. |
+| [RoteiroSetup.cs](Assets/Scripts/Editor/RoteiroSetup.cs) | Ferramenta do Editor que cria os assets iniciais das etapas e monta a interface do roteiro na cena aberta. |
+| [OverlaySetup.cs](Assets/Scripts/Editor/OverlaySetup.cs) | Ferramenta do Editor que prepara o prefab e os componentes das marcações sobre a placa. |
+| [RecordSetup.cs](Assets/Scripts/Editor/RecordSetup.cs) | Ferramenta histórica de montagem do checklist e medições no painel. Na estrutura atual, informa a substituição pelo menu da Fase 9 quando o campo antigo não existe. |
+| [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs) | Ferramenta do Editor que insere e configura o modelo VCU no prefab, além da textura/serigrafia e dos materiais das marcações. |
+| [VisualSetup.cs](Assets/Scripts/Editor/VisualSetup.cs) | Ferramenta do Editor que aplica o visual, configura elementos da interface, fonte e ajustes do registro. |
+| [RecordScreenSetup.cs](Assets/Scripts/Editor/RecordScreenSetup.cs) | Ferramenta do Editor que monta a tela separada de registro, conecta seus campos e remove o quiz do fluxo preparado na cena. |
 
-Os scripts ficam em `Assets/Scripts/AR/` e `Assets/Scripts/Interacao/`, no namespace `Facens.WL01`. O conteúdo exibido sobre o marcador é definido pelo campo **Content Prefab** do `ImageRecognitionController`.
+### Relação entre etapa, modelo, registro e resultado
+
+1. `HomeScreen` solicita o início; `ImageRecognitionController` informa o reconhecimento e cria o conteúdo configurado.
+2. `InspectionFlow` seleciona um `InspectionStep`. Os dados vêm do asset correspondente em `Assets/Etapas`.
+3. `StepPanel` apresenta a orientação e os exemplos; `StepOverlayController` aplica os pontos dessa etapa ao `StepOverlay` do modelo.
+4. `RecordScreen` apresenta os itens e campos; as respostas são mantidas em `InspectionSession` e as medições avaliadas por `MeasurementSpec`.
+5. Ao concluir a última etapa, `InspectionFlow` usa `MetricsRecorder` para montar e tentar gravar o relatório; em seguida emite `Completed`, recebido por `ResultPanel`.
+
+Os menus dos scripts `Editor` registram etapas de preparação do projeto. A cena já contém os componentes configurados; esses menus não são passos executados pelo usuário no celular.
 
 ---
 
