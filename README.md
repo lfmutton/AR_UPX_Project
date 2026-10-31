@@ -991,8 +991,12 @@ Cada evidência vale apenas para o estágio indicado. Nenhuma delas demonstra o 
 [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDHAhB2wvhkTZbLT0XCgxsrAWKbY_NxTRR8krodiB7mDLw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=Me4bY6)
 
 - [✅] Capturas e vídeo do MVP atual em aparelho, com commit, aparelho e versão do Android (aguardando Validação)
-  ![PrintHomeScreen](./docs/images/home_aplicativo.png)
-  ![PrintHomeScreen](./docs/images/aplicativo_ARscan.png)
+<table>
+  <tr>
+    <td><img src="./docs/images/home_aplicativo.png" alt="Tela Inicial do aplicativo" width="250"></td>
+    <td><img src="./docs/images/aplicativo_ARscan.png" alt="Modelo VCU sobre o marcador" width="250"></td>
+  </tr>
+</table>
 
 ---
 
