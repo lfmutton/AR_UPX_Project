@@ -1,4 +1,4 @@
-# AR Maintenance Guide
+[README.md](https://github.com/user-attachments/files/34224229/README.md)# AR Maintenance Guide
 
 > **Projeto AR Academy — UPX: Realidade Aumentada**  
 > Repositório sobre o modelo AR accademy para B'Energy desenvolvido pelo Grupo Overlay para capacitação e aprendizado na manutenção da placa PCB usando Realidade Aumentada
@@ -40,7 +40,7 @@
 
 O **B’Energy AR Academy** é uma aplicação móvel acadêmica desenvolvida em Unity para apoiar o treinamento de trainees da equipe B’Energy Racing (FACENS) na execução de um roteiro de inspeção de placas eletrônicas (PCB), no contexto do setor de Low Voltage & Data Acquisition de veículos elétricos da competição Fórmula SAE.
 
-A aplicação utiliza **Realidade Aumentada com Image Tracking**: a câmera reconhece uma imagem cadastrada e apresenta o modelo da placa VCU com destaques dos pontos de observação e coleta de dados. O roteiro reúne quatro etapas: qualidade de soldagem, continuidade e curto-circuito, energização (Bring UP) e integração.
+A aplicação utiliza **Realidade Aumentada com Image Tracking**: a câmera reconhece uma imagem de referência cadastrada na XR Reference Image Library — na biblioteca analisada, o marcador `wl01-marker` (0,12 m × 0,12 m) — e, a partir dela, apresenta o conteúdo **VCU**: o modelo da placa com destaques dos pontos de observação e coleta de dados. O reconhecimento é feito por correspondência de imagem; a aplicação **não decodifica QR Codes** (ver [seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)). O roteiro reúne quatro etapas: qualidade de soldagem, continuidade e curto-circuito, energização (Bring UP) e integração.
 
 Na versão atual, o usuário pode consultar orientações e exemplos, acompanhar os pontos indicados no modelo, preencher checklists e inserir medições. A interface permite avançar, retornar e reiniciar o roteiro; ao final, apresenta o resultado da sessão e gera um relatório JSON local. As funcionalidades estão descritas na [seção 6](#6-funcionalidades), e a relação entre modelo, etapas, interface e dados está detalhada na [seção 10](#10-arquitetura-do-sistema).
 
@@ -152,14 +152,15 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 ## 10. Arquitetura do Sistema
 
-O B'Energy AR Academy evoluiu da base WL01 de Image Tracking para um roteiro de inspeção com modelo da placa VCU, destaques por etapa, orientações e exemplos, checklist, entrada de medições e resultado da sessão. A arquitetura conecta reconhecimento de imagem, controle do roteiro, apresentação e registro de dados.
+O B'Energy AR Academy evoluiu da base WL01 de Image Tracking para um roteiro de inspeção com modelo da placa VCU, destaques por etapa, orientações e exemplos, checklist, entrada de medições e resultado da sessão. A arquitetura conecta reconhecimento de imagem, controle do roteiro, apresentação e registro de dados. O target de reconhecimento continua sendo o `wl01-marker` cadastrado na biblioteca; o modelo VCU é o conteúdo exibido sobre ele, e não a imagem reconhecida ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
 
 ```mermaid
 flowchart TB
     CAMERA["Câmera / ARCore"] --> TRACK["AR Foundation<br/>ARTrackedImageManager"]
-    LIB["XR Reference Image Library"] --> TRACK
+    LIB["XR Reference Image Library<br/>target: wl01-marker (0,12 × 0,12 m)"] --> TRACK
     TRACK --> REC["ImageRecognitionController"]
-    REC -->|ContentCreated| MODEL["StepOverlay.prefab<br/>Modelo VCU + marcações"]
+    REC -->|ContentCreated| MODEL["StepOverlay.prefab<br/>Modelo VCU + serigrafia + marcações"]
+    REC -->|"estado ≠ Tracking"| HIDE["Conteúdo oculto"]
     REC -->|MarkerDetected| FLOW["InspectionFlow"]
     HOME["HomeScreen<br/>Iniciar RA"] -->|RequestStart| FLOW
     STEPS["InspectionStep<br/>Assets/Etapas: RF01–RF04"] --> FLOW
@@ -209,7 +210,7 @@ WL01RecognitionAR
 
 O campo `contentPrefab` de `ImageRecognitionController` referencia `StepOverlay.prefab`; o cubo permanece como fallback quando não há prefab configurado. `InspectionFlow` referencia os quatro assets de `Assets/Etapas` e mantém `waitForStart` ativo, coordenando o botão inicial com o reconhecimento do marcador.
 
-O prefab de conteúdo é instanciado como filho do marcador rastreado. `StepOverlay` cria as marcações a partir dos dados da etapa, e `HighlightView` apresenta seus pontos e rótulos. A visibilidade do conteúdo acompanha o estado de tracking em `ImageRecognitionController`.
+O prefab de conteúdo é instanciado como filho do marcador rastreado; portanto, o modelo e os destaques são posicionados em relação ao `wl01-marker`, e não detectados diretamente sobre a placa física. `StepOverlay` cria as marcações a partir dos dados da etapa, e `HighlightView` apresenta seus pontos e rótulos. A visibilidade do conteúdo acompanha o estado de tracking em `ImageRecognitionController`.
 
 ### Fluxo resumido
 
@@ -251,9 +252,19 @@ Os scripts de `Assets/Scripts/Editor` preparam a cena, os assets e o visual dura
 
 ### 11.1 Técnica utilizada
 
-Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Library** (`Assets/Markers/WL01ReferenceImageLibrary.asset`) funciona como referência para ativar o conteúdo virtual. Na versão final, o marcador será a imagem da própria placa ou um QR Code fixado nela.
+Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Library** (`Assets/Markers/WL01ReferenceImageLibrary.asset`) funciona como referência (*target*) para ativar o conteúdo virtual. O ARCore compara as características visuais da imagem observada com as das imagens da biblioteca; o reconhecimento não depende de ler texto, URL ou código contido na imagem.
 
-O marcador atual é o `wl01-marker.png`, cadastrado com tamanho físico de **0,12 m × 0,12 m**. Informar o tamanho físico permite que o ARCore estime corretamente a escala e a posição do conteúdo.
+**Marcador cadastrado (configuração analisada, revisão `1b78aea`):**
+
+| Item | Situação | Fonte |
+|---|---|---|
+| Target ativo | `wl01-marker` | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset); imagem em [wl01-marker.png](Assets/Markers/wl01-marker.png) |
+| Tamanho físico configurado | **0,12 m × 0,12 m** | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset) |
+| Conteúdo associado | Prefab `StepOverlay` (modelo VCU e destaques por etapa), referenciado no campo `contentPrefab` | [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs); [StepOverlay.prefab](Assets/Prefabs/Overlays/StepOverlay.prefab) |
+| `vcu-marker.png` | Serigrafia/textura do modelo VCU; **não** está cadastrada como target | [vcu-marker.png](Assets/Markers/vcu-marker.png); [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs) |
+| Marcador final (planejado) | Imagem da própria placa ou QR Code fixado nela; **não implementado** nesta versão | — |
+
+Informar o tamanho físico permite que o ARCore estime a escala e a distância do marcador. Para que a estimativa corresponda à configuração, a imagem deve ser impressa ou exibida com 12 cm de lado; outra dimensão tende a deslocar a escala e a posição do conteúdo.
 
 ### 11.2 Fluxo técnico
 ```mermaid
@@ -265,15 +276,15 @@ flowchart LR
     E --> F["Verificar rastreamento<br/>Tracking ativo?"]
     F -->|Sim| G["Exibir conteúdo<br/>Registrado ao marcador"]
     F -->|Não| H["Ocultar conteúdo"]
-    G --> I["Interação do trainee<br/>Toque na tela"]
+    G --> I["Interação do trainee<br/>Telas do roteiro"]
 ```
 1. A aplicação inicia a sessão de RA (`AR Session`) e a câmera do dispositivo.
 2. O ARCore analisa continuamente as imagens capturadas.
 3. O `ARTrackedImageManager` compara a imagem observada com a Reference Image Library.
 4. Quando há correspondência, é criado um `ARTrackedImage` com a posição e a orientação do marcador.
 5. O `ImageRecognitionController` cria o conteúdo virtual como filho do `ARTrackedImage`, mantendo-o registrado ao marcador.
-6. Enquanto o estado for `Tracking`, o conteúdo fica visível; se o marcador for perdido, o conteúdo é ocultado.
-7. O trainee interage com o conteúdo tocando na tela.
+6. Enquanto o estado for `Tracking`, o conteúdo fica visível; se o marcador for perdido (estado diferente de `Tracking`), o conteúdo é ocultado.
+7. O trainee segue o roteiro pelas telas do aplicativo (guia, registro e resultado). O toque para alternar a escala pertence ao objeto de demonstração ([seção 13](#13-principais-scripts)).
 
 ### 11.3 Elementos virtuais
 
@@ -284,6 +295,34 @@ flowchart LR
 | Destaque visual | Pontos de coleta de dados, componentes e regiões de observação indicados sobre o modelo da placa. Fonte: [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs). | Contemplado na versão atual. |
 | Botão de ação | Início, avanço, retorno e reinício do roteiro disponíveis nas telas. Fonte: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs). | Contemplado na versão atual (RF05). |
 | Indicação de status | Etapa atual, checklist, campos de medição e resumo do resultado apresentados pela interface. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs). | Contemplado na versão atual (RF06 e RF07). |
+
+### 11.4 Marcador cadastrado, QR Code e serigrafia
+
+Para evitar ambiguidades, o projeto distingue os conceitos abaixo:
+
+| Conceito | Definição | Situação no projeto |
+|---|---|---|
+| **Image Tracking** | Técnica que reconhece uma imagem de referência e rastreia sua posição e orientação. | Implementada com `ARTrackedImageManager` e a Reference Image Library. |
+| **Target ativo** | Imagem efetivamente cadastrada na Reference Image Library. | `wl01-marker` (0,12 m × 0,12 m). |
+| **Aparência de QR Code** | Imagem com padrão visual de QR Code usada apenas como imagem de referência. | Se cadastrada, é reconhecida como qualquer outra imagem, por suas características visuais; o conteúdo codificado é irrelevante para o reconhecimento. |
+| **Serigrafia/textura do modelo** | Imagem aplicada ao modelo VCU para representar a placa. | `vcu-marker.png`; faz parte da aparência do conteúdo, não da lista de targets. |
+
+A presença de um arquivo em `Assets/Markers` não comprova que ele seja target ativo: vale o que está cadastrado em `WL01ReferenceImageLibrary.asset`. Os requisitos RNF04 e RNF05 (seção 7) e o marcador final planejado (placa ou QR Code fixado nela) devem ser lidos nesse sentido: o QR Code funcionaria como imagem de referência, não como fonte de dados.
+
+### 11.5 Destaques por etapa e perda de tracking
+
+**Destaques por etapa.** Cada asset `InspectionStep` mantém a lista de destaques (`Highlight`) da etapa. Ao receber `StepChanged`, o `StepOverlayController` aplica esses destaques ao `StepOverlay` do conteúdo criado; o `HighlightView` posiciona cada ponto e rótulo segundo as coordenadas da etapa, e os destaques são limpos ao concluir o roteiro.
+
+| Etapa | Destaques no modelo VCU | Fonte |
+|---|---|---|
+| 1 — Soldagem (RF01) | Componentes e regiões indicadas para observação. | [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset) |
+| 2 — Continuidade (RF02) | Pontos de coleta de dados. | [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset) |
+| 3 — Energização (RF03) | Pontos de observação e coleta de dados. | [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset) |
+| 4 — Integração (RF04) | Componentes e pontos de observação. | [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset) |
+
+**Perda de tracking.** A visibilidade do conteúdo acompanha o estado de tracking em `ImageRecognitionController`: quando o marcador deixa de ser rastreado, o modelo e os destaques são ocultados. Conforme a arquitetura da [seção 10](#10-arquitetura-do-sistema), checklist, valores e tempos ficam em `InspectionSession`, componente distinto do reconhecimento. Enquanto o conteúdo estiver oculto, não há destaque visível; o trainee deve reapontar a câmera para o marcador e seguir as instruções técnicas e de segurança da equipe (seção 5).
+
+**Estágio de validação.** A correspondência espacial entre os destaques e os componentes da placa física depende da posição do marcador em relação à placa e **não foi validada**. A precisão do alinhamento, a estabilidade com o modelo VCU e as condições de reconhecimento (distância, ângulo e iluminação) aguardam as evidências de validação (DOC11/DOC14); este README não as declara como comprovadas.
 
 ---
 
@@ -301,9 +340,9 @@ AR_UPX_Project/
 │   │   └── Etapa4_Integracao.asset
 │   ├── Fonts/
 │   ├── Markers/
-│   │   ├── wl01-marker.png
-│   │   ├── vcu-marker.png
-│   │   └── WL01ReferenceImageLibrary.asset
+│   │   ├── wl01-marker.png                  ← target cadastrado (0,12 m × 0,12 m)
+│   │   ├── vcu-marker.png                   ← serigrafia/textura do modelo VCU (não é target)
+│   │   └── WL01ReferenceImageLibrary.asset  ← lista de targets ativos
 │   ├── Materials/
 │   ├── Models/VCU/VCU.fbx
 │   ├── Prefabs/Overlays/
@@ -359,7 +398,7 @@ AR_UPX_Project/
 | Pasta | Finalidade |
 |---|---|
 | `Assets/Etapas` | Assets `InspectionStep` com instruções, exemplos, destaques, checklist e especificações de medição das quatro etapas. |
-| `Assets/Markers` | Imagens de referência e biblioteca usada no reconhecimento; a presença de uma imagem na pasta não significa que ela esteja cadastrada como target ativo. |
+| `Assets/Markers` | Biblioteca de reconhecimento e imagens. Na biblioteca analisada, o target cadastrado é `wl01-marker` (0,12 m × 0,12 m); `vcu-marker.png` é usada como serigrafia/textura do modelo VCU. A presença de uma imagem na pasta não significa que ela seja target ativo. |
 | `Assets/Models/VCU` | Modelo 3D da placa utilizado pelo prefab de conteúdo. |
 | `Assets/Materials` | Materiais do modelo, serigrafia e marcações. |
 | `Assets/Prefabs/Overlays` | Prefab `StepOverlay` com modelo e estrutura de destaques; `DemoContent` preservado no repositório. |
@@ -483,12 +522,15 @@ Depois:
 
 ## 17. Como Utilizar a Aplicação
 
-1. Abra a aplicação no dispositivo.
-2. Autorize o acesso à câmera.
-3. Aponte a câmera para o marcador impresso ou para a placa.
-4. Aguarde o reconhecimento.
-5. Observe o conteúdo virtual sobre o marcador.
-6. Toque no objeto para alternar sua escala.
+1. Prepare o marcador cadastrado, `Assets/Markers/wl01-marker.png`, impresso ou exibido com **12 cm × 12 cm**, em superfície plana, sem reflexos e bem iluminada, posicionado conforme a orientação da equipe responsável. Não use `vcu-marker.png` como marcador: ela é a serigrafia do modelo e não está cadastrada como target.
+2. Abra a aplicação no dispositivo e autorize o acesso à câmera.
+3. Na tela inicial, toque em **Iniciar RA** e aponte a câmera para o marcador; o início do roteiro é coordenado com o reconhecimento.
+4. Aguarde o reconhecimento. O modelo VCU aparece sobre o marcador com os destaques da etapa atual.
+5. Leia as orientações e os exemplos do painel da etapa, observe os destaques e toque em **Registrar** para marcar o checklist e inserir as medições. Com o registro incompleto, o avanço abre a tela de registro.
+6. Se o conteúdo desaparecer, o marcador deixou de ser rastreado: reaponte a câmera até o conteúdo reaparecer.
+7. Ao concluir as quatro etapas, consulte o resultado da sessão; o relatório JSON é salvo localmente (`persistentDataPath/sessoes`). É possível refazer o roteiro em nova sessão.
+
+> O toque para alternar a escala pertence ao objeto de demonstração ([seção 13](#13-principais-scripts)) e não faz parte do roteiro. O aplicativo não lê QR Codes: o QR Code, se usado, funciona apenas como imagem de referência ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
 
 ---
 
@@ -574,7 +616,10 @@ docs/images/
 ## 24. Limitações Conhecidas
 
 - O reconhecimento depende da iluminação e da visibilidade do marcador; o aplicativo requer dispositivo compatível com ARCore e Android 10 ou superior.
-- O conteúdo de RA está associado ao marcador configurado na [Reference Image Library](Assets/Markers/WL01ReferenceImageLibrary.asset). Modelo da placa e imagem de reconhecimento são recursos distintos.
+- O conteúdo de RA está associado ao marcador configurado na [Reference Image Library](Assets/Markers/WL01ReferenceImageLibrary.asset): na biblioteca analisada, `wl01-marker` (0,12 m × 0,12 m). O modelo VCU e a imagem de reconhecimento são recursos distintos; `vcu-marker.png` é serigrafia do modelo e não target ativo.
+- O modelo e os destaques são posicionados em relação ao marcador (filhos do `ARTrackedImage`). O alinhamento com os pontos da placa física depende da posição do marcador e **não foi validado**; precisão e segurança de uso dos destaques aguardam as evidências de validação (DOC11/DOC14).
+- A aplicação não decodifica QR Codes. Um QR Code cadastrado seria reconhecido como imagem de referência (Image Tracking), sem leitura do conteúdo codificado.
+- Quando o marcador deixa de ser rastreado, o conteúdo virtual é ocultado e os destaques deixam de ser exibidos até a nova detecção.
 - O relatório de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) é armazenado localmente; o formato atual não possui campo próprio de participante nem pontuação de quiz. A contagem de erros representa os registros avaliados na sessão e não mede, por si só, aprendizagem.
 - O salvamento do relatório depende do acesso ao armazenamento local; o código registra a falha e retorna caminho nulo quando não consegue gravar.
 - As evidências das seções 22–25 documentam a demonstração anterior do cubo. A documentação dessas evidências deve acompanhar a evolução para o modelo da placa e o roteiro atual.
