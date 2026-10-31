@@ -1,7 +1,7 @@
 [README.md](https://github.com/user-attachments/files/34224229/README.md)# AR Maintenance Guide
 
 > **Projeto AR Academy — UPX: Realidade Aumentada**  
-> Repositório sobre o modelo AR accademy para B'Energy desenvolvido pelo Grupo Overlay para capacitação e aprendizado na manutenção da placa PCB usando Realidade Aumentada
+> Repositório do B’Energy AR Academy, desenvolvido pela equipe Overlay para capacitação e aprendizado na inspeção de placas PCB usando Realidade Aumentada
 
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 ![Plataforma](https://img.shields.io/badge/plataforma-Android-green)
@@ -14,9 +14,9 @@
 
 | Item | Informação |
 |---|---|
-| **Projeto** | B'Energy AR accademy |
+| **Projeto** | B’Energy AR Academy |
 | **Equipe** | Overlay |
-| **Curso** | Engenharia da computação |
+| **Curso** | Engenharia de Computação |
 | **Disciplina** | UPX — Realidade Aumentada |
 | **Professor** | Daniel Ohata |
 | **Semestre** | 2026.2 |
@@ -25,14 +25,23 @@
 
 | Nome | RA | Responsabilidade |
 |---|---|---|
-| Felipe Roberto| 226752 | Desenvolvimento, Planejamento|
+| Felipe Roberto | 226752 | Desenvolvimento, Planejamento |
 | Felipe Veronezzi | 252628 | Documentação, Planejamento |
-| Gabriel Verlangieri | 222709 | Desenvolvimento,  X|
-| André Vinicius | 236811 | Testes|
+| Gabriel Verlangieri | 222709 | Desenvolvimento |
+| André Vinicius | 236811 | Testes |
 | Pedro Henrique | 236519 | Documentação, Planejamento |
 | Gabriel Queiroz | 212065 | Testes |
 | Matheus Rodrigues | 235959 | Documentação |
 | Luis Felipe | 222287 | Desenvolvimento |
+
+**Identificações pendentes de confirmação.** Nomes e RAs da tabela acima foram mantidos como constam neste README; nenhum foi alterado por suposição. As divergências abaixo ainda precisam ser confirmadas pela equipe, e as funções devem ser conferidas com `MEMBROS_E_FUNCOES.md`.
+
+| No README | Divergência registrada | Situação |
+|---|---|---|
+| Luis Felipe (RA 222287) | O artigo e o registro de equipe do planejamento citam "Luís Mutton". | Pendente de confirmação |
+| Gabriel Queiroz (RA 212065) | O artigo lista "Gabriel Yamaya" entre os autores. | Pendente de confirmação |
+| Pedro Henrique (RA 236519) | O artigo lista "Pedro Guimarães" e um registro de planejamento cita "Pedro Duarte". | Pendente de confirmação |
+| Gabriel Verlangieri (RA 222709) | Registros de planejamento o identificam como "Gabriel Souza". A segunda função, antes marcada "X", não foi informada; permanece apenas "Desenvolvimento". | Pendente de confirmação |
 
 ---
 
@@ -125,6 +134,8 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 | RNF08 | Manutenibilidade | A estrutura deve facilitar a inclusão de novas rotinas e componentes. |
 | RNF09 | Avaliação | O sistema deve permitir registrar métricas de uso, etapas concluídas e erros durante o treinamento. |
 
+---
+
 ## 8. Tecnologias Utilizadas
 
 | Tecnologia | Versão | Utilização |
@@ -155,7 +166,7 @@ Os dados de aparelho e de versão do Android por execução dependem dos registr
 
 ## 10. Arquitetura do Sistema
 
-O B'Energy AR Academy evoluiu da base WL01 de Image Tracking para um roteiro de inspeção com modelo da placa VCU, destaques por etapa, orientações e exemplos, checklist, entrada de medições e resultado da sessão. A arquitetura conecta reconhecimento de imagem, controle do roteiro, apresentação e registro de dados. O target de reconhecimento continua sendo o `wl01-marker` cadastrado na biblioteca; o modelo VCU é o conteúdo exibido sobre ele, e não a imagem reconhecida ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
+O B’Energy AR Academy evoluiu da base WL01 de Image Tracking para um roteiro de inspeção com modelo da placa VCU, destaques por etapa, orientações e exemplos, checklist, entrada de medições e resultado da sessão. A arquitetura conecta reconhecimento de imagem, controle do roteiro, apresentação e registro de dados. O target de reconhecimento continua sendo o `wl01-marker` cadastrado na biblioteca; o modelo VCU é o conteúdo exibido sobre ele, e não a imagem reconhecida ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
 
 ```mermaid
 flowchart TB
@@ -613,6 +624,7 @@ docs/images/
 | `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seção 25 |
 | `fluxo_funcionamento.png` | Fluxo de funcionamento da aplicação | Seção 18 |
 | `visao_geral.svg` | Visão geral do projeto | Seção 2 |
+| `imagem_teste.jpg` | Arquivo presente na pasta; conteúdo a confirmar pela equipe | Não referenciado neste README |
 
 ---
 
@@ -670,9 +682,11 @@ docs/images/
 |---|---|
 | Código-fonte | https://github.com/lfmutton/AR_UPX_Project |
 | Figma | https://www.figma.com/design/JEYjQr9279QAKvydvNqFS1/Untitled?node-id=0-1&p=f |
-| Trello/Jira | https://trello.com/b/qlnUJc32/upx-realidade-aumentada-overlay |
+| Trello | https://trello.com/b/qlnUJc32/upx-realidade-aumentada-overlay |
 | Vídeo | [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D) |
 | Documentação complementar | [`docs/`](docs/) |
+
+Os links externos (Figma, Trello e vídeo em SharePoint institucional) não tiveram o acesso verificado neste registro; o vídeo depende de permissão da conta institucional. O arquivo do Figma ainda está intitulado `Untitled`.
 
 ---
 
@@ -783,6 +797,8 @@ Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — 
 - **Matheus Rodrigues** — documentação
 - **André Vinicius** — testes
 - **Gabriel Queiroz** — testes
+
+Nomes e funções seguem a [seção 1](#1-identificação-do-projeto); as identificações pendentes de confirmação estão listadas nela.
 
 **Instituição:** Centro Universitário FACENS  
 **Disciplina:** UPX — Realidade Aumentada  
