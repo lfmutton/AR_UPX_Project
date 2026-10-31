@@ -129,12 +129,13 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 | Tecnologia | Versão | Utilização |
 |---|---|---|
-| Unity | 6000.3.25f1 | Desenvolvimento principal |
+| Unity | 6000.3.25f1 (revisão `e1dba0a9aba4`) | Desenvolvimento principal. Fonte: `ProjectSettings/ProjectVersion.txt`. |
 | C# | Compatível com Unity 6000.3.25f1 | Scripts da aplicação |
-| AR Foundation | 6.3.5 | Camada de abstração de Realidade Aumentada |
-| ARCore XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em Android |
-| ARKit XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em iOS |
+| AR Foundation | 6.3.5 | Camada de abstração de Realidade Aumentada. Fonte: `Packages/manifest.json`. |
+| ARCore XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em Android (plataforma de execução e testes registrados). |
+| ARKit XR Plugin | 6.3.5 | Pacote instalado para RA em iOS. A instalação não comprova funcionamento em iOS: não há build nem teste em iOS registrados neste projeto ([seção 14](#14-dependências)). |
 | XR Plugin Management | 4.6.1 | Gerenciamento de plugins XR |
+| Input System | 1.20.0 (dependência transitiva; fonte: `Packages/packages-lock.json`) | Entrada por toque/clique em `TapToToggleScale` (já migrado para o Input System). |
 | Blender | 4.x | Modelagem/edição 3D |
 | Git | 2.x | Controle de versão |
 | GitHub | — | Hospedagem do projeto e documentação |
@@ -145,8 +146,10 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 | Equipamento | Modelo | Característica relevante | Utilização |
 |---|---|---|---|
-| Smartphone | Samsung Galaxy S23 (SM-S911B) | Suporte ao ARCore, Android 10+ (API ≥ 29) | Execução e testes |
+| Smartphone | Samsung Galaxy S23 (SM-S911B) | Suporte ao ARCore; o projeto exige Android 10+ (API ≥ 29). **Versão do Android instalada: pendente** de registro pela Validação. | Dispositivo de execução do projeto |
 | Computador | Notebook Windows 11 Home | Intel Core i5-10300H, 24 GB RAM, NVIDIA GeForce GTX 1650 | Desenvolvimento e build |
+
+Os dados de aparelho e de versão do Android por execução dependem dos registros da Validação ([seção 23](#23-dispositivos-testados)); este README não infere testes além dos já registrados na [seção 22](#22-testes-técnicos).
 
 ---
 
@@ -463,7 +466,7 @@ Os menus dos scripts `Editor` registram etapas de preparação do projeto. A cen
 
 ## 14. Dependências
 
-Dependências declaradas em `Packages/manifest.json`:
+Dependências declaradas em `Packages/manifest.json` (o arquivo declara somente estas quatro; as versões foram conferidas em `Packages/packages-lock.json`):
 
 ```text
 com.unity.xr.arfoundation   6.3.5
@@ -471,6 +474,10 @@ com.unity.xr.arcore         6.3.5
 com.unity.xr.arkit          6.3.5
 com.unity.xr.management     4.6.1
 ```
+
+**ARKit e iOS.** O `com.unity.xr.arkit` está instalado e há configurações de ARKit no projeto (`UnityEditor.XR.ARKit.ARKitSettings` em `ProjectSettings/EditorBuildSettings.asset`; símbolo `UNITY_XR_ARKIT_LOADER_ENABLED` para iPhone e `iOSTargetOSVersionString: 15.0` em `ProjectSettings/ProjectSettings.asset`). Isso não comprova iOS validado: o campo `cameraUsageDescription` está vazio no mesmo arquivo e não há build nem teste em iOS registrados. A plataforma documentada e testada é **Android**.
+
+**Input System.** O `TapToToggleScale` usa o Input System (`com.unity.inputsystem`). O pacote não está declarado em `manifest.json`: entra como dependência transitiva do `com.unity.xr.arfoundation` e está resolvido em `Packages/packages-lock.json` na versão **1.20.0**.
 
 ---
 
@@ -480,7 +487,7 @@ com.unity.xr.management     4.6.1
 
 - Windows 10 ou 11;
 - Unity Hub;
-- Unity **6000.3.25f1** (Unity 6.3 LTS);
+- Unity **6000.3.25f1** (Unity 6.3 LTS), conforme `ProjectSettings/ProjectVersion.txt`;
 - módulo **Android Build Support** (com OpenJDK e Android SDK & NDK Tools);
 - Git;
 - smartphone Android compatível com ARCore e com **Android 10 ou superior**.
@@ -497,7 +504,23 @@ com.unity.xr.management     4.6.1
 6. Em **Edit → Project Settings → XR Plug-in Management**, aba Android, confirme que **ARCore** está marcado.
 7. Em **Project Settings → Player → Android → Other Settings**, confirme:
    - **Minimum API Level:** Android 10.0 (API 29);
-   - **Active Input Handling:** Both.
+   - **Active Input Handling:** Both (`activeInputHandler: 2` em `ProjectSettings/ProjectSettings.asset`). Essa configuração permanece ativa mesmo com `TapToToggleScale` já migrado para o Input System (ver [problema 2](#problema-2--aviso-unsupported-input-handling-on-android)).
+
+### Configuração local conferida
+
+| Item | Valor | Fonte |
+|---|---|---|
+| Unity | 6000.3.25f1 (revisão `e1dba0a9aba4`) | `ProjectSettings/ProjectVersion.txt` |
+| Cena habilitada no build | `Assets/Scenes/WL01RecognitionAR.unity` (única cena listada e habilitada) | `ProjectSettings/EditorBuildSettings.asset` |
+| Minimum API Level (Android) | Android 10 (API 29) — `AndroidMinSdkVersion: 29` | `ProjectSettings/ProjectSettings.asset` |
+| Target API Level (Android) | Automático — `AndroidTargetSdkVersion: 0` | `ProjectSettings/ProjectSettings.asset` |
+| Arquitetura Android | ARM64 — `AndroidTargetArchitectures: 2` | `ProjectSettings/ProjectSettings.asset` |
+| Active Input Handling | Both — `activeInputHandler: 2` | `ProjectSettings/ProjectSettings.asset` |
+| Identificação do app | `productName`: `wl01-recognition-ar-unity`; pacote Android: `com.DefaultCompany.wl01recognitionarunity`; versão `1.0` (código 1) | `ProjectSettings/ProjectSettings.asset` |
+| Pacotes XR | AR Foundation, ARCore e ARKit 6.3.5; XR Management 4.6.1 | `Packages/manifest.json`; `Packages/packages-lock.json` |
+| Input System | 1.20.0 (dependência transitiva) | `Packages/packages-lock.json` |
+
+Esses valores descrevem a configuração do repositório; não substituem o registro de dispositivo e versão do Android de cada execução ([seção 23](#23-dispositivos-testados)).
 
 ---
 
@@ -513,10 +536,12 @@ Depois:
 2. Selecione a pasta clonada.
 3. Abra a cena `Assets/Scenes/WL01RecognitionAR.unity`.
 4. Abra **File → Build Profiles** (Ctrl+Shift+B), selecione **Android** e clique em **Switch Platform** se necessário.
-5. Confirme que a cena `WL01RecognitionAR` está na **Scene List**.
+5. Confirme que a cena `WL01RecognitionAR` está na **Scene List**. Em `ProjectSettings/EditorBuildSettings.asset` ela é a única cena listada e está habilitada.
 6. No celular, ative as **Opções do desenvolvedor** e a **Depuração USB**.
 7. Conecte o celular via USB e autorize a depuração.
 8. Clique em **Build and Run**.
+
+O build documentado é para **Android**. Os menus dos scripts de `Assets/Scripts/Editor` (`RoteiroSetup`, `OverlaySetup`, `ModelSetup`, `VisualSetup`, `RecordScreenSetup`) servem para recriar a cena, os assets e o visual durante o desenvolvimento; a cena e os assets do repositório já estão configurados, e **não é necessário executá-los para compilar ou rodar o aplicativo**. `RecordSetup` é ferramenta histórica, substituída pelo `RecordScreenSetup`.
 
 ---
 
@@ -609,7 +634,7 @@ docs/images/
 
 | Dispositivo | Sistema | Versão | Resultado |
 |---|---|---|---|
-| Samsung Galaxy S23 (SM-S911B) | Android | Preencher | ✅ Todos os testes aprovados |
+| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | ✅ Todos os testes aprovados |
 
 ---
 
@@ -684,17 +709,22 @@ Cada funcionalidade é registrada em commits separados, para que o histórico mo
 
 ## 29. Problemas Encontrados e Soluções
 
+Registro histórico das dificuldades de configuração. Quando o estado atual difere do momento do problema, ele é indicado em cada item.
+
 ### Problema 1 — Build falha por API mínima do Android
 
 **Problema:** `BuildFailedException: ARCore Required apps using Vulkan require a minimum SDK version of AndroidApiLevel29. Currently set to AndroidApiLevel25`.  
 **Causa:** o ARCore com Vulkan exige Android 10 (API 29), e o projeto estava configurado com API 25.  
 **Solução:** em **Player Settings → Android → Other Settings → Minimum API Level**, selecionamos **Android 10.0 (API level 29)**.
 
+**Estado atual:** Minimum API Level Android 10.0 (API 29) — `AndroidMinSdkVersion: 29` em `ProjectSettings/ProjectSettings.asset` ([seção 15](#15-configuração-do-ambiente)).
+
 ### Problema 2 — Aviso "Unsupported Input Handling on Android"
 
-**Problema:** o Unity avisa que `Active Input Handling = Both` não é suportado no Android.  
-**Causa:** o `TapToToggleScale` usa o Input Manager antigo, enquanto a câmera do XR Origin usa o Input System novo.  
-**Solução:** mantivemos **Both** e escolhemos **Ignore** no aviso. Para removê-lo, será preciso migrar o `TapToToggleScale` para o Input System.
+**Problema (histórico):** o Unity avisava que `Active Input Handling = Both` não é suportado no Android.  
+**Causa (histórico):** o `TapToToggleScale` usava o Input Manager antigo, enquanto a câmera do XR Origin usa o Input System novo.  
+**Solução adotada na época:** mantivemos **Both** e escolhemos **Ignore** no aviso.  
+**Estado atual:** o `TapToToggleScale` **já foi migrado** para o Input System (detecta toque ou clique via Input System e raycast; ver [seção 13](#13-principais-scripts)). A configuração **Both permanece**: `activeInputHandler: 2` em `ProjectSettings/ProjectSettings.asset`. Ou seja, a migração do script foi feita, mas a configuração do projeto não foi alterada; o aviso, se ainda aparecer, decorre dessa configuração. Mudar para **Input System Package (New)** não foi realizado nem testado, e exigiria conferir que nenhum componente dependa do Input Manager antigo.
 
 ### Problema 3 — "No Android devices connected"
 
