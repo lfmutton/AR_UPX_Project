@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Guia de soldagem
   requirementId: RF01
   instruction: "Compare as soldas destacadas na placa com as refer\xEAncias abaixo.
-    [preencher: componentes a inspecionar]"
+    Exemplo: U1, Y1, C28 e Q1."
   cards:
   - title: Boa solda
     text: "Brilhante, lisa, em forma de cone c\xF4ncavo."
@@ -37,7 +37,6 @@ MonoBehaviour:
   checklist:
   - Inspecionei todas as soldas destacadas
   - Nenhuma solda fria ou ponte de solda
-  - "[preencher: crit\xE9rio da equipe]"
   measurements: []
   quiz:
   - question: "Qual caracter\xEDstica indica uma solda fria?"

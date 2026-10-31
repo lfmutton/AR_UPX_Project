@@ -20,7 +20,7 @@ MonoBehaviour:
   - title: Conectores
     text: "J2 (chicote do ve\xEDculo); sinais BMS, BSPD, IMD e IR+"
   - title: "Sequ\xEAncia"
-    text: '[preencher: ordem de acionamento]'
+    text: "1) Conecte o J2; 2) energize; 3) acione a SW1. (exemplo)"
   highlights:
   - label: "J2 \xB7 conector do chicote"
     positionCm: {x: 0.0, y: -3.6}
@@ -40,7 +40,7 @@ MonoBehaviour:
   checklist:
   - Conectores encaixados
   - Chave SW1 acionada
-  - 'LED STATUS conforme esperado [preencher]'
+  - "LEDs D4\u2013D8 respondem \xE0s sa\xEDdas (exemplo)"
   measurements: []
   quiz:
   - question: "O que conferir antes de acionar a chave de teste no ve\xEDculo?"

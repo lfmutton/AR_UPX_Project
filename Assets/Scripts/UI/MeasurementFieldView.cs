@@ -54,7 +54,7 @@ namespace Facens.WL01
                     SetStatus("Valor inválido", Warning);
                     break;
                 case MeasurementResult.SemFaixa:
-                    SetStatus("Faixa esperada a definir [preencher]", Neutral);
+                    SetStatus("Faixa esperada a definir", Neutral);
                     break;
                 default:
                     SetStatus(string.Empty, Neutral);

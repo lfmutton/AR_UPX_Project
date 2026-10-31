@@ -18,9 +18,9 @@ MonoBehaviour:
     os LEDs de diagn\xF3stico."
   cards:
   - title: LEDs
-    text: "D1, D9, D10 e D4\u2013D8 [preencher: comportamento esperado]"
+    text: "D1, D9, D10 e D4\u2013D8 acendem ao energizar. (exemplo)"
   - title: "Tens\xF5es"
-    text: '[preencher: trilhos e faixas esperadas]'
+    text: "Trilho de 5 V: de 4,75 a 5,25 V. (exemplo)"
   highlights:
   - label: "D10 \xB7 LED"
     positionCm: {x: -3.5, y: 3.97}
@@ -36,18 +36,18 @@ MonoBehaviour:
     kind: 2
   checklist:
   - Fonte com limite de corrente configurado
-  - LED PWR aceso
+  - LEDs D1, D9 e D10 acesos (exemplo)
   measurements:
   - label: "Tens\xE3o no trilho de 5 V (exemplo)"
     unit: V
     hasRange: 1
     min: 4.75
     max: 5.25
-  - label: 'Corrente consumida [preencher]'
+  - label: "Corrente consumida (exemplo)"
     unit: mA
-    hasRange: 0
-    min: 0
-    max: 0
+    hasRange: 1
+    min: 50
+    max: 300
   quiz:
   - question: Por que energizar a placa com uma fonte com limite de corrente?
     options:

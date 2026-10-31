@@ -20,7 +20,7 @@ MonoBehaviour:
   - title: Pontos
     text: "J3 (3V3 e GND), APPS1, APPS2 e BPPS1"
   - title: Esperado
-    text: "Sem bipe entre alimenta\xE7\xE3o e GND (sem curto). [preencher]"
+    text: "Sem bipe entre alimenta\xE7\xE3o e GND (sem curto). (exemplo)"
   highlights:
   - label: "J3 \xB7 3V3"
     positionCm: {x: 3.25, y: 4.35}
@@ -41,11 +41,11 @@ MonoBehaviour:
   - "Mult\xEDmetro em modo continuidade"
   - "Sem curto entre alimenta\xE7\xE3o e GND"
   measurements:
-  - label: "Resist\xEAncia TP2\u2013GND [preencher]"
+  - label: "Resist\xEAncia TP2\u2013GND (exemplo)"
     unit: "\u03A9"
-    hasRange: 0
-    min: 0
-    max: 0
+    hasRange: 1
+    min: 100
+    max: 500
   quiz:
   - question: "No teste de continuidade entre alimenta\xE7\xE3o e GND, o que indica
       um curto-circuito?"
