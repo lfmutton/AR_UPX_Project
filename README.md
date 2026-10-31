@@ -122,19 +122,19 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 ## 7. Requisitos Não Funcionais
 
+
 | ID    | Categoria        | Requisito                                                                                           |
 | ----- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| RNF01 | Usabilidade      | A interface deve ser intuitiva e dispensar treinamentos extensos.                                   |
-| RNF02 | Ergonomia        | Deve permitir o uso em suportes de bancada, mantendo as mãos livres para a inspeção.                |
-| RNF03 | Clareza visual   | As indicações devem apresentar contraste e legibilidade adequados à iluminação da bancada.          |
-| RNF04 | Desempenho       | O reconhecimento de QR Codes e marcadores deve ocorrer rapidamente.                                 |
-| RNF05 | Rastreamento     | As indicações de RA devem permanecer alinhadas aos pontos correspondentes da PCB.                   |
-| RNF06 | Compatibilidade  | A aplicação deve funcionar em dispositivos móveis compatíveis com a tecnologia de RA utilizada.     |
-| RNF07 | Processamento    | O MVP deve priorizar textos, imagens e elementos visuais leves, evitando modelos 3D pesados.        |
-| RNF08 | Manutenibilidade | A estrutura deve facilitar a inclusão de novas rotinas e componentes.                               |
-| RNF09 | Avaliação        | O sistema deve permitir registrar métricas de uso, etapas concluídas e erros durante o treinamento. |
+| RNF01 | Usabilidade      | A interface deve identificar a etapa atual, apresentar instruções em português e manter os comandos de navegação e registro com rótulos consistentes ao longo do roteiro. |
+| RNF02 | Ergonomia        | A interface deve permitir consultar as orientações e preencher os registros com o celular apoiado em suporte de bancada, sem exigir movimentos do aparelho para navegar entre as etapas. |
+| RNF03 | Clareza visual   | Textos, campos e botões devem apresentar contraste com o fundo; os destaques do modelo 3D devem distinguir os pontos de interesse sem encobrir a região indicada. |
+| RNF04 | Desempenho       | Durante a exibição do modelo 3D e o rastreamento da imagem de referência, a interface deve responder aos comandos de navegação e de preenchimento sem bloquear a continuidade do roteiro. |
+| RNF05 | Rastreamento     | Enquanto a imagem de referência estiver em rastreamento ativo, o modelo e os destaques devem acompanhar sua posição e orientação; ao perder o rastreamento, o conteúdo de RA deve ser ocultado para evitar indicações sem referência espacial. |
+| RNF06 | Compatibilidade  | A aplicação deve executar em dispositivos Android 10 ou superior (API 29+), com suporte ao ARCore e permissão de acesso à câmera. |
+| RNF07 | Processamento    | O carregamento e a renderização do modelo 3D da PCB, das imagens de apoio e dos destaques devem permitir o uso simultâneo da câmera, do guia e dos campos de entrada durante a sessão. |
+| RNF08 | Manutenibilidade | As instruções, os checklists, as medições e os destaques de cada etapa devem ser configurados em assets próprios, separados dos scripts de rastreamento, navegação e apresentação. |
+| RNF09 | Avaliação        | O relatório JSON local deve organizar os dados por sessão e etapa, preservando tempos, respostas do checklist, medições, erros e resultado para permitir a análise da execução do roteiro. |
 
-Na versão atual, o RNF09 está implementado por um relatório JSON local, gerado ao concluir o roteiro, com tempos, checklist, medições, erros e situação de cada etapa. O formato está na [seção 13](#formato-do-relatório-da-sessão), o significado de erros e aprovação na [seção 17.5](#175-resultado) e os limites de uso na [seção 24](#24-limitações-conhecidas). A implementação não indica validação em aparelho nem avaliação com usuários.
 
 ---
 
