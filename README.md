@@ -85,17 +85,24 @@ O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (F
 
 ## 6. Funcionalidades
 
+O aplicativo apresenta o modelo da placa, destaca os pontos de coleta de dados e de observação, exibe orientações e exemplos e solicita o preenchimento de medições e checklists durante o roteiro. RF01–RF07 estão implementados, conforme confirmação de Felipe Roberto em 30/10/2026.
+
 | ID | Funcionalidade | Descrição | Status |
 |---|---|---|---|
-| RF01 | Guia de soldagem | Exibe referências visuais para identificar soldas defeituosas em PCBs. | 🚧 |
-| RF02 | Guia de continuidade | Destaca pontos de medição e circuitos para testes com multímetro. | 🚧 |
-| RF03 | Guia de energização | Orienta o processo de Bring UP e indica o comportamento esperado dos LEDs. | 🚧 |
-| RF04 | Guia de integração | Indica chaves, conectores e componentes utilizados nos testes do veículo. | 🚧 |
-| RF05 | Navegação sequencial | Permite avançar e retornar entre as quatro etapas de inspeção. | 🚧 |
-| RF06 | Checklist de validação | Exibe critérios de aprovação e instrumentos necessários para cada etapa. | 🚧 |
-| RF07 | Registro de medições | Permite inserir valores de tensão e outras medições realizadas pelo trainee, conforme solicitado durante as etapas de inspeção e validação. | 🚧 |
+| RF01 | Guia de soldagem | Apresenta orientações e exemplos de soldagem, com destaques no modelo da placa para apoiar a observação dos componentes e regiões indicadas. Fonte: [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset). | ✅ Implementado |
+| RF02 | Guia de continuidade | Mostra no modelo os pontos de coleta de dados e apresenta orientações, checklist e campos de medição para a etapa de continuidade. Fonte: [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset). | ✅ Implementado |
+| RF03 | Guia de energização | Apresenta orientações de Bring UP, pontos de observação e coleta de dados, checklist e entrada de medições. Fonte: [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset). | ✅ Implementado |
+| RF04 | Guia de integração | Apresenta orientações e destaques dos componentes e pontos de observação no modelo da placa, acompanhados do checklist da etapa. Fonte: [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset). | ✅ Implementado |
+| RF05 | Navegação sequencial | Permite iniciar, avançar, retornar e reiniciar o roteiro de quatro etapas. Fontes: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). | ✅ Implementado |
+| RF06 | Checklist de validação | Solicita a marcação dos itens de verificação de cada etapa e indica os registros necessários antes de avançar. Fontes: [InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs) e [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs). | ✅ Implementado |
+| RF07 | Registro de medições | Solicita a entrada de valores, apresenta unidades e avalia as medições conforme a configuração da etapa. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs). | ✅ Implementado |
 
-**Legenda:** ✅ Implementado · 🚧 Em desenvolvimento · ⬜ Planejado · ❌ Cancelado
+**Legenda:** ✅ Implementado.
+
+O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Assets/Prefabs/Overlays/StepOverlay.prefab) e [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs). Ao concluir o roteiro, o aplicativo apresenta o resultado e gera o relatório local da sessão por meio de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs).
+
+---
+
 ## 7. Requisitos Não Funcionais
 
 | ID | Categoria | Requisito |
@@ -240,11 +247,11 @@ flowchart LR
 
 | Elemento | Situação atual | Planejado para o MVP |
 |---|---|---|
-| Objeto 3D | Cubo de demonstração | Destaques leves sobre os pontos da placa |
-| Texto de orientação | — | Instruções de cada etapa do roteiro |
-| Destaque visual | — | Marcação de soldas e test points |
-| Botão de ação | — | Avançar e voltar etapas (RF05) |
-| Indicação de status | — | Etapa atual e checklist (RF06) |
+| Modelo da placa | Modelo VCU exibido no [prefab de overlay](Assets/Prefabs/Overlays/StepOverlay.prefab), com indicações associadas às etapas. | Contemplado na versão atual. |
+| Texto de orientação e exemplos | Instruções e cartões de referência apresentados para apoiar a execução e a observação em cada etapa. Fontes: [Assets/Etapas](Assets/Etapas) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). | Contemplado na versão atual. |
+| Destaque visual | Pontos de coleta de dados, componentes e regiões de observação indicados sobre o modelo da placa. Fonte: [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs). | Contemplado na versão atual. |
+| Botão de ação | Início, avanço, retorno e reinício do roteiro disponíveis nas telas. Fonte: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs). | Contemplado na versão atual (RF05). |
+| Indicação de status | Etapa atual, checklist, campos de medição e resumo do resultado apresentados pela interface. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs). | Contemplado na versão atual (RF06 e RF07). |
 
 ---
 
@@ -283,15 +290,15 @@ AR_UPX_Project/
 
 ### Pastas principais
 
-| Pasta | Finalidade |
-|---|---|
-| `Assets/Markers` | Imagens de referência e a Reference Image Library |
-| `Assets/Scenes` | Cenas da aplicação |
-| `Assets/Materials` | Materiais do conteúdo virtual |
-| `Assets/Prefabs` | Conteúdo exibido sobre a placa (overlays) |
-| `Assets/Scripts` | Scripts C# separados por camada (`AR`, `Interacao`) |
-| `Assets/XR` | Configurações do XR Plug-in Management (ARCore) |
-| `docs` | Documentação complementar |
+| Pasta              | Finalidade                                          |
+| ------------------ | --------------------------------------------------- |
+| `Assets/Markers`   | Imagens de referência e a Reference Image Library   |
+| `Assets/Scenes`    | Cenas da aplicação                                  |
+| `Assets/Materials` | Materiais do conteúdo virtual                       |
+| `Assets/Prefabs`   | Conteúdo exibido sobre a placa (overlays)           |
+| `Assets/Scripts`   | Scripts C# separados por camada (`AR`, `Interacao`) |
+| `Assets/XR`        | Configurações do XR Plug-in Management (ARCore)     |
+| `docs`             | Documentação complementar                           |
 
 ---
 
@@ -457,11 +464,12 @@ docs/images/
 
 ## 24. Limitações Conhecidas
 
-- o reconhecimento depende de boa iluminação e do marcador inteiro visível;
-- é necessário um smartphone compatível com ARCore e com Android 10 ou superior;
-- o conteúdo atual ainda é o cubo de demonstração do template WL01;
-- os guias RF01 a RF07 ainda não foram implementados;
-- o toque usa o Input Manager antigo, o que exige **Active Input Handling = Both** e gera um aviso no build Android.
+- O reconhecimento depende da iluminação e da visibilidade do marcador; o aplicativo requer dispositivo compatível com ARCore e Android 10 ou superior.
+- O conteúdo de RA está associado ao marcador configurado na [Reference Image Library](Assets/Markers/WL01ReferenceImageLibrary.asset). Modelo da placa e imagem de reconhecimento são recursos distintos.
+- O relatório de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) é armazenado localmente; o formato atual não possui campo próprio de participante nem pontuação de quiz. A contagem de erros representa os registros avaliados na sessão e não mede, por si só, aprendizagem.
+- O salvamento do relatório depende do acesso ao armazenamento local; o código registra a falha e retorna caminho nulo quando não consegue gravar.
+- As evidências das seções 22–25 documentam a demonstração anterior do cubo. A documentação dessas evidências deve acompanhar a evolução para o modelo da placa e o roteiro atual.
+- A avaliação científica e a eficácia educacional são tratadas nos cards DOC e de Validação.
 
 ---
 
@@ -491,16 +499,17 @@ docs/images/
 
 ## 27. Cronograma Técnico
 
+Estado funcional atualizado em 30/10/2026, conforme confirmação de Felipe Roberto sobre a evolução do aplicativo. As referências da implementação estão nas seções 6 e 11.3.
+
 | Atividade | Responsável | Status |
 |---|---|---|
-| Configuração do projeto Unity + AR Foundation | Desenvolvimento | ✅ |
-| Montagem da cena AR e Reference Image Library | Desenvolvimento | ✅ |
-| Primeiro build em dispositivo físico | Desenvolvimento | ✅ |
-| Troca do marcador pela imagem da PCB | Desenvolvimento | ⬜ |
-| Guias RF01–RF04 | Desenvolvimento | ⬜ |
-| Navegação, checklist e registro (RF05–RF07) | Desenvolvimento | ⬜ |
-| Testes em dispositivo | Testes | 🚧 |
-| Documentação | Documentação | 🚧 |
+| Configuração Unity, AR Foundation e cena AR | Desenvolvimento | ✅ Implementado. |
+| Primeiro build e demonstração do cubo | Desenvolvimento / Validação | ✅ Etapa histórica registrada nas seções 22–25. |
+| Modelo da placa e destaques dos pontos | Desenvolvimento | ✅ Implementado: modelo VCU, pontos de coleta de dados e regiões de observação. |
+| Guias RF01–RF04 | Desenvolvimento | ✅ Implementado: orientações, exemplos e destaques associados às quatro etapas. |
+| Navegação, checklist e medições RF05–RF07 | Desenvolvimento | ✅ Implementado: navegação entre etapas, marcação dos itens e entrada de valores. |
+| Resultado e relatório JSON | Desenvolvimento | ✅ Implementado em InspectionFlow, ResultPanel e MetricsRecorder. |
+| Documentação do README | Desenvolvimento / Documentação | Atualizada no escopo do DEV01; consolidação das demais seções acompanha os respectivos cards DEV. |
 
 ---
 
@@ -555,12 +564,11 @@ Cada funcionalidade é registrada em commits separados, para que o histórico mo
 
 ## 30. Melhorias Futuras
 
-- substituir o marcador de exemplo pela imagem da PCB ou por um QR Code;
-- substituir o cubo por destaques leves e textos de orientação;
-- implementar os guias RF01 a RF04 e a navegação sequencial (RF05);
-- adicionar checklists (RF06) e registro de medições (RF07);
-- registrar métricas de uso (tempo, erros e pontuação) — RNF09;
-- migrar a interação por toque para o Input System.
+- Avaliar a ampliação para outras placas e novos roteiros de inspeção, aproveitando a estrutura de etapas existente.
+- Aprimorar a apresentação das orientações, exemplos e destaques a partir do feedback de uso.
+- Avaliar novos indicadores e formas de organização dos relatórios de sessão conforme o protocolo de pesquisa.
+
+Essas propostas são evoluções adicionais. A versão atual já contempla o modelo da placa, os pontos de observação e coleta de dados, os exemplos, a navegação, os checklists e a entrada de medições descritos na seção 6.
 
 ---
 
@@ -600,18 +608,17 @@ Projeto acadêmico desenvolvido para fins educacionais na disciplina de UPX — 
 
 ## Checklist de Entrega
 
-- [x] Código-fonte atualizado
-- [x] README preenchido
-- [x] Versões das tecnologias registradas
-- [x] Arquitetura apresentada
-- [x] Funcionamento da RA explicado
-- [x] Estrutura de pastas documentada
-- [x] Scripts principais descritos
-- [x] Procedimento de instalação testado
-- [x] Procedimento de execução testado
-- [x] Screenshots reais adicionados
-- [x] Testes registrados
-- [x] Dispositivos testados informados
-- [x] Limitações conhecidas documentadas
-- [x] Evidência de funcionamento adicionada
-- [x] Commits representam a evolução do projeto
+Este checklist acompanha a entrega documental da versão atual. O estado funcional da seção 6 considera a confirmação de Felipe Roberto em 30/10/2026; o acompanhamento dos cards permanece nos registros de planejamento.
+
+- [x] Inventário RF01–RF07 ligado às fontes do repositório (seção 6).
+- [x] Funcionalidades RF01–RF07 registradas como implementadas conforme confirmação de Felipe Roberto em 30/10/2026.
+- [x] Elementos virtuais, limitações e evolução atualizados com referências (seções 11.3, 24, 27 e 30).
+- [ ] Harmonizar o README com DEV02–DEV05 e DEV07 antes do aceite do DEV01.
+- [ ] Atualizar e conferir arquitetura, estrutura e scripts da versão atual (DEV03).
+- [ ] Conciliar versões, configuração e procedimentos de instalação/execução (DEV06).
+- [ ] Associar screenshots, vídeo e testes à revisão, dispositivo e versão Android correspondentes (DEV07).
+- [ ] Atualizar os registros visuais e a identificação da versão nas evidências de funcionamento (DEV07).
+- [x] Modelo da placa, pontos de coleta e observação, exemplos, checklists e entrada de dados descritos como recursos atuais.
+- [ ] Revisar identificação e coerência acadêmica do README (DEV08/DEV09 e dependências DOC).
+
+Os registros antigos de testes e evidências permanecem como histórico; precisam de contextualização na consolidação do README. DOC01–DOC18 continuam pendentes, e a revisão anterior do DOCX não conta como progresso desses cards.
