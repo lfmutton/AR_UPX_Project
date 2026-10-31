@@ -134,6 +134,8 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 | RNF08 | Manutenibilidade | A estrutura deve facilitar a inclusão de novas rotinas e componentes. |
 | RNF09 | Avaliação | O sistema deve permitir registrar métricas de uso, etapas concluídas e erros durante o treinamento. |
 
+Na versão atual, o RNF09 está implementado por um relatório JSON local, gerado ao concluir o roteiro, com tempos, checklist, medições, erros e situação de cada etapa. O formato está na [seção 13](#formato-do-relatório-da-sessão), o significado de erros e aprovação na [seção 17.5](#175-resultado) e os limites de uso na [seção 24](#24-limitações-conhecidas). A implementação não indica validação em aparelho nem avaliação com usuários.
+
 ---
 
 ## 8. Tecnologias Utilizadas
@@ -188,12 +190,13 @@ flowchart TB
     FLOW -->|Verifica registro completo| SESSION
     FLOW -->|Conclusão| METRICS["MetricsRecorder<br/>SessionReport / StepReport"]
     SESSION --> METRICS
-    METRICS --> JSON["Arquivo JSON local<br/>persistentDataPath/sessoes"]
+    METRICS -->|Save| JSON["Arquivo JSON local<br/>persistentDataPath/sessoes<br/>sessao_yyyyMMdd_HHmmss.json"]
+    METRICS -->|"Save retorna caminho ou null"| FLOW
     FLOW -->|Completed com relatório| RESULT["ResultPanel<br/>Resumo e opção de reinício"]
     RESULT -->|Restart| FLOW
 ```
 
-As setas representam eventos, chamadas e uso de dados. As telas exibem o estado e encaminham ações; `InspectionFlow` controla a etapa atual, verifica a completude do registro e coordena a conclusão. `InspectionSession` mantém checklist, valores e tempos em memória; `MeasurementSpec` interpreta e avalia os valores. `MetricsRecorder` monta o relatório e tenta salvá-lo; a tela de resultado informa também se a gravação foi possível.
+As setas representam eventos, chamadas e uso de dados. As telas exibem o estado e encaminham ações; `InspectionFlow` controla a etapa atual, verifica a completude do registro e coordena a conclusão. `InspectionSession` mantém checklist, valores e tempos em memória; `MeasurementSpec` interpreta e avalia os valores. `MetricsRecorder` monta o relatório e tenta salvá-lo. `Save` retorna o caminho do arquivo ou `null` em caso de falha; `InspectionFlow` guarda esse retorno em `LastReportPath`, e `ResultPanel` o usa para informar se a gravação foi possível. O resultado é apresentado mesmo quando a gravação falha.
 
 ### Componentes da cena `WL01RecognitionAR`
 
@@ -469,9 +472,116 @@ Os componentes do aplicativo usam o namespace `Facens.WL01`. As ferramentas de p
 2. `InspectionFlow` seleciona um `InspectionStep`. Os dados vêm do asset correspondente em `Assets/Etapas`.
 3. `StepPanel` apresenta a orientação e os exemplos; `StepOverlayController` aplica os pontos dessa etapa ao `StepOverlay` do modelo.
 4. `RecordScreen` apresenta os itens e campos; as respostas são mantidas em `InspectionSession` e as medições avaliadas por `MeasurementSpec`.
-5. Ao concluir a última etapa, `InspectionFlow` usa `MetricsRecorder` para montar e tentar gravar o relatório; em seguida emite `Completed`, recebido por `ResultPanel`.
+5. Ao concluir a última etapa, `InspectionFlow` usa `MetricsRecorder` para montar e tentar gravar o relatório; em seguida emite `Completed`, recebido por `ResultPanel`, mesmo que a gravação tenha falhado.
 
 Os menus dos scripts `Editor` registram etapas de preparação do projeto. A cena já contém os componentes configurados; esses menus não são passos executados pelo usuário no celular.
+
+### Formato do relatório da sessão
+
+As classes abaixo estão em [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs). `MetricsRecorder.Build` as preenche a partir de `InspectionSession` e dos assets das etapas, e `MetricsRecorder.Save` as grava com `JsonUtility`.
+
+**`SessionReport`: a sessão**
+
+| Campo | Tipo | Conteúdo |
+|---|---|---|
+| `inicio` | texto | Data e hora locais do aparelho em que a sessão foi criada, no formato `yyyy-MM-ddTHH:mm:ss`, sem fuso horário. |
+| `fim` | texto | Data e hora locais da conclusão, no mesmo formato. |
+| `duracaoSegundos` | número | Tempo entre o início do roteiro e a conclusão. A Tela Inicial e a busca inicial pelo marcador não contam. |
+| `erros` | inteiro | Itens de checklist sem marcar, somados às medições `Fora` e `Invalido` ([seção 17.5](#175-resultado)). |
+| `etapas` | lista de `StepReport` | Uma entrada por etapa, na ordem do roteiro. |
+
+**`StepReport`: uma etapa**
+
+| Campo | Tipo | Conteúdo |
+|---|---|---|
+| `etapa` | texto | Título definido no asset da etapa. |
+| `requisito` | texto | Requisito associado (RF01 a RF04). |
+| `duracaoSegundos` | número | Soma do tempo de todas as passagens pela etapa, incluindo a Tela de Registro. O contador não para quando o marcador sai do enquadramento e o código não trata pausas do aplicativo. |
+| `checklistMarcados` e `checklistTotal` | inteiros | Quantidade de itens marcados e total de itens. O relatório guarda só as contagens, não quais itens foram marcados. |
+| `medicoes` | lista de `MeasurementReport` | Medições da etapa; a lista fica vazia nas etapas sem medição. |
+| `aprovada` | verdadeiro ou falso | Resultado de `InspectionSession.IsApproved` ([seção 17.5](#175-resultado)). |
+
+**`MeasurementReport`: uma medição**
+
+| Campo | Tipo | Conteúdo |
+|---|---|---|
+| `medicao` | texto | Rótulo definido no asset. Marcadores como `[preencher]` aparecem no arquivo enquanto estiverem no asset. |
+| `valor` | texto | Valor como foi digitado, com vírgula ou ponto. |
+| `unidade` | texto | Unidade definida no asset. |
+| `resultado` | texto | Classificação de [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs): `Vazio`, `Invalido`, `SemFaixa`, `Dentro` ou `Fora`. |
+
+O formato não tem campo de participante, grupo, consentimento, aparelho, versão do aplicativo ou revisão do código, nem pontuação de quiz. Também não registra tentativas de avanço bloqueadas, retornos ou valores corrigidos: ele mostra só o estado final de cada etapa.
+
+**Exemplo sintético.** Os valores e as datas abaixo foram inventados só para ilustrar o formato, com etapas e rótulos dos assets atuais. Não vêm de um teste, não descrevem uma placa real e não contêm dados pessoais. O nome de arquivo correspondente seria `sessao_20000101_100500.json`.
+
+```json
+{
+    "inicio": "2000-01-01T10:00:00",
+    "fim": "2000-01-01T10:05:00",
+    "duracaoSegundos": 300.0,
+    "erros": 1,
+    "etapas": [
+        {
+            "etapa": "Guia de soldagem",
+            "requisito": "RF01",
+            "duracaoSegundos": 60.0,
+            "checklistMarcados": 3,
+            "checklistTotal": 3,
+            "medicoes": [],
+            "aprovada": true
+        },
+        {
+            "etapa": "Continuidade e curto-circuito",
+            "requisito": "RF02",
+            "duracaoSegundos": 70.0,
+            "checklistMarcados": 2,
+            "checklistTotal": 2,
+            "medicoes": [
+                {
+                    "medicao": "Resistência TP2–GND [preencher]",
+                    "valor": "120",
+                    "unidade": "Ω",
+                    "resultado": "SemFaixa"
+                }
+            ],
+            "aprovada": true
+        },
+        {
+            "etapa": "Energização / Bring UP",
+            "requisito": "RF03",
+            "duracaoSegundos": 110.0,
+            "checklistMarcados": 2,
+            "checklistTotal": 2,
+            "medicoes": [
+                {
+                    "medicao": "Tensão no trilho de 5 V (exemplo)",
+                    "valor": "5,40",
+                    "unidade": "V",
+                    "resultado": "Fora"
+                },
+                {
+                    "medicao": "Corrente consumida [preencher]",
+                    "valor": "250",
+                    "unidade": "mA",
+                    "resultado": "SemFaixa"
+                }
+            ],
+            "aprovada": false
+        },
+        {
+            "etapa": "Integração no veículo",
+            "requisito": "RF04",
+            "duracaoSegundos": 60.0,
+            "checklistMarcados": 3,
+            "checklistTotal": 3,
+            "medicoes": [],
+            "aprovada": true
+        }
+    ]
+}
+```
+
+Neste exemplo, o valor `5,40` fica fora da faixa de exemplo de 4,75 a 5,25 V, o que gera `erros: 1` e `aprovada: false` na etapa 3. As medições `SemFaixa` não são avaliadas, por isso não geram erro.
 
 ---
 
@@ -625,7 +735,26 @@ Ao concluir a etapa 4 com o registro completo, a **Tela de Resultado** apresenta
 
 Como o avanço exige o registro completo, os erros de uma sessão concluída correspondem, na prática, às medições fora da faixa. O número de erros resume os registros da sessão e não mede, por si só, aprendizagem.
 
-O relatório é salvo em JSON no aparelho, em `Application.persistentDataPath/sessoes` ([MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs)). Ele é gerado apenas ao concluir o roteiro: fechar o aplicativo antes disso descarta os dados da sessão, mantidos em memória até então.
+**O que significam erros e aprovação.** As regras estão em `MetricsRecorder.Build` e `InspectionSession.IsApproved`. O contador `erros` soma os itens de checklist sem marcar e as medições `Fora` e `Invalido`, e a etapa é **Aprovada** quando não tem nenhum deles:
+
+| Situação ao concluir | Pode chegar ao relatório? | Conta em `erros`? | Efeito na etapa |
+|---|---|---|---|
+| Item de checklist sem marcar | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar** |
+| Medição `Vazio` | Não, o avanço é bloqueado | Não | Nenhum, pela regra do código |
+| Medição `Invalido` | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar** |
+| Medição `Fora` | **Sim** | **Sim** | **Revisar** |
+| Medição `Dentro` | Sim | Não | Nenhum |
+| Medição `SemFaixa` | Sim | Não | Nenhum: o valor fica registrado, sem avaliação |
+
+Nos assets atuais, só a "Tensão no trilho de 5 V (exemplo)" tem faixa, e ela é um exemplo a confirmar. Por isso, uma sessão concluída hoje tem 0 ou 1 erro, e apenas a etapa 3 pode aparecer como **Revisar**. As demais etapas sempre aparecem como **Aprovada** ao concluir.
+
+**Aprovada** significa apenas que o registro da etapa seguiu essas regras. Não significa que a placa foi aprovada nem que a inspeção foi feita corretamente: o checklist é autodeclarado, os valores são digitados pelo usuário e o aplicativo não confere nada na placa física.
+
+**Onde o relatório é salvo.** O arquivo é gravado no aparelho, em `Application.persistentDataPath/sessoes`, com o nome `sessao_yyyyMMdd_HHmmss.json`, usando a data e a hora do aparelho no momento de salvar. No Android, o comentário de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) e o pacote de [ProjectSettings.asset](ProjectSettings/ProjectSettings.asset) indicam a pasta `Android/data/com.DefaultCompany.wl01recognitionarunity/files/sessoes`. Esse caminho ainda aguarda confirmação em aparelho. O formato do arquivo está na [seção 13](#formato-do-relatório-da-sessão).
+
+O relatório é gerado apenas ao concluir o roteiro: fechar o aplicativo antes disso descarta os dados da sessão, mantidos em memória até então. O caminho do arquivo não aparece na tela e o aplicativo não tem função para abrir, exportar ou enviar o relatório.
+
+**Se a gravação falhar.** `MetricsRecorder.Save` registra o erro no log e retorna `null`. O roteiro não é interrompido: a Tela de Resultado aparece normalmente, com os dados da sessão e o aviso "Não foi possível salvar o resultado.". Não há nova tentativa, e os dados dessa sessão se perdem ao refazer o roteiro ou fechar o aplicativo.
 
 ### 17.6 Reinício
 
@@ -776,8 +905,11 @@ As imagens do projeto ficam em `docs/images/`:
 - O modelo e os destaques são posicionados em relação ao marcador (filhos do `ARTrackedImage`). O alinhamento com os pontos da placa física depende da posição do marcador e **não foi validado**; precisão e segurança de uso dos destaques aguardam as evidências de validação (DOC11/DOC14).
 - A aplicação não decodifica QR Codes. Um QR Code cadastrado seria reconhecido como imagem de referência (Image Tracking), sem leitura do conteúdo codificado.
 - Quando o marcador deixa de ser rastreado, o conteúdo virtual é ocultado e os destaques deixam de ser exibidos até a nova detecção.
-- O relatório de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) é armazenado localmente; o formato atual não possui campo próprio de participante nem pontuação de quiz. A contagem de erros representa os registros avaliados na sessão e não mede, por si só, aprendizagem.
-- O salvamento do relatório depende do acesso ao armazenamento local; o código registra a falha e retorna caminho nulo quando não consegue gravar.
+- **Identificação do participante:** o relatório de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) não tem campo próprio de participante, grupo ou consentimento, nem pontuação de quiz. Pelo conteúdo do arquivo não é possível saber quem executou a sessão, e nele só há as datas e horas do aparelho. Qualquer vínculo entre uma sessão e uma pessoa teria de ser feito fora do aplicativo. A forma de fazer isso e a proteção desses dados devem ser definidas com DOC06, DOC09, DOC10 e DOC13; este README não define esse protocolo.
+- **Interpretação dos dados:** o contador `erros` reflete o estado final do registro, hoje limitado a uma medição com faixa de exemplo ([seção 17.5](#175-resultado)). Ele não mede aprendizagem, qualidade da placa ou desempenho do trainee, e não registra tentativas bloqueadas nem correções. Checklist e valores são informados pelo usuário e não são conferidos na placa. Assim, os relatórios atuais não sustentam conclusões científicas por si só, e este README não apresenta resultados obtidos com eles.
+- **Armazenamento local:** o arquivo é gravado em JSON, sem criptografia, somente no aparelho. O aplicativo não envia, exporta nem apaga relatórios, e não define prazo de retenção. A retirada do arquivo depende de acesso ao armazenamento do aparelho. No Android, a pasta do aplicativo normalmente é removida ao desinstalá-lo, comportamento ainda não verificado neste projeto.
+- **Falha de gravação:** o salvamento depende do acesso ao armazenamento local. Em caso de falha, `Save` retorna `null`, a Tela de Resultado mostra o aviso e não há nova tentativa, então os dados da sessão não ficam guardados.
+- **Validação do relatório:** a descrição do relatório vem da leitura do código. A gravação em aparelho, o caminho no Android e a retirada do arquivo aguardam testes e evidências da Validação.
 - As evidências das seções 22–25 documentam a demonstração anterior do cubo. A documentação dessas evidências deve acompanhar a evolução para o modelo da placa e o roteiro atual.
 - A avaliação científica e a eficácia educacional são tratadas nos cards DOC e de Validação.
 

@@ -43,7 +43,8 @@ flowchart TB
     FLOW -- "Completed" --> RESULT
     FLOW --> SESSION
     SESSION --> METRICS
-    METRICS --> JSON
+    METRICS -- "Save()" --> JSON
+    METRICS -- "Save() retorna caminho ou null" --> FLOW
 
     CAM --> ARCORE
     ARCORE --> ARF
