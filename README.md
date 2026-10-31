@@ -51,7 +51,7 @@ O **B’Energy AR Academy** é uma aplicação móvel acadêmica desenvolvida em
 
 A aplicação utiliza **Realidade Aumentada com Image Tracking**: a câmera reconhece uma imagem de referência cadastrada na XR Reference Image Library — na biblioteca analisada, o marcador `wl01-marker` (0,12 m × 0,12 m) — e, a partir dela, apresenta o conteúdo **VCU**: o modelo da placa com destaques dos pontos de observação e coleta de dados. O reconhecimento é feito por correspondência de imagem; a aplicação **não decodifica QR Codes** (ver [seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)). O roteiro reúne quatro etapas: qualidade de soldagem, continuidade e curto-circuito, energização (Bring UP) e integração.
 
-Na versão atual, o usuário pode consultar orientações e exemplos, acompanhar os pontos indicados no modelo, preencher checklists e inserir medições. A interface permite avançar, retornar e reiniciar o roteiro; ao final, apresenta o resultado da sessão e gera um relatório JSON local. As funcionalidades estão descritas na [seção 6](#6-funcionalidades), e a relação entre modelo, etapas, interface e dados está detalhada na [seção 10](#10-arquitetura-do-sistema).
+Na versão atual, o usuário parte da tela inicial, aponta a câmera para a imagem cadastrada e percorre as quatro etapas: consulta orientações e exemplos, acompanha os pontos indicados no modelo, marca o checklist e insere as medições. O registro de cada etapa é obrigatório para avançar, e é possível retornar às etapas anteriores. Ao final, a aplicação apresenta o resultado da sessão, gera um relatório JSON local e permite refazer o roteiro. O uso está detalhado na [seção 17](#17-como-utilizar-a-aplicação), as funcionalidades na [seção 6](#6-funcionalidades) e a relação entre modelo, etapas, interface e dados na [seção 10](#10-arquitetura-do-sistema).
 
 O foco principal do projeto é apoiar a **execução correta do roteiro de inspeção PCB**. A identificação dos componentes e a associação entre componente e função têm papel complementar. A contribuição esperada para o treinamento deverá ser avaliada com evidências de uso; a implementação do aplicativo, por si só, não demonstra redução de erros ou ganho de aprendizagem.
 
@@ -558,73 +558,192 @@ O build documentado é para **Android**. Os menus dos scripts de `Assets/Scripts
 
 ## 17. Como Utilizar a Aplicação
 
-1. Prepare o marcador cadastrado, `Assets/Markers/wl01-marker.png`, impresso ou exibido com **12 cm × 12 cm**, em superfície plana, sem reflexos e bem iluminada, posicionado conforme a orientação da equipe responsável. Não use `vcu-marker.png` como marcador: ela é a serigrafia do modelo e não está cadastrada como target.
-2. Abra a aplicação no dispositivo e autorize o acesso à câmera.
-3. Na tela inicial, toque em **Iniciar RA** e aponte a câmera para o marcador; o início do roteiro é coordenado com o reconhecimento.
-4. Aguarde o reconhecimento. O modelo VCU aparece sobre o marcador com os destaques da etapa atual.
-5. Leia as orientações e os exemplos do painel da etapa, observe os destaques e toque em **Registrar** para marcar o checklist e inserir as medições. Com o registro incompleto, o avanço abre a tela de registro.
-6. Se o conteúdo desaparecer, o marcador deixou de ser rastreado: reaponte a câmera até o conteúdo reaparecer.
-7. Ao concluir as quatro etapas, consulte o resultado da sessão; o relatório JSON é salvo localmente (`persistentDataPath/sessoes`). É possível refazer o roteiro em nova sessão.
+Esta seção descreve o fluxo implementado em [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs), [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). A situação de validação em aparelho e do conteúdo técnico está na [seção 6](#6-funcionalidades).
 
-> O toque para alternar a escala pertence ao objeto de demonstração ([seção 13](#13-principais-scripts)) e não faz parte do roteiro. O aplicativo não lê QR Codes: o QR Code, se usado, funciona apenas como imagem de referência ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
+### 17.1 Início
+
+1. Abra a aplicação e, se o Android solicitar, autorize o acesso à câmera.
+2. Na **Tela Inicial**, confira as quatro etapas do roteiro e toque em **Iniciar RA**.
+3. Aponte a câmera para o marcador, seguindo o selo "Aponte a câmera para o marcador da placa". O marcador cadastrado atualmente é o `wl01-marker.png` (ver [seção 24](#24-limitações-conhecidas)).
+4. Ao reconhecer o marcador, o roteiro começa na etapa 1, com o modelo da placa VCU e os destaques da etapa. Se o marcador já estiver visível ao tocar em **Iniciar RA**, o roteiro começa imediatamente.
+
+Se o marcador sair do enquadramento, o modelo e os destaques ficam ocultos até ele ser reconhecido novamente. O painel e os dados da etapa continuam disponíveis.
+
+O marcador deve estar impresso ou exibido com **12 cm × 12 cm**, em superfície plana, sem reflexos e bem iluminada, posicionado conforme a orientação da equipe responsável. Não use `vcu-marker.png` como marcador: ela é a serigrafia do modelo e não está cadastrada como target.
+
+### 17.2 As quatro etapas
+
+| Etapa | Requisito | Itens de checklist | Medições |
+|---|---|---|---|
+| 1. Soldagem | RF01 | 3 | Nenhuma |
+| 2. Continuidade e curto-circuito | RF02 | 2 | Resistência 3V3–GND (kΩ), sem faixa definida |
+| 3. Energização / Bring UP | RF03 | 2 | Tensão 3V3 no J3 (V), com faixa de 3,13 a 3,47 V; corrente consumida (mA), sem faixa definida |
+| 4. Integração | RF04 | 3 | Nenhuma |
+
+Os itens e as medições são definidos nos assets de [Assets/Etapas](Assets/Etapas). Em cada etapa, o painel inferior abre minimizado para não cobrir o modelo e mostra a etapa atual, a barra de progresso, o título e os botões:
+
+| Botão | Ação |
+|---|---|
+| **Guia** | Mostra ou recolhe a instrução e os cards de exemplo da etapa. |
+| **Registrar (N pendentes)** | Abre a Tela de Registro. Passa a exibir **Registro completo** quando não há pendências. |
+| **Voltar** | Retorna à etapa anterior. Fica desativado na etapa 1. |
+| **Próximo** / **Concluir** | Avança de etapa; na etapa 4, conclui o roteiro. Só avança com o registro completo. |
+
+### 17.3 Registro obrigatório
+
+Na **Tela de Registro**, marque os itens do checklist e digite as medições, usando vírgula ou ponto como separador decimal. A tela informa quantos itens faltam, e os dados são guardados na sessão à medida que são preenchidos.
+
+Para avançar, todo o checklist da etapa precisa estar marcado e toda medição precisa ter um valor numérico. Tocar em **Próximo** ou **Concluir** com pendências não avança e abre a Tela de Registro. A regra está em `InspectionSession.IsRecordComplete` ([InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs)), e a avaliação dos valores em [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs):
+
+| Situação | Indicação na tela | Impede avançar? | Efeito no resultado |
+|---|---|---|---|
+| Item do checklist sem marcar | Contagem "Faltam N itens" | **Sim** | Não chega ao resultado |
+| Medição vazia | Contagem "Faltam N itens" | **Sim** | Não chega ao resultado |
+| Medição inválida (não numérica) | "Valor inválido" e contagem de pendências | **Sim** | Não chega ao resultado |
+| Valor dentro da faixa | "Dentro do esperado" | Não | Etapa sem erro por essa medição |
+| Valor **fora da faixa** | "Fora da faixa esperada" | **Não** | Conta 1 erro e a etapa aparece como **Revisar** |
+| Valor numérico em medição sem faixa | "Valor registrado" | Não | Registrado no relatório, sem avaliação |
+
+Os botões da Tela de Registro são:
+
+- **Salvar e continuar:** aparece com o registro completo, fecha a tela e avança; na etapa 4, conclui o roteiro.
+- **Salvar e voltar:** aparece com o registro incompleto e retorna ao painel, mantendo o que foi preenchido.
+- **Voltar (‹):** retorna ao painel sem avançar, também mantendo o que foi preenchido.
+
+### 17.4 Retorno entre etapas
+
+**Voltar** não exige registro completo e mantém os dados da sessão. Se um item ou uma medição de uma etapa anterior for alterado e deixar o registro incompleto, é preciso completá-lo novamente para seguir em frente.
+
+### 17.5 Resultado
+
+Ao concluir a etapa 4 com o registro completo, a **Tela de Resultado** apresenta:
+
+- o tempo da sessão (mm:ss);
+- o número de erros;
+- cada etapa como **Aprovada** ou **Revisar**;
+- a confirmação de que o relatório foi salvo, ou o aviso de que não foi possível salvar.
+
+Como o avanço exige o registro completo, os erros de uma sessão concluída correspondem, na prática, às medições fora da faixa. O número de erros resume os registros da sessão e não mede, por si só, aprendizagem.
+
+O relatório é salvo em JSON no aparelho, em `Application.persistentDataPath/sessoes` ([MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs)). Ele é gerado apenas ao concluir o roteiro: fechar o aplicativo antes disso descarta os dados da sessão, mantidos em memória até então.
+
+### 17.6 Reinício
+
+**Refazer roteiro** inicia uma nova sessão na etapa 1, com o registro vazio e sem passar pela Tela Inicial. Os relatórios já salvos permanecem no aparelho.
+
+### 17.7 O que não faz parte do fluxo principal
+
+- **Cubo de demonstração:** é apenas um fallback do template. `ImageRecognitionController` só o cria se o campo `contentPrefab` estiver vazio; a cena atual usa `StepOverlay.prefab`. O toque para alternar a escala ([TapToToggleScale.cs](Assets/Scripts/Interacao/TapToToggleScale.cs)) pertence a esse conteúdo de demonstração. Os registros do cubo nas seções 22 a 25 são históricos.
+- **Quiz final:** foi removido na revisão `1b78aea`. O roteiro vai da etapa 4 direto ao resultado, sem perguntas nem pontuação.
+- **QR Code:** o aplicativo não lê QR Codes. O QR Code, se usado, funciona apenas como imagem de referência ([seção 11.4](#114-marcador-cadastrado-qr-code-e-serigrafia)).
 
 ---
 
 ## 18. Fluxo de Funcionamento
 
-![Fluxo Funcionamento](docs/images/fluxo_funcionamento.png)
+O diagrama representa o fluxo atual de [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) e também está em [docs/diagrams/fluxo-funcionamento.md](docs/diagrams/fluxo-funcionamento.md).
+
+```mermaid
+flowchart TD
+    A([Abrir o aplicativo]) --> B[Tela Inicial]
+    B -->|Iniciar RA| C{Marcador<br/>visível?}
+    C -->|Não| D[Selo: aponte a câmera<br/>para o marcador da placa]
+    D --> C
+    C -->|Sim| E[Etapa atual<br/>modelo VCU, destaques e painel]
+    E -->|Guia| F[Instrução e cards]
+    F --> E
+    E -->|Registrar| G[Tela de Registro<br/>checklist e medições]
+    E -->|Voltar: etapa anterior<br/>dados mantidos| E
+    E -->|Próximo / Concluir| H{Registro da etapa<br/>completo?}
+    H -->|Não: item sem marcar ou<br/>medição vazia/inválida| G
+    G -->|Voltar ou Salvar e voltar| E
+    G -->|Salvar e continuar<br/>registro completo| H
+    H -->|Sim| I{Última etapa?}
+    I -->|Não: próxima etapa| E
+    I -->|Sim| J[Gerar relatório JSON local]
+    J --> K[Tela de Resultado<br/>tempo, erros e etapas]
+    K -->|Refazer roteiro: nova sessão| E
+```
+
+Uma medição fora da faixa não aparece como desvio do fluxo porque não impede o avanço: ela é indicada na Tela de Registro e contabilizada no resultado.
 
 ---
 
 ## 19. Caso de Uso
 
+Ações do trainee na versão atual. O diagrama também está em [docs/diagrams/caso-de-uso.md](docs/diagrams/caso-de-uso.md).
+
 ```mermaid
 flowchart LR
-    T((Trainee)) --> U1[Escanear marcador da placa]
-    T --> U2[Visualizar orientações em RA]
-    T --> U3[Interagir com o conteúdo]
-    T --> U4[Seguir roteiro de inspeção]
-    U4 --> U5[Registrar medições]
+    T((Trainee))
+    subgraph APP["B'Energy AR Academy"]
+        U1([Iniciar o roteiro])
+        U2([Reconhecer o marcador])
+        U3([Visualizar modelo VCU e destaques])
+        U4([Consultar o guia da etapa])
+        U5([Preencher checklist e medições])
+        U6([Avançar de etapa])
+        U7([Retornar à etapa anterior])
+        U8([Ver o resultado da sessão])
+        U9([Refazer o roteiro])
+        U10([Salvar o relatório da sessão])
+    end
+    T --> U1
+    T --> U3
+    T --> U4
+    T --> U5
+    T --> U6
+    T --> U7
+    T --> U8
+    T --> U9
+    U1 -. inclui .-> U2
+    U6 -. exige registro completo .-> U5
+    U8 -. gera relatório JSON local .-> U10
 ```
 
 ---
 
 ## 20. Fluxo de Navegação
 
-```text
-Abertura do app
-    ↓
-Câmera (RA ativa)
-    ↓
-Reconhecimento do marcador
-    ↓
-Conteúdo Virtual
-    ↓
-Interação (toque)
-```
+Todas as telas são painéis da cena `WL01RecognitionAR`. O diagrama também está em [docs/diagrams/fluxo-navegacao.md](docs/diagrams/fluxo-navegacao.md).
 
-No MVP, vamos adicionar uma tela inicial e a navegação entre as quatro etapas do roteiro de inspeção (RF05).
+```mermaid
+flowchart LR
+    A[Tela Inicial] -->|Iniciar RA| B[Selo de busca<br/>câmera de RA]
+    A -->|Iniciar RA com<br/>marcador já visível| C
+    B -->|Marcador reconhecido| C[Painel da etapa<br/>Etapa 1 a 4]
+    C -->|Voltar / Próximo| C
+    C -->|Registrar, ou Próximo<br/>com registro incompleto| D[Tela de Registro]
+    D -->|Voltar ou<br/>Salvar e voltar| C
+    D -->|Salvar e continuar<br/>nas etapas 1 a 3| C
+    D -->|Salvar e continuar<br/>na etapa 4| E[Tela de Resultado]
+    C -->|Concluir na etapa 4| E
+    E -->|Refazer roteiro| C
+```
 
 ---
 
 ## 21. Interface
 
-As imagens do projeto ficam em `docs/images/`:
+| Tela | Finalidade | Principais elementos | Ação do usuário | Fonte |
+|---|---|---|---|---|
+| Tela Inicial | Apresentar o roteiro | Logo, nome do aplicativo, quatro etapas e botão Iniciar RA | Tocar em Iniciar RA | [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs) |
+| Selo de busca | Orientar o enquadramento | Selo "Aponte a câmera para o marcador da placa" sobre a câmera | Apontar para o marcador | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) |
+| Modelo e destaques | Indicar os pontos da etapa sobre o marcador | Modelo VCU, serigrafia, pontos e rótulos | Observar os pontos indicados | [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs) |
+| Painel da etapa | Orientar e navegar | Etapa X de 4, progresso, título, Guia, Registrar, Voltar e Próximo/Concluir | Consultar o guia, abrir o registro e navegar | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) |
+| Tela de Registro | Registrar checklist e medições | Itens, campos com unidade e avaliação, contagem de pendências e botões de saída | Preencher e salvar | [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) |
+| Tela de Resultado | Resumir a sessão | Tempo, erros, situação das etapas, aviso de salvamento e Refazer roteiro | Conferir e refazer | [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs) |
 
-```text
-docs/images/
-├── cena-unity.png
-├── fluxo_funcionamento.png
-├── imagem_teste.jpg
-└── visao_geral.svg
-```
+As capturas dessas telas serão associadas à revisão, ao aparelho e à versão do Android no card DEV07.
+
+As imagens do projeto ficam em `docs/images/`:
 
 | Arquivo | Conteúdo | Onde aparece |
 |---|---|---|
 | `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seção 25 |
-| `fluxo_funcionamento.png` | Fluxo de funcionamento da aplicação | Seção 18 |
 | `visao_geral.svg` | Visão geral do projeto | Seção 2 |
 | `imagem_teste.jpg` | Arquivo presente na pasta; conteúdo a confirmar pela equipe | Não referenciado neste README |
+| `fluxo_funcionamento.png` | Fluxo planejado na concepção, com seleção de roteiro, QR Code e quiz (histórico; não representa a versão atual) | Não exibida |
 
 ---
 
