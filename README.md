@@ -12,35 +12,35 @@
 
 ## 1. Identificação do Projeto
 
-| Item | Informação |
-|---|---|
-| **Projeto** | B’Energy AR Academy |
-| **Equipe** | Overlay |
-| **Curso** | Engenharia de Computação |
+| Item           | Informação                |
+| -------------- | ------------------------- |
+| **Projeto**    | B’Energy AR Academy       |
+| **Equipe**     | Overlay                   |
+| **Curso**      | Engenharia de Computação  |
 | **Disciplina** | UPX — Realidade Aumentada |
-| **Professor** | Daniel Ohata |
-| **Semestre** | 2026.2 |
+| **Professor**  | Daniel Ohata              |
+| **Semestre**   | 2026.2                    |
 
 ### Integrantes
 
-| Nome | RA | Responsabilidade |
-|---|---|---|
-| Felipe Roberto | 226752 | Desenvolvimento, Planejamento |
-| Felipe Veronezzi | 252628 | Documentação, Planejamento |
-| Gabriel Verlangieri | 222709 | Desenvolvimento |
-| André Vinicius | 236811 | Testes |
-| Pedro Henrique | 236519 | Documentação, Planejamento |
-| Gabriel Queiroz | 212065 | Testes |
-| Matheus Rodrigues | 235959 | Documentação |
-| Luis Felipe | 222287 | Desenvolvimento |
+| Nome                | RA     | Responsabilidade              |
+| ------------------- | ------ | ----------------------------- |
+| Felipe Roberto      | 226752 | Desenvolvimento, Planejamento |
+| Felipe Veronezzi    | 252628 | Documentação, Planejamento    |
+| Gabriel Verlangieri | 222709 | Desenvolvimento               |
+| André Vinicius      | 236811 | Testes                        |
+| Pedro Henrique      | 236519 | Documentação, Planejamento    |
+| Gabriel Queiroz     | 212065 | Testes                        |
+| Matheus Rodrigues   | 235959 | Documentação                  |
+| Luis Felipe         | 222287 | Desenvolvimento               |
 
 **Identificações pendentes de confirmação.** Nomes e RAs da tabela acima foram mantidos como constam neste README; nenhum foi alterado por suposição. As divergências abaixo ainda precisam ser confirmadas pela equipe, e as funções devem ser conferidas com `MEMBROS_E_FUNCOES.md`.
 
-| No README | Divergência registrada | Situação |
-|---|---|---|
-| Luis Felipe (RA 222287) | O artigo e o registro de equipe do planejamento citam "Luís Mutton". | Pendente de confirmação |
-| Gabriel Queiroz (RA 212065) | O artigo lista "Gabriel Yamaya" entre os autores. | Pendente de confirmação |
-| Pedro Henrique (RA 236519) | O artigo lista "Pedro Guimarães" e um registro de planejamento cita "Pedro Duarte". | Pendente de confirmação |
+| No README                       | Divergência registrada                                                                                                                                    | Situação                |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| Luis Felipe (RA 222287)         | O artigo e o registro de equipe do planejamento citam "Luís Mutton".                                                                                      | Pendente de confirmação |
+| Gabriel Queiroz (RA 212065)     | O artigo lista "Gabriel Yamaya" entre os autores.                                                                                                         | Pendente de confirmação |
+| Pedro Henrique (RA 236519)      | O artigo lista "Pedro Guimarães" e um registro de planejamento cita "Pedro Duarte".                                                                       | Pendente de confirmação |
 | Gabriel Verlangieri (RA 222709) | Registros de planejamento o identificam como "Gabriel Souza". A segunda função, antes marcada "X", não foi informada; permanece apenas "Desenvolvimento". | Pendente de confirmação |
 
 ---
@@ -104,15 +104,15 @@ A definição do público-alvo descreve a destinação da aplicação; não esta
 
 O aplicativo apresenta o modelo da placa, destaca os pontos de coleta de dados e de observação, exibe orientações e exemplos e solicita o preenchimento de medições e checklists durante o roteiro. RF01–RF07 estão implementados, conforme confirmação de Felipe Roberto em 30/10/2026.
 
-| ID | Funcionalidade | Descrição | Status |
-|---|---|---|---|
-| RF01 | Guia de soldagem | Apresenta orientações e exemplos de soldagem, com destaques no modelo da placa para apoiar a observação dos componentes e regiões indicadas. Fonte: [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset). | ✅ Implementado |
-| RF02 | Guia de continuidade | Mostra no modelo os pontos de coleta de dados e apresenta orientações, checklist e campos de medição para a etapa de continuidade. Fonte: [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset). | ✅ Implementado |
-| RF03 | Guia de energização | Apresenta orientações de Bring UP, pontos de observação e coleta de dados, checklist e entrada de medições. Fonte: [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset). | ✅ Implementado |
-| RF04 | Guia de integração | Apresenta orientações e destaques dos componentes e pontos de observação no modelo da placa, acompanhados do checklist da etapa. Fonte: [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset). | ✅ Implementado |
-| RF05 | Navegação sequencial | Permite iniciar, avançar, retornar e reiniciar o roteiro de quatro etapas. Fontes: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). | ✅ Implementado |
+| ID   | Funcionalidade         | Descrição                                                                                                                                                                                                                                        | Status          |
+| ---- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
+| RF01 | Guia de soldagem       | Apresenta orientações e exemplos de soldagem, com destaques no modelo da placa para apoiar a observação dos componentes e regiões indicadas. Fonte: [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset).                                | ✅ Implementado |
+| RF02 | Guia de continuidade   | Mostra no modelo os pontos de coleta de dados e apresenta orientações, checklist e campos de medição para a etapa de continuidade. Fonte: [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset).                                  | ✅ Implementado |
+| RF03 | Guia de energização    | Apresenta orientações de Bring UP, pontos de observação e coleta de dados, checklist e entrada de medições. Fonte: [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset).                                                           | ✅ Implementado |
+| RF04 | Guia de integração     | Apresenta orientações e destaques dos componentes e pontos de observação no modelo da placa, acompanhados do checklist da etapa. Fonte: [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset).                                        | ✅ Implementado |
+| RF05 | Navegação sequencial   | Permite iniciar, avançar, retornar e reiniciar o roteiro de quatro etapas. Fontes: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs).                                               | ✅ Implementado |
 | RF06 | Checklist de validação | Solicita a marcação dos itens de verificação de cada etapa e indica os registros necessários antes de avançar. Fontes: [InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs) e [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs). | ✅ Implementado |
-| RF07 | Registro de medições | Solicita a entrada de valores, apresenta unidades e avalia as medições conforme a configuração da etapa. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs). | ✅ Implementado |
+| RF07 | Registro de medições   | Solicita a entrada de valores, apresenta unidades e avalia as medições conforme a configuração da etapa. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs).           | ✅ Implementado |
 
 **Legenda:** ✅ Implementado.
 
@@ -122,17 +122,17 @@ O modelo e os destaques por etapa são apresentados por [StepOverlay.prefab](Ass
 
 ## 7. Requisitos Não Funcionais
 
-| ID | Categoria | Requisito |
-|---|---|---|
-| RNF01 | Usabilidade | A interface deve ser intuitiva e dispensar treinamentos extensos. |
-| RNF02 | Ergonomia | Deve permitir o uso em suportes de bancada, mantendo as mãos livres para a inspeção. |
-| RNF03 | Clareza visual | As indicações devem apresentar contraste e legibilidade adequados à iluminação da bancada. |
-| RNF04 | Desempenho | O reconhecimento de QR Codes e marcadores deve ocorrer rapidamente. |
-| RNF05 | Rastreamento | As indicações de RA devem permanecer alinhadas aos pontos correspondentes da PCB. |
-| RNF06 | Compatibilidade | A aplicação deve funcionar em dispositivos móveis compatíveis com a tecnologia de RA utilizada. |
-| RNF07 | Processamento | O MVP deve priorizar textos, imagens e elementos visuais leves, evitando modelos 3D pesados. |
-| RNF08 | Manutenibilidade | A estrutura deve facilitar a inclusão de novas rotinas e componentes. |
-| RNF09 | Avaliação | O sistema deve permitir registrar métricas de uso, etapas concluídas e erros durante o treinamento. |
+| ID    | Categoria        | Requisito                                                                                           |
+| ----- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| RNF01 | Usabilidade      | A interface deve ser intuitiva e dispensar treinamentos extensos.                                   |
+| RNF02 | Ergonomia        | Deve permitir o uso em suportes de bancada, mantendo as mãos livres para a inspeção.                |
+| RNF03 | Clareza visual   | As indicações devem apresentar contraste e legibilidade adequados à iluminação da bancada.          |
+| RNF04 | Desempenho       | O reconhecimento de QR Codes e marcadores deve ocorrer rapidamente.                                 |
+| RNF05 | Rastreamento     | As indicações de RA devem permanecer alinhadas aos pontos correspondentes da PCB.                   |
+| RNF06 | Compatibilidade  | A aplicação deve funcionar em dispositivos móveis compatíveis com a tecnologia de RA utilizada.     |
+| RNF07 | Processamento    | O MVP deve priorizar textos, imagens e elementos visuais leves, evitando modelos 3D pesados.        |
+| RNF08 | Manutenibilidade | A estrutura deve facilitar a inclusão de novas rotinas e componentes.                               |
+| RNF09 | Avaliação        | O sistema deve permitir registrar métricas de uso, etapas concluídas e erros durante o treinamento. |
 
 Na versão atual, o RNF09 está implementado por um relatório JSON local, gerado ao concluir o roteiro, com tempos, checklist, medições, erros e situação de cada etapa. O formato está na [seção 13](#formato-do-relatório-da-sessão), o significado de erros e aprovação na [seção 17.5](#175-resultado) e os limites de uso na [seção 24](#24-limitações-conhecidas). A implementação não indica validação em aparelho nem avaliação com usuários.
 
@@ -140,27 +140,27 @@ Na versão atual, o RNF09 está implementado por um relatório JSON local, gerad
 
 ## 8. Tecnologias Utilizadas
 
-| Tecnologia | Versão | Utilização |
-|---|---|---|
-| Unity | 6000.3.25f1 (revisão `e1dba0a9aba4`) | Desenvolvimento principal. Fonte: `ProjectSettings/ProjectVersion.txt`. |
-| C# | Compatível com Unity 6000.3.25f1 | Scripts da aplicação |
-| AR Foundation | 6.3.5 | Camada de abstração de Realidade Aumentada. Fonte: `Packages/manifest.json`. |
-| ARCore XR Plugin | 6.3.5 | Recursos de Realidade Aumentada em Android (plataforma de execução e testes registrados). |
-| ARKit XR Plugin | 6.3.5 | Pacote instalado para RA em iOS. A instalação não comprova funcionamento em iOS: não há build nem teste em iOS registrados neste projeto ([seção 14](#14-dependências)). |
-| XR Plugin Management | 4.6.1 | Gerenciamento de plugins XR |
-| Input System | 1.20.0 (dependência transitiva; fonte: `Packages/packages-lock.json`) | Entrada por toque/clique em `TapToToggleScale` (já migrado para o Input System). |
-| Blender | 4.x | Modelagem/edição 3D |
-| Git | 2.x | Controle de versão |
-| GitHub | — | Hospedagem do projeto e documentação |
+| Tecnologia           | Versão                                                                | Utilização                                                                                                                                                               |
+| -------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Unity                | 6000.3.25f1 (revisão `e1dba0a9aba4`)                                  | Desenvolvimento principal. Fonte: `ProjectSettings/ProjectVersion.txt`.                                                                                                  |
+| C#                   | Compatível com Unity 6000.3.25f1                                      | Scripts da aplicação                                                                                                                                                     |
+| AR Foundation        | 6.3.5                                                                 | Camada de abstração de Realidade Aumentada. Fonte: `Packages/manifest.json`.                                                                                             |
+| ARCore XR Plugin     | 6.3.5                                                                 | Recursos de Realidade Aumentada em Android (plataforma de execução e testes registrados).                                                                                |
+| ARKit XR Plugin      | 6.3.5                                                                 | Pacote instalado para RA em iOS. A instalação não comprova funcionamento em iOS: não há build nem teste em iOS registrados neste projeto ([seção 14](#14-dependências)). |
+| XR Plugin Management | 4.6.1                                                                 | Gerenciamento de plugins XR                                                                                                                                              |
+| Input System         | 1.20.0 (dependência transitiva; fonte: `Packages/packages-lock.json`) | Entrada por toque/clique em `TapToToggleScale` (já migrado para o Input System).                                                                                         |
+| Blender              | 4.x                                                                   | Modelagem/edição 3D                                                                                                                                                      |
+| Git                  | 2.x                                                                   | Controle de versão                                                                                                                                                       |
+| GitHub               | —                                                                     | Hospedagem do projeto e documentação                                                                                                                                     |
 
 ---
 
 ## 9. Hardware Utilizado
 
-| Equipamento | Modelo | Característica relevante | Utilização |
-|---|---|---|---|
-| Smartphone | Samsung Galaxy S23 (SM-S911B) | Suporte ao ARCore; o projeto exige Android 10+ (API ≥ 29). **Versão do Android instalada: pendente** de registro pela Validação. | Dispositivo de execução do projeto |
-| Computador | Notebook Windows 11 Home | Intel Core i5-10300H, 24 GB RAM, NVIDIA GeForce GTX 1650 | Desenvolvimento e build |
+| Equipamento | Modelo                        | Característica relevante                                                                                                         | Utilização                         |
+| ----------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| Smartphone  | Samsung Galaxy S23 (SM-S911B) | Suporte ao ARCore; o projeto exige Android 10+ (API ≥ 29). **Versão do Android instalada: pendente** de registro pela Validação. | Dispositivo de execução do projeto |
+| Computador  | Notebook Windows 11 Home      | Intel Core i5-10300H, 24 GB RAM, NVIDIA GeForce GTX 1650                                                                         | Desenvolvimento e build            |
 
 Os dados de aparelho e de versão do Android por execução dependem dos registros da Validação ([seção 23](#23-dispositivos-testados)); este README não infere testes além dos já registrados na [seção 22](#22-testes-técnicos).
 
@@ -269,21 +269,22 @@ Os scripts de `Assets/Scripts/Editor` preparam a cena, os assets e o visual dura
 
 ### 11.1 Técnica utilizada
 
-Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Library** (`Assets/Markers/WL01ReferenceImageLibrary.asset`) funciona como referência (*target*) para ativar o conteúdo virtual. O ARCore compara as características visuais da imagem observada com as das imagens da biblioteca; o reconhecimento não depende de ler texto, URL ou código contido na imagem.
+Utilizamos **Image Tracking**: uma imagem cadastrada na **XR Reference Image Library** (`Assets/Markers/WL01ReferenceImageLibrary.asset`) funciona como referência (_target_) para ativar o conteúdo virtual. O ARCore compara as características visuais da imagem observada com as das imagens da biblioteca; o reconhecimento não depende de ler texto, URL ou código contido na imagem.
 
 **Marcador cadastrado (configuração analisada, revisão `1b78aea`):**
 
-| Item | Situação | Fonte |
-|---|---|---|
-| Target ativo | `wl01-marker` | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset); imagem em [wl01-marker.png](Assets/Markers/wl01-marker.png) |
-| Tamanho físico configurado | **0,12 m × 0,12 m** | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset) |
-| Conteúdo associado | Prefab `StepOverlay` (modelo VCU e destaques por etapa), referenciado no campo `contentPrefab` | [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs); [StepOverlay.prefab](Assets/Prefabs/Overlays/StepOverlay.prefab) |
-| `vcu-marker.png` | Serigrafia/textura do modelo VCU; **não** está cadastrada como target | [vcu-marker.png](Assets/Markers/vcu-marker.png); [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs) |
-| Marcador final (planejado) | Imagem da própria placa ou QR Code fixado nela; **não implementado** nesta versão | — |
+| Item                       | Situação                                                                                       | Fonte                                                                                                                                              |
+| -------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Target ativo               | `wl01-marker`                                                                                  | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset); imagem em [wl01-marker.png](Assets/Markers/wl01-marker.png)     |
+| Tamanho físico configurado | **0,12 m × 0,12 m**                                                                            | [WL01ReferenceImageLibrary.asset](Assets/Markers/WL01ReferenceImageLibrary.asset)                                                                  |
+| Conteúdo associado         | Prefab `StepOverlay` (modelo VCU e destaques por etapa), referenciado no campo `contentPrefab` | [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs); [StepOverlay.prefab](Assets/Prefabs/Overlays/StepOverlay.prefab) |
+| `vcu-marker.png`           | Serigrafia/textura do modelo VCU; **não** está cadastrada como target                          | [vcu-marker.png](Assets/Markers/vcu-marker.png); [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs)                                              |
+| Marcador final (planejado) | Imagem da própria placa ou QR Code fixado nela; **não implementado** nesta versão              | —                                                                                                                                                  |
 
 Informar o tamanho físico permite que o ARCore estime a escala e a distância do marcador. Para que a estimativa corresponda à configuração, a imagem deve ser impressa ou exibida com 12 cm de lado; outra dimensão tende a deslocar a escala e a posição do conteúdo.
 
 ### 11.2 Fluxo técnico
+
 ```mermaid
 flowchart LR
     A["Inicializar sessão de RA<br/>AR Session + câmera"] --> B["Análise das imagens<br/>ARCore"]
@@ -295,6 +296,7 @@ flowchart LR
     F -->|Não| H["Ocultar conteúdo"]
     G --> I["Interação do trainee<br/>Telas do roteiro"]
 ```
+
 1. A aplicação inicia a sessão de RA (`AR Session`) e a câmera do dispositivo.
 2. O ARCore analisa continuamente as imagens capturadas.
 3. O `ARTrackedImageManager` compara a imagem observada com a Reference Image Library.
@@ -305,24 +307,24 @@ flowchart LR
 
 ### 11.3 Elementos virtuais
 
-| Elemento | Situação atual | Planejado para o MVP |
-|---|---|---|
-| Modelo da placa | Modelo VCU exibido no [prefab de overlay](Assets/Prefabs/Overlays/StepOverlay.prefab), com indicações associadas às etapas. | Contemplado na versão atual. |
-| Texto de orientação e exemplos | Instruções e cartões de referência apresentados para apoiar a execução e a observação em cada etapa. Fontes: [Assets/Etapas](Assets/Etapas) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs). | Contemplado na versão atual. |
-| Destaque visual | Pontos de coleta de dados, componentes e regiões de observação indicados sobre o modelo da placa. Fonte: [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs). | Contemplado na versão atual. |
-| Botão de ação | Início, avanço, retorno e reinício do roteiro disponíveis nas telas. Fonte: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs). | Contemplado na versão atual (RF05). |
-| Indicação de status | Etapa atual, checklist, campos de medição e resumo do resultado apresentados pela interface. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs). | Contemplado na versão atual (RF06 e RF07). |
+| Elemento                       | Situação atual                                                                                                                                                                                                  | Planejado para o MVP                       |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Modelo da placa                | Modelo VCU exibido no [prefab de overlay](Assets/Prefabs/Overlays/StepOverlay.prefab), com indicações associadas às etapas.                                                                                     | Contemplado na versão atual.               |
+| Texto de orientação e exemplos | Instruções e cartões de referência apresentados para apoiar a execução e a observação em cada etapa. Fontes: [Assets/Etapas](Assets/Etapas) e [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs).                   | Contemplado na versão atual.               |
+| Destaque visual                | Pontos de coleta de dados, componentes e regiões de observação indicados sobre o modelo da placa. Fonte: [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs).                                | Contemplado na versão atual.               |
+| Botão de ação                  | Início, avanço, retorno e reinício do roteiro disponíveis nas telas. Fonte: [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs).                                                                      | Contemplado na versão atual (RF05).        |
+| Indicação de status            | Etapa atual, checklist, campos de medição e resumo do resultado apresentados pela interface. Fontes: [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) e [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs). | Contemplado na versão atual (RF06 e RF07). |
 
 ### 11.4 Marcador cadastrado, QR Code e serigrafia
 
 Para evitar ambiguidades, o projeto distingue os conceitos abaixo:
 
-| Conceito | Definição | Situação no projeto |
-|---|---|---|
-| **Image Tracking** | Técnica que reconhece uma imagem de referência e rastreia sua posição e orientação. | Implementada com `ARTrackedImageManager` e a Reference Image Library. |
-| **Target ativo** | Imagem efetivamente cadastrada na Reference Image Library. | `wl01-marker` (0,12 m × 0,12 m). |
-| **Aparência de QR Code** | Imagem com padrão visual de QR Code usada apenas como imagem de referência. | Se cadastrada, é reconhecida como qualquer outra imagem, por suas características visuais; o conteúdo codificado é irrelevante para o reconhecimento. |
-| **Serigrafia/textura do modelo** | Imagem aplicada ao modelo VCU para representar a placa. | `vcu-marker.png`; faz parte da aparência do conteúdo, não da lista de targets. |
+| Conceito                         | Definição                                                                           | Situação no projeto                                                                                                                                   |
+| -------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Image Tracking**               | Técnica que reconhece uma imagem de referência e rastreia sua posição e orientação. | Implementada com `ARTrackedImageManager` e a Reference Image Library.                                                                                 |
+| **Target ativo**                 | Imagem efetivamente cadastrada na Reference Image Library.                          | `wl01-marker` (0,12 m × 0,12 m).                                                                                                                      |
+| **Aparência de QR Code**         | Imagem com padrão visual de QR Code usada apenas como imagem de referência.         | Se cadastrada, é reconhecida como qualquer outra imagem, por suas características visuais; o conteúdo codificado é irrelevante para o reconhecimento. |
+| **Serigrafia/textura do modelo** | Imagem aplicada ao modelo VCU para representar a placa.                             | `vcu-marker.png`; faz parte da aparência do conteúdo, não da lista de targets.                                                                        |
 
 A presença de um arquivo em `Assets/Markers` não comprova que ele seja target ativo: vale o que está cadastrado em `WL01ReferenceImageLibrary.asset`. Os requisitos RNF04 e RNF05 (seção 7) e o marcador final planejado (placa ou QR Code fixado nela) devem ser lidos nesse sentido: o QR Code funcionaria como imagem de referência, não como fonte de dados.
 
@@ -330,12 +332,12 @@ A presença de um arquivo em `Assets/Markers` não comprova que ele seja target 
 
 **Destaques por etapa.** Cada asset `InspectionStep` mantém a lista de destaques (`Highlight`) da etapa. Ao receber `StepChanged`, o `StepOverlayController` aplica esses destaques ao `StepOverlay` do conteúdo criado; o `HighlightView` posiciona cada ponto e rótulo segundo as coordenadas da etapa, e os destaques são limpos ao concluir o roteiro.
 
-| Etapa | Destaques no modelo VCU | Fonte |
-|---|---|---|
-| 1 — Soldagem (RF01) | Componentes e regiões indicadas para observação. | [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset) |
-| 2 — Continuidade (RF02) | Pontos de coleta de dados. | [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset) |
-| 3 — Energização (RF03) | Pontos de observação e coleta de dados. | [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset) |
-| 4 — Integração (RF04) | Componentes e pontos de observação. | [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset) |
+| Etapa                   | Destaques no modelo VCU                          | Fonte                                                                |
+| ----------------------- | ------------------------------------------------ | -------------------------------------------------------------------- |
+| 1 — Soldagem (RF01)     | Componentes e regiões indicadas para observação. | [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset)         |
+| 2 — Continuidade (RF02) | Pontos de coleta de dados.                       | [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset) |
+| 3 — Energização (RF03)  | Pontos de observação e coleta de dados.          | [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   |
+| 4 — Integração (RF04)   | Componentes e pontos de observação.              | [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset)     |
 
 **Perda de tracking.** A visibilidade do conteúdo acompanha o estado de tracking em `ImageRecognitionController`: quando o marcador deixa de ser rastreado, o modelo e os destaques são ocultados. Conforme a arquitetura da [seção 10](#10-arquitetura-do-sistema), checklist, valores e tempos ficam em `InspectionSession`, componente distinto do reconhecimento. Enquanto o conteúdo estiver oculto, não há destaque visível; o trainee deve reapontar a câmera para o marcador e seguir as instruções técnicas e de segurança da equipe (seção 5).
 
@@ -412,24 +414,24 @@ AR_UPX_Project/
 
 ### Pastas principais
 
-| Pasta | Finalidade |
-|---|---|
-| `Assets/Etapas` | Assets `InspectionStep` com instruções, exemplos, destaques, checklist e especificações de medição das quatro etapas. |
-| `Assets/Markers` | Biblioteca de reconhecimento e imagens. Na biblioteca analisada, o target cadastrado é `wl01-marker` (0,12 m × 0,12 m); `vcu-marker.png` é usada como serigrafia/textura do modelo VCU. A presença de uma imagem na pasta não significa que ela seja target ativo. |
-| `Assets/Models/VCU` | Modelo 3D da placa utilizado pelo prefab de conteúdo. |
-| `Assets/Materials` | Materiais do modelo, serigrafia e marcações. |
-| `Assets/Prefabs/Overlays` | Prefab `StepOverlay` com modelo e estrutura de destaques; `DemoContent` preservado no repositório. |
-| `Assets/Scenes` | Cena de RA e vínculos entre reconhecimento, roteiro e interface. |
-| `Assets/Scripts/AR` | Reconhecimento, controle do conteúdo rastreado e apresentação dos destaques. |
-| `Assets/Scripts/Roteiro` | Controle da sequência e definição dos dados de cada etapa. |
-| `Assets/Scripts/Dados` | Estado da sessão, avaliação de valores, relatórios e persistência local. |
-| `Assets/Scripts/UI` | Telas, painéis e componentes visuais de orientação, registro e resultado. |
-| `Assets/Scripts/Interacao` | Interação por toque/clique do conteúdo de demonstração. |
-| `Assets/Scripts/Editor` | Ferramentas de preparação no Editor; não integram a execução do aplicativo. |
-| `Assets/Fonts`, `Assets/UI/Sprites` e `Assets/Shaders` | Fontes, elementos gráficos e shader das marcações. |
-| `Assets/XR` | Configurações, loaders e recursos XR. |
-| `Packages` e `ProjectSettings` | Dependências e configurações do projeto, incluindo cena de build e plataforma. |
-| `docs` | Documentação complementar e imagens do projeto. |
+| Pasta                                                  | Finalidade                                                                                                                                                                                                                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Assets/Etapas`                                        | Assets `InspectionStep` com instruções, exemplos, destaques, checklist e especificações de medição das quatro etapas.                                                                                                                                              |
+| `Assets/Markers`                                       | Biblioteca de reconhecimento e imagens. Na biblioteca analisada, o target cadastrado é `wl01-marker` (0,12 m × 0,12 m); `vcu-marker.png` é usada como serigrafia/textura do modelo VCU. A presença de uma imagem na pasta não significa que ela seja target ativo. |
+| `Assets/Models/VCU`                                    | Modelo 3D da placa utilizado pelo prefab de conteúdo.                                                                                                                                                                                                              |
+| `Assets/Materials`                                     | Materiais do modelo, serigrafia e marcações.                                                                                                                                                                                                                       |
+| `Assets/Prefabs/Overlays`                              | Prefab `StepOverlay` com modelo e estrutura de destaques; `DemoContent` preservado no repositório.                                                                                                                                                                 |
+| `Assets/Scenes`                                        | Cena de RA e vínculos entre reconhecimento, roteiro e interface.                                                                                                                                                                                                   |
+| `Assets/Scripts/AR`                                    | Reconhecimento, controle do conteúdo rastreado e apresentação dos destaques.                                                                                                                                                                                       |
+| `Assets/Scripts/Roteiro`                               | Controle da sequência e definição dos dados de cada etapa.                                                                                                                                                                                                         |
+| `Assets/Scripts/Dados`                                 | Estado da sessão, avaliação de valores, relatórios e persistência local.                                                                                                                                                                                           |
+| `Assets/Scripts/UI`                                    | Telas, painéis e componentes visuais de orientação, registro e resultado.                                                                                                                                                                                          |
+| `Assets/Scripts/Interacao`                             | Interação por toque/clique do conteúdo de demonstração.                                                                                                                                                                                                            |
+| `Assets/Scripts/Editor`                                | Ferramentas de preparação no Editor; não integram a execução do aplicativo.                                                                                                                                                                                        |
+| `Assets/Fonts`, `Assets/UI/Sprites` e `Assets/Shaders` | Fontes, elementos gráficos e shader das marcações.                                                                                                                                                                                                                 |
+| `Assets/XR`                                            | Configurações, loaders e recursos XR.                                                                                                                                                                                                                              |
+| `Packages` e `ProjectSettings`                         | Dependências e configurações do projeto, incluindo cena de build e plataforma.                                                                                                                                                                                     |
+| `docs`                                                 | Documentação complementar e imagens do projeto.                                                                                                                                                                                                                    |
 
 Os documentos [ARQUITETURA.md](docs/ARQUITETURA.md), [ATIVIDADE.md](docs/ATIVIDADE.md) e [CUSTOMIZACAO.md](docs/CUSTOMIZACAO.md) preservam a arquitetura e as orientações da base didática WL01. Referências nesses arquivos à substituição do cubo ou à evolução inicial devem ser lidas nesse contexto histórico. As seções 10–13 deste README descrevem a arquitetura atual do roteiro com a placa VCU.
 
@@ -439,32 +441,32 @@ Os documentos [ARQUITETURA.md](docs/ARQUITETURA.md), [ATIVIDADE.md](docs/ATIVIDA
 
 Os componentes do aplicativo usam o namespace `Facens.WL01`. As ferramentas de preparação usam `Facens.WL01.EditorTools` e ficam na pasta `Editor`, com acesso às APIs `UnityEditor`.
 
-| Script | Responsabilidade |
-|---|---|
-| [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs) | Recebe mudanças das imagens rastreadas, instancia o prefab sobre o marcador, controla sua visibilidade e emite MarkerDetected e ContentCreated. Sem prefab, cria o cubo de fallback. |
-| [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs) | Escuta ContentCreated, StepChanged e Finished; aplica os destaques da etapa ao conteúdo criado e os limpa ao concluir o roteiro. |
-| [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs) | Cria e remove as marcações visuais a partir da lista de Highlight da etapa. |
-| [HighlightView.cs](Assets/Scripts/AR/HighlightView.cs) | Posiciona cada ponto e rótulo segundo as coordenadas da etapa e aplica seu estilo visual. |
-| [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs) | Coordena início, etapas, avanço condicionado ao registro completo, retorno e reinício; monta/salva o relatório via MetricsRecorder e publica o resultado. |
-| [InspectionStep.cs](Assets/Scripts/Roteiro/InspectionStep.cs) | Define o ScriptableObject da etapa: requisito, instrução, cartões InfoCard, destaques Highlight, checklist e medições. Os quatro assets ficam em Assets/Etapas. |
-| [InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs) | Mantém checklist, valores e tempos por etapa em memória; verifica registro completo e aprovação. Uma nova execução cria uma nova sessão. |
-| [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs) | Define rótulo, unidade e faixa opcional; interpreta números e classifica valores como vazio, inválido, sem faixa, dentro ou fora. |
-| [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) | Define os relatórios SessionReport, StepReport e MeasurementReport; consolida os registros e salva JSON em Application.persistentDataPath/sessoes, retornando caminho ou null em falha. |
-| [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs) | Apresenta a tela inicial e solicita o início do roteiro ao pressionar Iniciar RA. |
-| [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) | Mostra a etapa, progresso, instruções e cartões; alterna o Guia, abre Registrar e encaminha avanço/retorno ao fluxo. |
-| [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) | Apresenta checklist e campos da etapa, atualiza a contagem de pendências e encaminha as entradas à sessão; ao concluir o registro, solicita o avanço. |
-| [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs) | Apresenta duração, erros, situação das etapas e resultado do salvamento; permite refazer o roteiro. |
-| [InfoCardView.cs](Assets/Scripts/UI/InfoCardView.cs) | Apresenta título e texto de um cartão de orientação ou exemplo. |
-| [ChecklistItemView.cs](Assets/Scripts/UI/ChecklistItemView.cs) | Associa o texto e a marcação de um item à ação de atualização do checklist. |
-| [MeasurementFieldView.cs](Assets/Scripts/UI/MeasurementFieldView.cs) | Apresenta rótulo, unidade, entrada e avaliação da medição; comunica alterações do valor ao registro. |
-| [StepResultRowView.cs](Assets/Scripts/UI/StepResultRowView.cs) | Apresenta a identificação e o estado de aprovação de uma etapa no resultado. |
-| [TapToToggleScale.cs](Assets/Scripts/Interacao/TapToToggleScale.cs) | Detecta toque ou clique via Input System e raycast para alternar a escala do objeto de demonstração. |
-| [RoteiroSetup.cs](Assets/Scripts/Editor/RoteiroSetup.cs) | Ferramenta do Editor que cria os assets iniciais das etapas e monta a interface do roteiro na cena aberta. |
-| [OverlaySetup.cs](Assets/Scripts/Editor/OverlaySetup.cs) | Ferramenta do Editor que prepara o prefab e os componentes das marcações sobre a placa. |
-| [RecordSetup.cs](Assets/Scripts/Editor/RecordSetup.cs) | Ferramenta histórica de montagem do checklist e medições no painel. Na estrutura atual, informa a substituição pelo menu da Fase 9 quando o campo antigo não existe. |
-| [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs) | Ferramenta do Editor que insere e configura o modelo VCU no prefab, além da textura/serigrafia e dos materiais das marcações. |
-| [VisualSetup.cs](Assets/Scripts/Editor/VisualSetup.cs) | Ferramenta do Editor que aplica o visual, configura elementos da interface, fonte e ajustes do registro. |
-| [RecordScreenSetup.cs](Assets/Scripts/Editor/RecordScreenSetup.cs) | Ferramenta do Editor que monta a tela separada de registro, conecta seus campos e remove o quiz do fluxo preparado na cena. |
+| Script                                                                           | Responsabilidade                                                                                                                                                                        |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ImageRecognitionController.cs](Assets/Scripts/AR/ImageRecognitionController.cs) | Recebe mudanças das imagens rastreadas, instancia o prefab sobre o marcador, controla sua visibilidade e emite MarkerDetected e ContentCreated. Sem prefab, cria o cubo de fallback.    |
+| [StepOverlayController.cs](Assets/Scripts/AR/StepOverlayController.cs)           | Escuta ContentCreated, StepChanged e Finished; aplica os destaques da etapa ao conteúdo criado e os limpa ao concluir o roteiro.                                                        |
+| [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs)                               | Cria e remove as marcações visuais a partir da lista de Highlight da etapa.                                                                                                             |
+| [HighlightView.cs](Assets/Scripts/AR/HighlightView.cs)                           | Posiciona cada ponto e rótulo segundo as coordenadas da etapa e aplica seu estilo visual.                                                                                               |
+| [InspectionFlow.cs](Assets/Scripts/Roteiro/InspectionFlow.cs)                    | Coordena início, etapas, avanço condicionado ao registro completo, retorno e reinício; monta/salva o relatório via MetricsRecorder e publica o resultado.                               |
+| [InspectionStep.cs](Assets/Scripts/Roteiro/InspectionStep.cs)                    | Define o ScriptableObject da etapa: requisito, instrução, cartões InfoCard, destaques Highlight, checklist e medições. Os quatro assets ficam em Assets/Etapas.                         |
+| [InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs)                | Mantém checklist, valores e tempos por etapa em memória; verifica registro completo e aprovação. Uma nova execução cria uma nova sessão.                                                |
+| [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs)                    | Define rótulo, unidade e faixa opcional; interpreta números e classifica valores como vazio, inválido, sem faixa, dentro ou fora.                                                       |
+| [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs)                    | Define os relatórios SessionReport, StepReport e MeasurementReport; consolida os registros e salva JSON em Application.persistentDataPath/sessoes, retornando caminho ou null em falha. |
+| [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs)                                 | Apresenta a tela inicial e solicita o início do roteiro ao pressionar Iniciar RA.                                                                                                       |
+| [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs)                                   | Mostra a etapa, progresso, instruções e cartões; alterna o Guia, abre Registrar e encaminha avanço/retorno ao fluxo.                                                                    |
+| [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs)                             | Apresenta checklist e campos da etapa, atualiza a contagem de pendências e encaminha as entradas à sessão; ao concluir o registro, solicita o avanço.                                   |
+| [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs)                               | Apresenta duração, erros, situação das etapas e resultado do salvamento; permite refazer o roteiro.                                                                                     |
+| [InfoCardView.cs](Assets/Scripts/UI/InfoCardView.cs)                             | Apresenta título e texto de um cartão de orientação ou exemplo.                                                                                                                         |
+| [ChecklistItemView.cs](Assets/Scripts/UI/ChecklistItemView.cs)                   | Associa o texto e a marcação de um item à ação de atualização do checklist.                                                                                                             |
+| [MeasurementFieldView.cs](Assets/Scripts/UI/MeasurementFieldView.cs)             | Apresenta rótulo, unidade, entrada e avaliação da medição; comunica alterações do valor ao registro.                                                                                    |
+| [StepResultRowView.cs](Assets/Scripts/UI/StepResultRowView.cs)                   | Apresenta a identificação e o estado de aprovação de uma etapa no resultado.                                                                                                            |
+| [TapToToggleScale.cs](Assets/Scripts/Interacao/TapToToggleScale.cs)              | Detecta toque ou clique via Input System e raycast para alternar a escala do objeto de demonstração.                                                                                    |
+| [RoteiroSetup.cs](Assets/Scripts/Editor/RoteiroSetup.cs)                         | Ferramenta do Editor que cria os assets iniciais das etapas e monta a interface do roteiro na cena aberta.                                                                              |
+| [OverlaySetup.cs](Assets/Scripts/Editor/OverlaySetup.cs)                         | Ferramenta do Editor que prepara o prefab e os componentes das marcações sobre a placa.                                                                                                 |
+| [RecordSetup.cs](Assets/Scripts/Editor/RecordSetup.cs)                           | Ferramenta histórica de montagem do checklist e medições no painel. Na estrutura atual, informa a substituição pelo menu da Fase 9 quando o campo antigo não existe.                    |
+| [ModelSetup.cs](Assets/Scripts/Editor/ModelSetup.cs)                             | Ferramenta do Editor que insere e configura o modelo VCU no prefab, além da textura/serigrafia e dos materiais das marcações.                                                           |
+| [VisualSetup.cs](Assets/Scripts/Editor/VisualSetup.cs)                           | Ferramenta do Editor que aplica o visual, configura elementos da interface, fonte e ajustes do registro.                                                                                |
+| [RecordScreenSetup.cs](Assets/Scripts/Editor/RecordScreenSetup.cs)               | Ferramenta do Editor que monta a tela separada de registro, conecta seus campos e remove o quiz do fluxo preparado na cena.                                                             |
 
 ### Relação entre etapa, modelo, registro e resultado
 
@@ -482,32 +484,32 @@ As classes abaixo estão em [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRec
 
 **`SessionReport`: a sessão**
 
-| Campo | Tipo | Conteúdo |
-|---|---|---|
-| `inicio` | texto | Data e hora locais do aparelho em que a sessão foi criada, no formato `yyyy-MM-ddTHH:mm:ss`, sem fuso horário. |
-| `fim` | texto | Data e hora locais da conclusão, no mesmo formato. |
-| `duracaoSegundos` | número | Tempo entre o início do roteiro e a conclusão. A Tela Inicial e a busca inicial pelo marcador não contam. |
-| `erros` | inteiro | Itens de checklist sem marcar, somados às medições `Fora` e `Invalido` ([seção 17.5](#175-resultado)). |
-| `etapas` | lista de `StepReport` | Uma entrada por etapa, na ordem do roteiro. |
+| Campo             | Tipo                  | Conteúdo                                                                                                       |
+| ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `inicio`          | texto                 | Data e hora locais do aparelho em que a sessão foi criada, no formato `yyyy-MM-ddTHH:mm:ss`, sem fuso horário. |
+| `fim`             | texto                 | Data e hora locais da conclusão, no mesmo formato.                                                             |
+| `duracaoSegundos` | número                | Tempo entre o início do roteiro e a conclusão. A Tela Inicial e a busca inicial pelo marcador não contam.      |
+| `erros`           | inteiro               | Itens de checklist sem marcar, somados às medições `Fora` e `Invalido` ([seção 17.5](#175-resultado)).         |
+| `etapas`          | lista de `StepReport` | Uma entrada por etapa, na ordem do roteiro.                                                                    |
 
 **`StepReport`: uma etapa**
 
-| Campo | Tipo | Conteúdo |
-|---|---|---|
-| `etapa` | texto | Título definido no asset da etapa. |
-| `requisito` | texto | Requisito associado (RF01 a RF04). |
-| `duracaoSegundos` | número | Soma do tempo de todas as passagens pela etapa, incluindo a Tela de Registro. O contador não para quando o marcador sai do enquadramento e o código não trata pausas do aplicativo. |
-| `checklistMarcados` e `checklistTotal` | inteiros | Quantidade de itens marcados e total de itens. O relatório guarda só as contagens, não quais itens foram marcados. |
-| `medicoes` | lista de `MeasurementReport` | Medições da etapa; a lista fica vazia nas etapas sem medição. |
-| `aprovada` | verdadeiro ou falso | Resultado de `InspectionSession.IsApproved` ([seção 17.5](#175-resultado)). |
+| Campo                                  | Tipo                         | Conteúdo                                                                                                                                                                            |
+| -------------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `etapa`                                | texto                        | Título definido no asset da etapa.                                                                                                                                                  |
+| `requisito`                            | texto                        | Requisito associado (RF01 a RF04).                                                                                                                                                  |
+| `duracaoSegundos`                      | número                       | Soma do tempo de todas as passagens pela etapa, incluindo a Tela de Registro. O contador não para quando o marcador sai do enquadramento e o código não trata pausas do aplicativo. |
+| `checklistMarcados` e `checklistTotal` | inteiros                     | Quantidade de itens marcados e total de itens. O relatório guarda só as contagens, não quais itens foram marcados.                                                                  |
+| `medicoes`                             | lista de `MeasurementReport` | Medições da etapa; a lista fica vazia nas etapas sem medição.                                                                                                                       |
+| `aprovada`                             | verdadeiro ou falso          | Resultado de `InspectionSession.IsApproved` ([seção 17.5](#175-resultado)).                                                                                                         |
 
 **`MeasurementReport`: uma medição**
 
-| Campo | Tipo | Conteúdo |
-|---|---|---|
-| `medicao` | texto | Rótulo definido no asset. Marcadores como `[preencher]` aparecem no arquivo enquanto estiverem no asset. |
-| `valor` | texto | Valor como foi digitado, com vírgula ou ponto. |
-| `unidade` | texto | Unidade definida no asset. |
+| Campo       | Tipo  | Conteúdo                                                                                                                             |
+| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `medicao`   | texto | Rótulo definido no asset. Marcações como `(exemplo)` também aparecem no arquivo.                                                     |
+| `valor`     | texto | Valor como foi digitado, com vírgula ou ponto.                                                                                       |
+| `unidade`   | texto | Unidade definida no asset.                                                                                                           |
 | `resultado` | texto | Classificação de [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs): `Vazio`, `Invalido`, `SemFaixa`, `Dentro` ou `Fora`. |
 
 O formato não tem campo de participante, grupo, consentimento, aparelho, versão do aplicativo ou revisão do código, nem pontuação de quiz. Também não registra tentativas de avanço bloqueadas, retornos ou valores corrigidos: ele mostra só o estado final de cada etapa.
@@ -516,72 +518,72 @@ O formato não tem campo de participante, grupo, consentimento, aparelho, versã
 
 ```json
 {
-    "inicio": "2000-01-01T10:00:00",
-    "fim": "2000-01-01T10:05:00",
-    "duracaoSegundos": 300.0,
-    "erros": 1,
-    "etapas": [
+  "inicio": "2000-01-01T10:00:00",
+  "fim": "2000-01-01T10:05:00",
+  "duracaoSegundos": 300.0,
+  "erros": 1,
+  "etapas": [
+    {
+      "etapa": "Guia de soldagem",
+      "requisito": "RF01",
+      "duracaoSegundos": 60.0,
+      "checklistMarcados": 2,
+      "checklistTotal": 2,
+      "medicoes": [],
+      "aprovada": true
+    },
+    {
+      "etapa": "Continuidade e curto-circuito",
+      "requisito": "RF02",
+      "duracaoSegundos": 70.0,
+      "checklistMarcados": 2,
+      "checklistTotal": 2,
+      "medicoes": [
         {
-            "etapa": "Guia de soldagem",
-            "requisito": "RF01",
-            "duracaoSegundos": 60.0,
-            "checklistMarcados": 3,
-            "checklistTotal": 3,
-            "medicoes": [],
-            "aprovada": true
-        },
-        {
-            "etapa": "Continuidade e curto-circuito",
-            "requisito": "RF02",
-            "duracaoSegundos": 70.0,
-            "checklistMarcados": 2,
-            "checklistTotal": 2,
-            "medicoes": [
-                {
-                    "medicao": "Resistência TP2–GND [preencher]",
-                    "valor": "120",
-                    "unidade": "Ω",
-                    "resultado": "SemFaixa"
-                }
-            ],
-            "aprovada": true
-        },
-        {
-            "etapa": "Energização / Bring UP",
-            "requisito": "RF03",
-            "duracaoSegundos": 110.0,
-            "checklistMarcados": 2,
-            "checklistTotal": 2,
-            "medicoes": [
-                {
-                    "medicao": "Tensão no trilho de 5 V (exemplo)",
-                    "valor": "5,40",
-                    "unidade": "V",
-                    "resultado": "Fora"
-                },
-                {
-                    "medicao": "Corrente consumida [preencher]",
-                    "valor": "250",
-                    "unidade": "mA",
-                    "resultado": "SemFaixa"
-                }
-            ],
-            "aprovada": false
-        },
-        {
-            "etapa": "Integração no veículo",
-            "requisito": "RF04",
-            "duracaoSegundos": 60.0,
-            "checklistMarcados": 3,
-            "checklistTotal": 3,
-            "medicoes": [],
-            "aprovada": true
+          "medicao": "Resistência TP2–GND (exemplo)",
+          "valor": "120",
+          "unidade": "Ω",
+          "resultado": "Dentro"
         }
-    ]
+      ],
+      "aprovada": true
+    },
+    {
+      "etapa": "Energização / Bring UP",
+      "requisito": "RF03",
+      "duracaoSegundos": 110.0,
+      "checklistMarcados": 2,
+      "checklistTotal": 2,
+      "medicoes": [
+        {
+          "medicao": "Tensão no trilho de 5 V (exemplo)",
+          "valor": "5,40",
+          "unidade": "V",
+          "resultado": "Fora"
+        },
+        {
+          "medicao": "Corrente consumida (exemplo)",
+          "valor": "250",
+          "unidade": "mA",
+          "resultado": "Dentro"
+        }
+      ],
+      "aprovada": false
+    },
+    {
+      "etapa": "Integração no veículo",
+      "requisito": "RF04",
+      "duracaoSegundos": 60.0,
+      "checklistMarcados": 3,
+      "checklistTotal": 3,
+      "medicoes": [],
+      "aprovada": true
+    }
+  ]
 }
 ```
 
-Neste exemplo, o valor `5,40` fica fora da faixa de exemplo de 4,75 a 5,25 V, o que gera `erros: 1` e `aprovada: false` na etapa 3. As medições `SemFaixa` não são avaliadas, por isso não geram erro.
+Neste exemplo, o valor `5,40` fica fora da faixa fictícia de 4,75 a 5,25 V, o que gera `erros: 1` e `aprovada: false` na etapa 3. Uma medição sem faixa teria o resultado `SemFaixa`, não seria avaliada e não geraria erro.
 
 ---
 
@@ -629,17 +631,17 @@ com.unity.xr.management     4.6.1
 
 ### Configuração local conferida
 
-| Item | Valor | Fonte |
-|---|---|---|
-| Unity | 6000.3.25f1 (revisão `e1dba0a9aba4`) | `ProjectSettings/ProjectVersion.txt` |
-| Cena habilitada no build | `Assets/Scenes/WL01RecognitionAR.unity` (única cena listada e habilitada) | `ProjectSettings/EditorBuildSettings.asset` |
-| Minimum API Level (Android) | Android 10 (API 29) — `AndroidMinSdkVersion: 29` | `ProjectSettings/ProjectSettings.asset` |
-| Target API Level (Android) | Automático — `AndroidTargetSdkVersion: 0` | `ProjectSettings/ProjectSettings.asset` |
-| Arquitetura Android | ARM64 — `AndroidTargetArchitectures: 2` | `ProjectSettings/ProjectSettings.asset` |
-| Active Input Handling | Both — `activeInputHandler: 2` | `ProjectSettings/ProjectSettings.asset` |
-| Identificação do app | `productName`: `wl01-recognition-ar-unity`; pacote Android: `com.DefaultCompany.wl01recognitionarunity`; versão `1.0` (código 1) | `ProjectSettings/ProjectSettings.asset` |
-| Pacotes XR | AR Foundation, ARCore e ARKit 6.3.5; XR Management 4.6.1 | `Packages/manifest.json`; `Packages/packages-lock.json` |
-| Input System | 1.20.0 (dependência transitiva) | `Packages/packages-lock.json` |
+| Item                        | Valor                                                                                                                            | Fonte                                                   |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Unity                       | 6000.3.25f1 (revisão `e1dba0a9aba4`)                                                                                             | `ProjectSettings/ProjectVersion.txt`                    |
+| Cena habilitada no build    | `Assets/Scenes/WL01RecognitionAR.unity` (única cena listada e habilitada)                                                        | `ProjectSettings/EditorBuildSettings.asset`             |
+| Minimum API Level (Android) | Android 10 (API 29) — `AndroidMinSdkVersion: 29`                                                                                 | `ProjectSettings/ProjectSettings.asset`                 |
+| Target API Level (Android)  | Automático — `AndroidTargetSdkVersion: 0`                                                                                        | `ProjectSettings/ProjectSettings.asset`                 |
+| Arquitetura Android         | ARM64 — `AndroidTargetArchitectures: 2`                                                                                          | `ProjectSettings/ProjectSettings.asset`                 |
+| Active Input Handling       | Both — `activeInputHandler: 2`                                                                                                   | `ProjectSettings/ProjectSettings.asset`                 |
+| Identificação do app        | `productName`: `wl01-recognition-ar-unity`; pacote Android: `com.DefaultCompany.wl01recognitionarunity`; versão `1.0` (código 1) | `ProjectSettings/ProjectSettings.asset`                 |
+| Pacotes XR                  | AR Foundation, ARCore e ARKit 6.3.5; XR Management 4.6.1                                                                         | `Packages/manifest.json`; `Packages/packages-lock.json` |
+| Input System                | 1.20.0 (dependência transitiva)                                                                                                  | `Packages/packages-lock.json`                           |
 
 Esses valores descrevem a configuração do repositório; não substituem o registro de dispositivo e versão do Android de cada execução ([seção 23](#23-dispositivos-testados)).
 
@@ -683,21 +685,21 @@ O marcador deve estar impresso ou exibido com **12 cm × 12 cm**, em superfície
 
 ### 17.2 As quatro etapas
 
-| Etapa | Requisito | Itens de checklist | Medições |
-|---|---|---|---|
-| 1. Soldagem | RF01 | 3 | Nenhuma |
-| 2. Continuidade e curto-circuito | RF02 | 2 | Resistência entre TP2 e GND (Ω), sem faixa definida |
-| 3. Energização / Bring UP | RF03 | 2 | Tensão no trilho de 5 V (V), com faixa de exemplo de 4,75 a 5,25 V; corrente consumida (mA), sem faixa definida |
-| 4. Integração | RF04 | 3 | Nenhuma |
+| Etapa                            | Requisito | Itens de checklist | Medições                                                                                                                     |
+| -------------------------------- | --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| 1. Soldagem                      | RF01      | 2                  | Nenhuma                                                                                                                      |
+| 2. Continuidade e curto-circuito | RF02      | 2                  | Resistência entre TP2 e GND (Ω), com faixa fictícia de 100 a 500 Ω                                                           |
+| 3. Energização / Bring UP        | RF03      | 2                  | Tensão no trilho de 5 V (V), com faixa fictícia de 4,75 a 5,25 V; corrente consumida (mA), com faixa fictícia de 50 a 300 mA |
+| 4. Integração                    | RF04      | 3                  | Nenhuma                                                                                                                      |
 
 Os itens e as medições são definidos nos assets de [Assets/Etapas](Assets/Etapas). Em cada etapa, o painel inferior abre minimizado para não cobrir o modelo e mostra a etapa atual, a barra de progresso, o título e os botões:
 
-| Botão | Ação |
-|---|---|
-| **Guia** | Mostra ou recolhe a instrução e os cards de exemplo da etapa. |
+| Botão                       | Ação                                                                                    |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| **Guia**                    | Mostra ou recolhe a instrução e os cards de exemplo da etapa.                           |
 | **Registrar (N pendentes)** | Abre a Tela de Registro. Passa a exibir **Registro completo** quando não há pendências. |
-| **Voltar** | Retorna à etapa anterior. Fica desativado na etapa 1. |
-| **Próximo** / **Concluir** | Avança de etapa; na etapa 4, conclui o roteiro. Só avança com o registro completo. |
+| **Voltar**                  | Retorna à etapa anterior. Fica desativado na etapa 1.                                   |
+| **Próximo** / **Concluir**  | Avança de etapa; na etapa 4, conclui o roteiro. Só avança com o registro completo.      |
 
 ### 17.3 Registro obrigatório
 
@@ -705,14 +707,14 @@ Na **Tela de Registro**, marque os itens do checklist e digite as medições, us
 
 Para avançar, todo o checklist da etapa precisa estar marcado e toda medição precisa ter um valor numérico. Tocar em **Próximo** ou **Concluir** com pendências não avança e abre a Tela de Registro. A regra está em `InspectionSession.IsRecordComplete` ([InspectionSession.cs](Assets/Scripts/Dados/InspectionSession.cs)), e a avaliação dos valores em [MeasurementSpec.cs](Assets/Scripts/Dados/MeasurementSpec.cs):
 
-| Situação | Indicação na tela | Impede avançar? | Efeito no resultado |
-|---|---|---|---|
-| Item do checklist sem marcar | Contagem "Faltam N itens" | **Sim** | Não chega ao resultado |
-| Medição vazia | Contagem "Faltam N itens" | **Sim** | Não chega ao resultado |
-| Medição inválida (não numérica) | "Valor inválido" e contagem de pendências | **Sim** | Não chega ao resultado |
-| Valor dentro da faixa | "Dentro do esperado" | Não | Etapa sem erro por essa medição |
-| Valor **fora da faixa** | "Fora da faixa esperada" | **Não** | Conta 1 erro e a etapa aparece como **Revisar** |
-| Valor numérico em medição sem faixa | Aviso de faixa esperada a definir | Não | Registrado no relatório, sem avaliação |
+| Situação                                                        | Indicação na tela                         | Impede avançar? | Efeito no resultado                             |
+| --------------------------------------------------------------- | ----------------------------------------- | --------------- | ----------------------------------------------- |
+| Item do checklist sem marcar                                    | Contagem "Faltam N itens"                 | **Sim**         | Não chega ao resultado                          |
+| Medição vazia                                                   | Contagem "Faltam N itens"                 | **Sim**         | Não chega ao resultado                          |
+| Medição inválida (não numérica)                                 | "Valor inválido" e contagem de pendências | **Sim**         | Não chega ao resultado                          |
+| Valor dentro da faixa                                           | "Dentro do esperado"                      | Não             | Etapa sem erro por essa medição                 |
+| Valor **fora da faixa**                                         | "Fora da faixa esperada"                  | **Não**         | Conta 1 erro e a etapa aparece como **Revisar** |
+| Valor numérico em medição sem faixa (nenhuma nos assets atuais) | Aviso de faixa esperada a definir         | Não             | Registrado no relatório, sem avaliação          |
 
 Os botões da Tela de Registro são:
 
@@ -737,16 +739,16 @@ Como o avanço exige o registro completo, os erros de uma sessão concluída cor
 
 **O que significam erros e aprovação.** As regras estão em `MetricsRecorder.Build` e `InspectionSession.IsApproved`. O contador `erros` soma os itens de checklist sem marcar e as medições `Fora` e `Invalido`, e a etapa é **Aprovada** quando não tem nenhum deles:
 
-| Situação ao concluir | Pode chegar ao relatório? | Conta em `erros`? | Efeito na etapa |
-|---|---|---|---|
-| Item de checklist sem marcar | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar** |
-| Medição `Vazio` | Não, o avanço é bloqueado | Não | Nenhum, pela regra do código |
-| Medição `Invalido` | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar** |
-| Medição `Fora` | **Sim** | **Sim** | **Revisar** |
-| Medição `Dentro` | Sim | Não | Nenhum |
-| Medição `SemFaixa` | Sim | Não | Nenhum: o valor fica registrado, sem avaliação |
+| Situação ao concluir         | Pode chegar ao relatório? | Conta em `erros`?         | Efeito na etapa                                |
+| ---------------------------- | ------------------------- | ------------------------- | ---------------------------------------------- |
+| Item de checklist sem marcar | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar**                                    |
+| Medição `Vazio`              | Não, o avanço é bloqueado | Não                       | Nenhum, pela regra do código                   |
+| Medição `Invalido`           | Não, o avanço é bloqueado | Sim, pela regra do código | **Revisar**                                    |
+| Medição `Fora`               | **Sim**                   | **Sim**                   | **Revisar**                                    |
+| Medição `Dentro`             | Sim                       | Não                       | Nenhum                                         |
+| Medição `SemFaixa`           | Sim                       | Não                       | Nenhum: o valor fica registrado, sem avaliação |
 
-Nos assets atuais, só a "Tensão no trilho de 5 V (exemplo)" tem faixa, e ela é um exemplo a confirmar. Por isso, uma sessão concluída hoje tem 0 ou 1 erro, e apenas a etapa 3 pode aparecer como **Revisar**. As demais etapas sempre aparecem como **Aprovada** ao concluir.
+Nos assets atuais, as três medições têm faixa, e todas são **valores fictícios** ([seção 24](#conteúdo-fictício-nos-assets)). Por isso, uma sessão concluída hoje tem de 0 a 3 erros, e apenas as etapas 2 e 3 podem aparecer como **Revisar**. As etapas 1 e 4 não têm medição e sempre aparecem como **Aprovada** ao concluir.
 
 **Aprovada** significa apenas que o registro da etapa seguiu essas regras. Não significa que a placa foi aprovada nem que a inspeção foi feita corretamente: o checklist é autodeclarado, os valores são digitados pelo usuário e o aplicativo não confere nada na placa física.
 
@@ -854,47 +856,83 @@ flowchart LR
 
 ## 21. Interface
 
-| Tela | Finalidade | Principais elementos | Ação do usuário | Fonte |
-|---|---|---|---|---|
-| Tela Inicial | Apresentar o roteiro | Logo, nome do aplicativo, quatro etapas e botão Iniciar RA | Tocar em Iniciar RA | [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs) |
-| Selo de busca | Orientar o enquadramento | Selo "Aponte a câmera para o marcador da placa" sobre a câmera | Apontar para o marcador | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) |
-| Modelo e destaques | Indicar os pontos da etapa sobre o marcador | Modelo VCU, serigrafia, pontos e rótulos | Observar os pontos indicados | [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs) |
-| Painel da etapa | Orientar e navegar | Etapa X de 4, progresso, título, Guia, Registrar, Voltar e Próximo/Concluir | Consultar o guia, abrir o registro e navegar | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs) |
-| Tela de Registro | Registrar checklist e medições | Itens, campos com unidade e avaliação, contagem de pendências e botões de saída | Preencher e salvar | [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) |
-| Tela de Resultado | Resumir a sessão | Tempo, erros, situação das etapas, aviso de salvamento e Refazer roteiro | Conferir e refazer | [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs) |
+| Tela               | Finalidade                                  | Principais elementos                                                            | Ação do usuário                              | Fonte                                                |
+| ------------------ | ------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------- | ---------------------------------------------------- |
+| Tela Inicial       | Apresentar o roteiro                        | Logo, nome do aplicativo, quatro etapas e botão Iniciar RA                      | Tocar em Iniciar RA                          | [HomeScreen.cs](Assets/Scripts/UI/HomeScreen.cs)     |
+| Selo de busca      | Orientar o enquadramento                    | Selo "Aponte a câmera para o marcador da placa" sobre a câmera                  | Apontar para o marcador                      | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs)       |
+| Modelo e destaques | Indicar os pontos da etapa sobre o marcador | Modelo VCU, serigrafia, pontos e rótulos                                        | Observar os pontos indicados                 | [StepOverlay.cs](Assets/Scripts/AR/StepOverlay.cs)   |
+| Painel da etapa    | Orientar e navegar                          | Etapa X de 4, progresso, título, Guia, Registrar, Voltar e Próximo/Concluir     | Consultar o guia, abrir o registro e navegar | [StepPanel.cs](Assets/Scripts/UI/StepPanel.cs)       |
+| Tela de Registro   | Registrar checklist e medições              | Itens, campos com unidade e avaliação, contagem de pendências e botões de saída | Preencher e salvar                           | [RecordScreen.cs](Assets/Scripts/UI/RecordScreen.cs) |
+| Tela de Resultado  | Resumir a sessão                            | Tempo, erros, situação das etapas, aviso de salvamento e Refazer roteiro        | Conferir e refazer                           | [ResultPanel.cs](Assets/Scripts/UI/ResultPanel.cs)   |
 
-As capturas dessas telas serão associadas à revisão, ao aparelho e à versão do Android no card DEV07.
+As capturas dessas telas em aparelho ainda não foram publicadas e aguardam os registros da Validação ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).
 
 As imagens do projeto ficam em `docs/images/`:
 
-| Arquivo | Conteúdo | Onde aparece |
-|---|---|---|
-| `cena-unity.png` | Cena `WL01RecognitionAR` montada no Unity | Seção 25 |
-| `visao_geral.svg` | Visão geral do projeto | Seção 2 |
-| `imagem_teste.jpg` | Arquivo presente na pasta; conteúdo a confirmar pela equipe | Não referenciado neste README |
-| `fluxo_funcionamento.png` | Fluxo planejado na concepção, com seleção de roteiro, QR Code e quiz (histórico; não representa a versão atual) | Não exibida |
+| Arquivo                   | Conteúdo                                                                                                        | Onde aparece              |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `cena-unity-v2.png`       | Cena `WL01RecognitionAR` no Unity, versão atual, com a Tela Inicial na janela Game                              | Seção 25                  |
+| `cena-unity.png`          | Captura anterior da cena no Unity (histórico)                                                                   | Não exibida               |
+| `visao_geral.svg`         | Visão geral do projeto                                                                                          | Seção 2                   |
+| `imagem_teste.jpg`        | Foto da demonstração do cubo, com o objeto virtual sobre o marcador (histórico)                                 | Link nas seções 22.1 e 25 |
+| `fluxo_funcionamento.png` | Fluxo planejado na concepção, com seleção de roteiro, QR Code e quiz (histórico; não representa a versão atual) | Não exibida               |
 
 ---
 
 ## 22. Testes Técnicos
 
-| Teste | Procedimento | Resultado esperado | Resultado obtido | Status |
-|---|---|---|---|---|
-| Build Android | Build and Run no Unity | APK gerado e instalado no celular | APK gerado e instalado no Galaxy S23 | ✅ |
-| Inicialização | Abrir aplicativo | Aplicação inicia | Aplicação iniciou normalmente | ✅ |
-| Câmera | Abrir aplicativo e permitir câmera | Câmera de RA é ativada | Câmera ativada após a permissão | ✅ |
-| Image Tracking | Apontar para o marcador | Marcador é detectado | Marcador detectado | ✅ |
-| Conteúdo 3D | Reconhecer o marcador | Cubo aparece sobre o marcador | Cubo exibido sobre o marcador | ✅ |
-| Estabilidade | Mover o celular lentamente | Cubo permanece registrado ao marcador | Cubo manteve-se alinhado ao marcador | ✅ |
-| Interação | Tocar no cubo | Escala alterna | Escala alternou ao toque | ✅ |
+Os resultados publicados nesta seção pertencem ao estágio da **demonstração do cubo**. Eles não se aplicam ao MVP atual, que ainda não tem resultado de teste publicado.
+
+### 22.1 Demonstração do cubo (estágio histórico)
+
+| Item                    | Registro                                                                                                                                                                                      |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Escopo                  | Base WL01: reconhecimento do `wl01-marker`, cubo sobre o marcador e toque para alternar a escala. Não inclui modelo VCU, etapas, checklist, medições, resultado nem relatório.                |
+| Revisão do código       | Compatível com `6d8938a` (06/10/2026): `Assets`, `Packages` e `ProjectSettings` não mudaram entre esse commit e o registro dos resultados. A revisão exata do APK testado não foi registrada. |
+| Registro dos resultados | Primeiro resultado (build) em `60a55fd` (09/10/2026); demais resultados em `4906dad` (10/10/2026). As datas são as dos commits, não as da execução dos testes.                                |
+| Aparelho                | Samsung Galaxy S23 (SM-S911B); versão do Android não registrada ([seção 23](#23-dispositivos-testados)).                                                                                      |
+| Evidências              | Registro textual nesta tabela, foto [imagem_teste.jpg](docs/images/imagem_teste.jpg) e vídeo da [seção 25](#25-evidências-de-funcionamento).                                                  |
+
+| Teste          | Procedimento                       | Resultado esperado                    | Resultado obtido                     | Evidência                | Status |
+| -------------- | ---------------------------------- | ------------------------------------- | ------------------------------------ | ------------------------ | ------ |
+| Build Android  | Build and Run no Unity             | APK gerado e instalado no celular     | APK gerado e instalado no Galaxy S23 | Registro textual         | ✅     |
+| Inicialização  | Abrir aplicativo                   | Aplicação inicia                      | Aplicação iniciou normalmente        | Registro textual         | ✅     |
+| Câmera         | Abrir aplicativo e permitir câmera | Câmera de RA é ativada                | Câmera ativada após a permissão      | Registro textual         | ✅     |
+| Image Tracking | Apontar para o marcador            | Marcador é detectado                  | Marcador detectado                   | Registro textual e foto  | ✅     |
+| Conteúdo 3D    | Reconhecer o marcador              | Cubo aparece sobre o marcador         | Cubo exibido sobre o marcador        | Registro textual e foto  | ✅     |
+| Estabilidade   | Mover o celular lentamente         | Cubo permanece registrado ao marcador | Cubo manteve-se alinhado ao marcador | Registro textual e vídeo | ✅     |
+| Interação      | Tocar no cubo                      | Escala alterna                        | Escala alternou ao toque             | Registro textual e vídeo | ✅     |
+
+A foto mostra um objeto virtual magenta sobre o marcador exibido em um monitor, com o relógio do computador em 09/10/2026, 20:29. Ela não identifica o aparelho nem demonstra estabilidade ou interação. Os testes foram registrados sem medições de desempenho, e o ✅ vale apenas para o procedimento descrito em cada linha.
+
+### 22.2 MVP atual (sem resultado publicado)
+
+A coleta e a execução destes testes cabem à **Validação**, e o fechamento desta seção depende dos registros de DOC11, DOC14 e DOC15. Esta lista indica o que falta, não o que foi testado.
+
+| Verificação                                                          | Referência                                         | Status                 |
+| -------------------------------------------------------------------- | -------------------------------------------------- | ---------------------- |
+| Reconhecimento do marcador e exibição do modelo VCU com os destaques | Seções 11.3 a 11.5                                 | ⬜ Aguardando registro |
+| Guias das quatro etapas                                              | RF01–RF04                                          | ⬜ Aguardando registro |
+| Navegação e reinício do roteiro                                      | RF05, seções 17.4 e 17.6                           | ⬜ Aguardando registro |
+| Registro obrigatório: checklist e medições bloqueiam o avanço        | RF06, seção 17.3                                   | ⬜ Aguardando registro |
+| Avaliação das medições (dentro, fora, inválida e sem faixa)          | RF07, seção 17.3                                   | ⬜ Aguardando registro |
+| Tela de Resultado                                                    | RNF09, seção 17.5                                  | ⬜ Aguardando registro |
+| Gravação do JSON, caminho no Android e retirada do arquivo           | RNF09, [seção 13](#formato-do-relatório-da-sessão) | ⬜ Aguardando registro |
+| Aviso de falha de gravação                                           | Seção 17.5                                         | ⬜ Aguardando registro |
+| Perda e retomada do rastreamento                                     | Seção 11.5                                         | ⬜ Aguardando registro |
+| Alinhamento dos destaques com a placa física                         | RNF05                                              | ⬜ Aguardando registro |
+| Tempo de reconhecimento e condições de uso                           | RNF03, RNF04                                       | ⬜ Aguardando registro |
+
+Cada resultado do MVP deve identificar: commit e build testados, aparelho e versão do Android, data, responsável, procedimento, resultado obtido e evidência (captura, vídeo ou relatório sintético). Os APKs da pasta local `Tests/` não são versionados e não têm registro de resultado, portanto não contam como evidência.
 
 ---
 
 ## 23. Dispositivos Testados
 
-| Dispositivo | Sistema | Versão | Resultado |
-|---|---|---|---|
-| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | ✅ Todos os testes aprovados |
+| Dispositivo                   | Sistema | Versão                           | Escopo                                                                           | Resultado                          |
+| ----------------------------- | ------- | -------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------- |
+| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | Demonstração do cubo ([seção 22.1](#221-demonstração-do-cubo-estágio-histórico)) | ✅ Sete testes do cubo registrados |
+| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | MVP atual ([seção 22.2](#222-mvp-atual-sem-resultado-publicado))                 | ⬜ Sem resultado publicado         |
 
 ---
 
@@ -906,36 +944,67 @@ As imagens do projeto ficam em `docs/images/`:
 - A aplicação não decodifica QR Codes. Um QR Code cadastrado seria reconhecido como imagem de referência (Image Tracking), sem leitura do conteúdo codificado.
 - Quando o marcador deixa de ser rastreado, o conteúdo virtual é ocultado e os destaques deixam de ser exibidos até a nova detecção.
 - **Identificação do participante:** o relatório de [MetricsRecorder.cs](Assets/Scripts/Dados/MetricsRecorder.cs) não tem campo próprio de participante, grupo ou consentimento, nem pontuação de quiz. Pelo conteúdo do arquivo não é possível saber quem executou a sessão, e nele só há as datas e horas do aparelho. Qualquer vínculo entre uma sessão e uma pessoa teria de ser feito fora do aplicativo. A forma de fazer isso e a proteção desses dados devem ser definidas com DOC06, DOC09, DOC10 e DOC13; este README não define esse protocolo.
-- **Interpretação dos dados:** o contador `erros` reflete o estado final do registro, hoje limitado a uma medição com faixa de exemplo ([seção 17.5](#175-resultado)). Ele não mede aprendizagem, qualidade da placa ou desempenho do trainee, e não registra tentativas bloqueadas nem correções. Checklist e valores são informados pelo usuário e não são conferidos na placa. Assim, os relatórios atuais não sustentam conclusões científicas por si só, e este README não apresenta resultados obtidos com eles.
+- **Interpretação dos dados:** o contador `erros` reflete o estado final do registro, hoje baseado em três medições com faixas fictícias ([seção 17.5](#175-resultado)). Ele não mede aprendizagem, qualidade da placa ou desempenho do trainee, e não registra tentativas bloqueadas nem correções. Checklist e valores são informados pelo usuário e não são conferidos na placa. Assim, os relatórios atuais não sustentam conclusões científicas por si só, e este README não apresenta resultados obtidos com eles.
 - **Armazenamento local:** o arquivo é gravado em JSON, sem criptografia, somente no aparelho. O aplicativo não envia, exporta nem apaga relatórios, e não define prazo de retenção. A retirada do arquivo depende de acesso ao armazenamento do aparelho. No Android, a pasta do aplicativo normalmente é removida ao desinstalá-lo, comportamento ainda não verificado neste projeto.
 - **Falha de gravação:** o salvamento depende do acesso ao armazenamento local. Em caso de falha, `Save` retorna `null`, a Tela de Resultado mostra o aviso e não há nova tentativa, então os dados da sessão não ficam guardados.
 - **Validação do relatório:** a descrição do relatório vem da leitura do código. A gravação em aparelho, o caminho no Android e a retirada do arquivo aguardam testes e evidências da Validação.
-- As evidências das seções 22–25 documentam a demonstração anterior do cubo. A documentação dessas evidências deve acompanhar a evolução para o modelo da placa e o roteiro atual.
+- As evidências publicadas nas seções 22, 23 e 25 são da demonstração do cubo, com exceção da captura da cena no Editor. O MVP atual não tem resultado de teste publicado ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).
 - A avaliação científica e a eficácia educacional são tratadas nos cards DOC e de Validação.
+
+### Conteúdo fictício nos assets
+
+Os assets de [Assets/Etapas](Assets/Etapas) usam, por enquanto, textos e faixas **fictícios**, inseridos só para ocupar o lugar do conteúdo real. Com exceção da instrução da etapa 1, eles aparecem com a marcação `(exemplo)` na tela e, no caso das medições, também no relatório JSON:
+
+| Asset                                                                | Onde              | Conteúdo atual                                             | Situação                         |
+| -------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------- | -------------------------------- |
+| [Etapa1_Soldagem.asset](Assets/Etapas/Etapa1_Soldagem.asset)         | Instrução         | "Exemplo: U1, Y1, C28 e Q1."                               | Lista real a definir             |
+| [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset) | Card "Esperado"   | "Sem bipe entre alimentação e GND (sem curto). (exemplo)"  | Critério a confirmar             |
+| [Etapa2_Continuidade.asset](Assets/Etapas/Etapa2_Continuidade.asset) | Medição           | "Resistência TP2–GND (exemplo)" (Ω)                        | Faixa fictícia, de 100 a 500 Ω   |
+| [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   | Card "LEDs"       | "D1, D9, D10 e D4–D8 acendem ao energizar. (exemplo)"      | Comportamento real a definir     |
+| [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   | Card "Tensões"    | "Trilho de 5 V: de 4,75 a 5,25 V. (exemplo)"               | Trilhos e faixas reais a definir |
+| [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   | Item de checklist | "LEDs D1, D9 e D10 acesos (exemplo)"                       | Critério a confirmar             |
+| [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   | Medição           | "Tensão no trilho de 5 V (exemplo)" (V)                    | Faixa fictícia, de 4,75 a 5,25 V |
+| [Etapa3_Energizacao.asset](Assets/Etapas/Etapa3_Energizacao.asset)   | Medição           | "Corrente consumida (exemplo)" (mA)                        | Faixa fictícia, de 50 a 300 mA   |
+| [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset)     | Card "Sequência"  | "1) Conecte o J2; 2) energize; 3) acione a SW1. (exemplo)" | Ordem real a definir             |
+| [Etapa4_Integracao.asset](Assets/Etapas/Etapa4_Integracao.asset)     | Item de checklist | "LEDs D4–D8 respondem às saídas (exemplo)"                 | Critério a confirmar             |
+
+Esses valores não foram medidos nem confirmados na placa, não são especificação e não devem orientar uma inspeção real. **Encaminhamento:** a substituição pelos critérios e faixas reais depende da equipe responsável pela VCU e dos registros da Validação.
 
 ---
 
 ## 25. Evidências de Funcionamento
 
-- [✅] Captura de tela da cena no Unity
+Cada evidência vale apenas para o estágio indicado. Nenhuma delas demonstra o funcionamento do MVP atual em aparelho ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).
+
+| Evidência                                             | Estágio e escopo                                                                                             | Revisão                                     | Dados ausentes                                         |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------ |
+| Captura da cena no Unity                              | Versão atual, no Editor: cena `WL01RecognitionAR` e Tela Inicial na janela Game. Não é execução em aparelho. | Imagem adicionada em `b62afc7` (31/10/2026) | Commit exato em que foi capturada                      |
+| Vídeo de demonstração                                 | Demonstração do cubo: reconhecimento, tracking e toque, conforme a descrição do item.                        | Link adicionado em `4906dad` (10/10/2026)   | Data da gravação, aparelho, versão do Android e commit |
+| Foto [imagem_teste.jpg](docs/images/imagem_teste.jpg) | Demonstração do cubo ([seção 22.1](#221-demonstração-do-cubo-estágio-histórico)).                            | Imagem adicionada em `152e051` (10/10/2026) | Aparelho, versão do Android e commit                   |
+
+- [✅] Captura de tela da cena no Unity (Editor)
 
 ![PrintScreenUnityScene](./docs/images/cena-unity-v2.png)
 
-- [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque
+- [✅] Vídeo de 30 a 60 s mostrando reconhecimento, tracking e toque (demonstração do cubo)
 
-[Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
+[Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDHAhB2wvhkTZbLT0XCgxsrAWKbY_NxTRR8krodiB7mDLw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=Me4bY6)
+
+- [✅] Capturas e vídeo do MVP atual em aparelho, com commit, aparelho e versão do Android (aguardando Validação)
+  ![PrintHomeScreen](./docs/images/home_aplicativo.png)
+  ![PrintHomeScreen](./docs/images/aplicativo_ARscan.png)
 
 ---
 
 ## 26. Repositórios e Recursos
 
-| Recurso | Link |
-|---|---|
-| Código-fonte | https://github.com/lfmutton/AR_UPX_Project |
-| Figma | https://www.figma.com/design/JEYjQr9279QAKvydvNqFS1/Untitled?node-id=0-1&p=f |
-| Trello | https://trello.com/b/qlnUJc32/upx-realidade-aumentada-overlay |
-| Vídeo | [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDhc_5IWhQDRpW3ojZiLr4tAdURzoYrYbk4rNdl7FY4Zwc?e=xo273a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D) |
-| Documentação complementar | [`docs/`](docs/) |
+| Recurso                   | Link                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Código-fonte              | https://github.com/lfmutton/AR_UPX_Project                                                                                                                                                                                                                                                                                                |
+| Figma                     | https://www.figma.com/design/JEYjQr9279QAKvydvNqFS1/Untitled?node-id=0-1&p=f                                                                                                                                                                                                                                                              |
+| Trello                    | https://trello.com/b/qlnUJc32/upx-realidade-aumentada-overlay                                                                                                                                                                                                                                                                             |
+| Vídeo                     | [Assistir demonstração](https://facens-my.sharepoint.com/:v:/g/personal/222287_facens_br/IQDHAhB2wvhkTZbLT0XCgxsrAWKbY_NxTRR8krodiB7mDLw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=Me4bY6) |
+| Documentação complementar | [`docs/`](docs/)                                                                                                                                                                                                                                                                                                                          |
 
 Os links externos (Figma, Trello e vídeo em SharePoint institucional) não tiveram o acesso verificado neste registro; o vídeo depende de permissão da conta institucional. O arquivo do Figma ainda está intitulado `Untitled`.
 
@@ -945,15 +1014,16 @@ Os links externos (Figma, Trello e vídeo em SharePoint institucional) não tive
 
 Estado funcional atualizado em 30/10/2026, conforme confirmação de Felipe Roberto sobre a evolução do aplicativo. As referências da implementação estão nas seções 6 e 11.3.
 
-| Atividade | Responsável | Status |
-|---|---|---|
-| Configuração Unity, AR Foundation e cena AR | Desenvolvimento | ✅ Implementado. |
-| Primeiro build e demonstração do cubo | Desenvolvimento / Validação | ✅ Etapa histórica registrada nas seções 22–25. |
-| Modelo da placa e destaques dos pontos | Desenvolvimento | ✅ Implementado: modelo VCU, pontos de coleta de dados e regiões de observação. |
-| Guias RF01–RF04 | Desenvolvimento | ✅ Implementado: orientações, exemplos e destaques associados às quatro etapas. |
-| Navegação, checklist e medições RF05–RF07 | Desenvolvimento | ✅ Implementado: navegação entre etapas, marcação dos itens e entrada de valores. |
-| Resultado e relatório JSON | Desenvolvimento | ✅ Implementado em InspectionFlow, ResultPanel e MetricsRecorder. |
-| Documentação do README | Desenvolvimento / Documentação | Atualizada no escopo do DEV01; consolidação das demais seções acompanha os respectivos cards DEV. |
+| Atividade                                   | Responsável                    | Status                                                                                            |
+| ------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Configuração Unity, AR Foundation e cena AR | Desenvolvimento                | ✅ Implementado.                                                                                  |
+| Primeiro build e demonstração do cubo       | Desenvolvimento / Validação    | ✅ Etapa histórica registrada nas seções 22–25.                                                   |
+| Modelo da placa e destaques dos pontos      | Desenvolvimento                | ✅ Implementado: modelo VCU, pontos de coleta de dados e regiões de observação.                   |
+| Guias RF01–RF04                             | Desenvolvimento                | ✅ Implementado: orientações, exemplos e destaques associados às quatro etapas.                   |
+| Navegação, checklist e medições RF05–RF07   | Desenvolvimento                | ✅ Implementado: navegação entre etapas, marcação dos itens e entrada de valores.                 |
+| Resultado e relatório JSON                  | Desenvolvimento                | ✅ Implementado em InspectionFlow, ResultPanel e MetricsRecorder.                                 |
+| Testes e evidências do MVP atual            | Validação                      | ⬜ Aguardando registros ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).                   |
+| Documentação do README                      | Desenvolvimento / Documentação | Atualizada no escopo do DEV01; consolidação das demais seções acompanha os respectivos cards DEV. |
 
 ---
 
@@ -1023,12 +1093,12 @@ Essas propostas são evoluções adicionais. A versão atual já contempla o mod
 
 ## 31. Custos e Recursos
 
-| Recurso | Tipo | Custo/Condição |
-|---|---|---|
-| Unity | Software | Licença Personal (gratuita) |
-| Blender | Software | Gratuito |
-| Smartphone | Hardware | Equipamento da equipe |
-| Computador | Hardware | Equipamento da equipe |
+| Recurso    | Tipo     | Custo/Condição              |
+| ---------- | -------- | --------------------------- |
+| Unity      | Software | Licença Personal (gratuita) |
+| Blender    | Software | Gratuito                    |
+| Smartphone | Hardware | Equipamento da equipe       |
+| Computador | Hardware | Equipamento da equipe       |
 
 ---
 
@@ -1067,7 +1137,9 @@ Este checklist acompanha a entrega documental da versão atual. O estado funcion
 - [ ] Harmonizar o README com DEV02–DEV05 e DEV07 antes do aceite do DEV01.
 - [ ] Atualizar e conferir arquitetura, estrutura e scripts da versão atual (DEV03).
 - [ ] Conciliar versões, configuração e procedimentos de instalação/execução (DEV06).
-- [ ] Associar screenshots, vídeo e testes à revisão, dispositivo e versão Android correspondentes (DEV07).
+- [x] Identificar revisão, escopo e dados ausentes das evidências do cubo (seções 22, 23 e 25) (DEV07).
+- [x] Declarar conteúdo e faixas fictícios dos assets (seção 24) (DEV07).
+- [ ] Associar screenshots, vídeo e testes do MVP atual à revisão, dispositivo e versão Android; depende da Validação (DEV07, DOC11, DOC14, DOC15).
 - [ ] Atualizar os registros visuais e a identificação da versão nas evidências de funcionamento (DEV07).
 - [x] Modelo da placa, pontos de coleta e observação, exemplos, checklists e entrada de dados descritos como recursos atuais.
 - [ ] Revisar identificação e coerência acadêmica do README (DEV08/DEV09 e dependências DOC).
