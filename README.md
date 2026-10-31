@@ -38,14 +38,13 @@
 
 ## 2. Visão Geral
 
-O **B’Energy AR Academy** é um projeto acadêmico de aplicação móvel desenvolvido em Unity que utiliza Realidade Aumentada (RA) e QR Codes para dar suporte ao treinamento de trainees da equipe B’Energy Racing (FACENS) no desenvolvimento de veículos elétricos para a competição Fórmula SAE.
+O **B’Energy AR Academy** é uma aplicação móvel acadêmica desenvolvida em Unity para apoiar o treinamento de trainees da equipe B’Energy Racing (FACENS) na execução de um roteiro de inspeção de placas eletrônicas (PCB), no contexto do setor de Low Voltage & Data Acquisition de veículos elétricos da competição Fórmula SAE.
 
-A proposta consiste em utilizar a câmera de um dispositivo móvel para reconhecer marcadores (QR Codes) posicionados junto aos componentes físicos do veículo e das placas eletrônicas (PCB/PCA). 
+A aplicação utiliza **Realidade Aumentada com Image Tracking**: a câmera reconhece uma imagem cadastrada e apresenta o modelo da placa VCU com destaques dos pontos de observação e coleta de dados. O roteiro reúne quatro etapas: qualidade de soldagem, continuidade e curto-circuito, energização (Bring UP) e integração.
 
-Após o reconhecimento, a aplicação apresenta informações técnicas sobre as funções dos componentes, orientações de segurança, questionários de fixação e um roteiro guiado de verificação de placas em quatro etapas (qualidade de soldagem, continuidade/curto-circuito, energização Bring UP e testes de integração).
+Na versão atual, o usuário pode consultar orientações e exemplos, acompanhar os pontos indicados no modelo, preencher checklists e inserir medições. A interface permite avançar, retornar e reiniciar o roteiro; ao final, apresenta o resultado da sessão e gera um relatório JSON local. As funcionalidades estão descritas na [seção 6](#6-funcionalidades), e a relação entre modelo, etapas, interface e dados está detalhada na [seção 10](#10-arquitetura-do-sistema).
 
-Este repositório reúne a estrutura do Produto Mínimo Viável (MVP) do aplicativo, focado inicialmente no setor de Low Voltage & Data Acquisition. 
-O projeto visa aproximar a teoria da prática no ambiente de oficina, proporcionando maior autonomia de aprendizado aos novos estudantes e reduzindo a dependência constante de membros veteranos.
+O foco principal do projeto é apoiar a **execução correta do roteiro de inspeção PCB**. A identificação dos componentes e a associação entre componente e função têm papel complementar. A contribuição esperada para o treinamento deverá ser avaliada com evidências de uso; a implementação do aplicativo, por si só, não demonstra redução de erros ou ganho de aprendizagem.
 
 ![Visão geral do projeto](docs/images/visao_geral.svg)
 
@@ -53,11 +52,11 @@ O projeto visa aproximar a teoria da prática no ambiente de oficina, proporcion
 
 ## 3. Problema
 
-O treinamento inicial de trainees e a verificação de sistemas técnicos frequentemente dependem de documentações extensas e da supervisão constante de membros veteranos, o que dificulta a associação direta entre o conteúdo teórico e os componentes físicos do veículo.
+A execução de um roteiro de inspeção PCB exige relacionar a sequência das etapas às regiões da placa, às observações solicitadas, aos critérios do checklist e às medições que devem ser registradas. No contexto do treinamento de trainees, o desafio abordado pelo projeto é apresentar essas informações de forma vinculada à atividade e ao ponto correspondente da placa.
 
-O B’Energy AR Academy soluciona esse problema ao utilizar Realidade Aumentada e QR Codes em dispositivos móveis para projetar orientações técnicas, avisos de segurança e roteiros de inspeção de placas eletrônicas (PCB) diretamente sobre as peças físicas.
+O B’Energy AR Academy propõe apoiar essa execução reunindo orientações, exemplos, destaques no modelo da placa e registros de cada etapa em uma aplicação móvel. A proposta busca facilitar o acompanhamento do roteiro e a organização dos dados da sessão.
 
-Dessa forma, a aplicação aproxima a informação técnica do seu ponto de uso de maneira simples, promovendo a autonomia dos estudantes no aprendizado e reduzindo dúvidas operacionais no ambiente de oficina.
+Maior autonomia, redução de dúvidas e redução de erros são benefícios a investigar. Sua ocorrência no treinamento depende de avaliação com usuários e evidências do contexto de aplicação; este README descreve o recurso implementado e sua finalidade, sem apresentar esses benefícios como resultados já comprovados.
 
 ---
 
@@ -65,23 +64,32 @@ Dessa forma, a aplicação aproxima a informação técnica do seu ponto de uso 
 
 ### 4.1 Objetivo Geral
 
-Desenvolver uma aplicação de Realidade Aumentada capaz de reconhecer uma referência visual e apresentar informações virtuais relacionadas ao objeto identificado.
+Desenvolver uma aplicação móvel de Realidade Aumentada para apoiar trainees da B’Energy Racing na execução correta de um roteiro de inspeção PCB, apresentando orientações e exemplos associados ao modelo da placa e permitindo registrar checklists e medições ao longo das etapas.
 
 ### 4.2 Objetivos Técnicos
 
-- Configurar um projeto Unity com suporte a Realidade Aumentada.
-- Utilizar AR Foundation como camada de integração.
-- Realizar reconhecimento de uma imagem cadastrada.
-- Instanciar um objeto 3D associado à imagem reconhecida.
-- Permitir interação básica com o conteúdo virtual.
-- Executar e testar a aplicação em um dispositivo móvel.
-- Documentar instalação, execução, testes e limitações.
+- Reconhecer uma imagem de referência por meio de Image Tracking com AR Foundation.
+- Apresentar o modelo da placa VCU e destacar os pontos de observação e coleta de dados de cada etapa.
+- Organizar o roteiro em quatro etapas: soldagem, continuidade/curto-circuito, energização e integração.
+- Exibir orientações e exemplos que apoiem o acompanhamento do roteiro e, de forma complementar, a identificação dos componentes e de suas funções.
+- Permitir navegação entre etapas, retorno e reinício do roteiro.
+- Solicitar o preenchimento de checklists e a entrada de medições, indicando registros incompletos e a avaliação dos valores conforme a configuração da etapa.
+- Apresentar o resumo da sessão e armazenar localmente os registros e tempos em relatório JSON.
+- Documentar arquitetura, configuração, execução, evidências de funcionamento e limitações da aplicação.
+
+Esses objetivos técnicos correspondem aos recursos descritos nas [funcionalidades](#6-funcionalidades) e na [arquitetura](#10-arquitetura-do-sistema). A avaliação da contribuição do aplicativo para a execução do roteiro e para a aprendizagem é uma finalidade da pesquisa, distinta da entrega desses recursos.
 
 ---
 
 ## 5. Público-Alvo
 
-O B’Energy AR Academy é destinado aos trainees da equipe B’Energy Racing (FACENS), especialmente do setor de Low Voltage & Data Acquisition, que necessitam de orientação prática para inspecionar placas eletrônicas e realizar testes de validação e integração em veículos elétricos.
+O público-alvo são os trainees da equipe **B’Energy Racing (FACENS)**, especialmente os envolvidos com **Low Voltage & Data Acquisition**, para os quais a aplicação oferece apoio visual e registro de dados durante o treinamento do roteiro de inspeção PCB.
+
+O uso proposto combina a consulta às orientações e aos exemplos com a observação dos pontos indicados no modelo, a marcação dos itens de verificação e a entrada de medições. A execução de atividades na placa segue as instruções técnicas e as condições de acompanhamento definidas pela equipe responsável.
+
+A definição do público-alvo descreve a destinação da aplicação; não estabelece quantidade de participantes, grupos de experimento ou resultados de avaliação.
+
+---
 
 ## 6. Funcionalidades
 
