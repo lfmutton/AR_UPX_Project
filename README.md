@@ -881,8 +881,6 @@ As imagens do projeto ficam em `docs/images/`:
 
 ## 22. Testes Técnicos
 
-Os resultados publicados nesta seção pertencem ao estágio da **demonstração do cubo**. Eles não se aplicam ao MVP atual, que ainda não tem resultado de teste publicado.
-
 ### 22.1 Demonstração do cubo (estágio histórico)
 
 | Item                    | Registro                                                                                                                                                                                      |
@@ -906,8 +904,6 @@ Os resultados publicados nesta seção pertencem ao estágio da **demonstração
 A foto mostra um objeto virtual magenta sobre o marcador exibido em um monitor, com o relógio do computador em 09/10/2026, 20:29. Ela não identifica o aparelho nem demonstra estabilidade ou interação. Os testes foram registrados sem medições de desempenho, e o ✅ vale apenas para o procedimento descrito em cada linha.
 
 ### 22.2 MVP atual (sem resultado publicado)
-
-A coleta e a execução destes testes cabem à **Validação**, e o fechamento desta seção depende dos registros de DOC11, DOC14 e DOC15. Esta lista indica o que falta, não o que foi testado.
 
 | Verificação                                                          | Referência                                         | Status                 |
 | -------------------------------------------------------------------- | -------------------------------------------------- | ---------------------- |
@@ -973,8 +969,6 @@ Esses valores não foram medidos nem confirmados na placa, não são especifica�
 ---
 
 ## 25. Evidências de Funcionamento
-
-Cada evidência vale apenas para o estágio indicado. Nenhuma delas demonstra o funcionamento do MVP atual em aparelho ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).
 
 | Evidência                                             | Estágio e escopo                                                                                             | Revisão                                     | Dados ausentes                                         |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------ |
