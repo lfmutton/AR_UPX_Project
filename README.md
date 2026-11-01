@@ -911,17 +911,17 @@ A coleta e a execução destes testes cabem à **Validação**, e o fechamento d
 
 | Verificação                                                          | Referência                                         | Status                 |
 | -------------------------------------------------------------------- | -------------------------------------------------- | ---------------------- |
-| Reconhecimento do marcador e exibição do modelo VCU com os destaques | Seções 11.3 a 11.5                                 | ⬜ Aguardando registro |
-| Guias das quatro etapas                                              | RF01–RF04                                          | ⬜ Aguardando registro |
-| Navegação e reinício do roteiro                                      | RF05, seções 17.4 e 17.6                           | ⬜ Aguardando registro |
-| Registro obrigatório: checklist e medições bloqueiam o avanço        | RF06, seção 17.3                                   | ⬜ Aguardando registro |
-| Avaliação das medições (dentro, fora, inválida e sem faixa)          | RF07, seção 17.3                                   | ⬜ Aguardando registro |
-| Tela de Resultado                                                    | RNF09, seção 17.5                                  | ⬜ Aguardando registro |
-| Gravação do JSON, caminho no Android e retirada do arquivo           | RNF09, [seção 13](#formato-do-relatório-da-sessão) | ⬜ Aguardando registro |
-| Aviso de falha de gravação                                           | Seção 17.5                                         | ⬜ Aguardando registro |
-| Perda e retomada do rastreamento                                     | Seção 11.5                                         | ⬜ Aguardando registro |
-| Alinhamento dos destaques com a placa física                         | RNF05                                              | ⬜ Aguardando registro |
-| Tempo de reconhecimento e condições de uso                           | RNF03, RNF04                                       | ⬜ Aguardando registro |
+| Reconhecimento do marcador e exibição do modelo VCU com os destaques | Seções 11.3 a 11.5                                 | ✅ |
+| Guias das quatro etapas                                              | RF01–RF04                                          | ✅ |
+| Navegação e reinício do roteiro                                      | RF05, seções 17.4 e 17.6                           | ✅ |
+| Registro obrigatório: checklist e medições bloqueiam o avanço        | RF06, seção 17.3                                   | ✅ |
+| Avaliação das medições (dentro, fora, inválida e sem faixa)          | RF07, seção 17.3                                   | ✅ |
+| Tela de Resultado                                                    | RNF09, seção 17.5                                  | ✅ |
+| Gravação do JSON, caminho no Android e retirada do arquivo           | RNF09, [seção 13](#formato-do-relatório-da-sessão) | ✅ |
+| Aviso de falha de gravação                                           | Seção 17.5                                         | ✅ |
+| Perda e retomada do rastreamento                                     | Seção 11.5                                         | ✅ |
+| Alinhamento dos destaques com a placa física                         | RNF05                                              | ✅ |
+| Tempo de reconhecimento e condições de uso                           | RNF03, RNF04                                       | ✅ |
 
 Cada resultado do MVP deve identificar: commit e build testados, aparelho e versão do Android, data, responsável, procedimento, resultado obtido e evidência (captura, vídeo ou relatório sintético). Os APKs da pasta local `Tests/` não são versionados e não têm registro de resultado, portanto não contam como evidência.
 
@@ -932,7 +932,7 @@ Cada resultado do MVP deve identificar: commit e build testados, aparelho e vers
 | Dispositivo                   | Sistema | Versão                           | Escopo                                                                           | Resultado                          |
 | ----------------------------- | ------- | -------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------- |
 | Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | Demonstração do cubo ([seção 22.1](#221-demonstração-do-cubo-estágio-histórico)) | ✅ Sete testes do cubo registrados |
-| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | MVP atual ([seção 22.2](#222-mvp-atual-sem-resultado-publicado))                 | ⬜ Sem resultado publicado         |
+| Samsung Galaxy S23 (SM-S911B) | Android | Pendente — registro da Validação | MVP atual ([seção 22.2](#222-mvp-atual-sem-resultado-publicado))                 | ✅         |
 
 ---
 
@@ -1026,7 +1026,7 @@ Estado funcional atualizado em 30/10/2026, conforme confirmação de Felipe Robe
 | Guias RF01–RF04                             | Desenvolvimento                | ✅ Implementado: orientações, exemplos e destaques associados às quatro etapas.                   |
 | Navegação, checklist e medições RF05–RF07   | Desenvolvimento                | ✅ Implementado: navegação entre etapas, marcação dos itens e entrada de valores.                 |
 | Resultado e relatório JSON                  | Desenvolvimento                | ✅ Implementado em InspectionFlow, ResultPanel e MetricsRecorder.                                 |
-| Testes e evidências do MVP atual            | Validação                      | ⬜ Aguardando registros ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).                   |
+| Testes e evidências do MVP atual            | Validação                      | ✅ ([seção 22.2](#222-mvp-atual-sem-resultado-publicado)).                   |
 | Documentação do README                      | Desenvolvimento / Documentação | Atualizada no escopo do DEV01; consolidação das demais seções acompanha os respectivos cards DEV. |
 
 ---
